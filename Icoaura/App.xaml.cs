@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Service;
+using System.Windows;
 
 namespace Icoaura
 {
@@ -10,9 +12,15 @@ namespace Icoaura
             base.OnStartup(e);
 
             this.InitializePaths();
+            this.SetUpEnv(); 
          
             // add servcies to DI
             ConfigureServices.Configure();
+
+            LnkService lnkService = ConfigureServices.Provider.GetRequiredService<LnkService>();
+            var response = lnkService.GetLnkAbsolutePathsUnderDesktop();
+     
+            
         }
     }
 

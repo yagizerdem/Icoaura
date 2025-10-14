@@ -10,6 +10,7 @@ namespace Icoaura
         {
             ServiceCollection services = new();
             services.AddSingleton<FileService>();
+            services.AddSingleton<LnkService>();
 
             Provider = services.BuildServiceProvider();
         }

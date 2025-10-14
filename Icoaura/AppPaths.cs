@@ -64,5 +64,50 @@ namespace Icoaura
             InitializeTempDir();
         }
 
+        public void SetUpEnv()
+        {
+            var specialFolders = new Dictionary<string, Environment.SpecialFolder>
+            {
+                ["DESKTOP"] = Environment.SpecialFolder.Desktop,
+                ["DOCUMENTS"] = Environment.SpecialFolder.MyDocuments,
+                ["DOWNLOADS"] = Environment.SpecialFolder.UserProfile, 
+                ["PICTURES"] = Environment.SpecialFolder.MyPictures,
+                ["MUSIC"] = Environment.SpecialFolder.MyMusic,
+                ["VIDEOS"] = Environment.SpecialFolder.MyVideos,
+                ["APPDATA"] = Environment.SpecialFolder.ApplicationData,
+                ["LOCALAPPDATA"] = Environment.SpecialFolder.LocalApplicationData,
+                ["PROGRAMDATA"] = Environment.SpecialFolder.CommonApplicationData,
+                ["PROGRAMFILES"] = Environment.SpecialFolder.ProgramFiles,
+                ["PROGRAMFILESX86"] = Environment.SpecialFolder.ProgramFilesX86,
+                ["PUBLIC"] = Environment.SpecialFolder.CommonDocuments,
+                ["USERPROFILE"] = Environment.SpecialFolder.UserProfile,
+                ["TEMP"] = Environment.SpecialFolder.InternetCache, 
+                ["STARTMENU"] = Environment.SpecialFolder.StartMenu,
+                ["STARTUP"] = Environment.SpecialFolder.Startup,
+                ["DESKTOP_COMMON"] = Environment.SpecialFolder.CommonDesktopDirectory,
+            };
+
+            foreach (var pair in specialFolders)
+            {
+                try
+                {
+                    string path = Environment.GetFolderPath(pair.Value);
+                    if (!string.IsNullOrWhiteSpace(path))
+                        Environment.SetEnvironmentVariable(pair.Key, path, EnvironmentVariableTarget.Process);
+                }
+                catch
+                {
+                    // some paths may not be available on all systems, ignore errors
+                }
+            }
+
+            string downloadsPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                "Downloads"
+            );
+
+            if (Directory.Exists(downloadsPath))
+                Environment.SetEnvironmentVariable("DOWNLOADS", downloadsPath, EnvironmentVariableTarget.Process);
+        }
     }
 }
