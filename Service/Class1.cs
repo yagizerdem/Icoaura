@@ -1,7 +1,9 @@
-﻿namespace Service
-{
-    public class Class1
-    {
+﻿using System.Drawing;
 
+namespace Service
+{
+    public class FileService
+    {
+        
     }
 }
