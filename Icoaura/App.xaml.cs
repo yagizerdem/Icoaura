@@ -10,6 +10,9 @@ namespace Icoaura
             base.OnStartup(e);
 
             this.InitializePaths();
+         
+            // add servcies to DI
+            ConfigureServices.Configure();
         }
     }
 
