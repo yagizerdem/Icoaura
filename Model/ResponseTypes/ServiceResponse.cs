@@ -8,6 +8,8 @@
 
         public bool IsOperational { get; set; } // default false -> means there is system exception do not expose to client but write to system logs
 
+        public ServiceResponse() { } // default constructor for serialization
+
         private ServiceResponse(T? data, bool success, string? message)
         {
             Data = data;
