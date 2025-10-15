@@ -45,8 +45,8 @@ namespace Service
                     Author = dto.Author,
                     Licance = dto.Licance,
                     Description = dto.Description,
-                    OpacityAmount = 0,
-                    CornerRadiusAmount = 0
+                    OpacityAmount = 1f, // default opacity of pack
+                    CornerRadiusAmount = 0f // default corner radius of pack
                 };
 
                 // create pack Directory
@@ -85,7 +85,6 @@ namespace Service
                     string coverImagePath = Path.Combine(packAbsolutePath, "cover.png");
                     _fileService.WriteBase64ToPath(normalizedBase64Png, coverImagePath);
 
-                    packConfig.CoverImagePath = coverImagePath;
                 }
 
                 // save packConfig to packConfig.json inside pack directory
@@ -109,6 +108,132 @@ namespace Service
             }
 
 
+        }
+
+
+        public ServiceResponse<PackConfig> ReadPackConfig(string packId)
+        {
+            try
+            {
+                string packRootFolderAbsolutePath = SD.PackFolderAbsolutePath;
+                string[] packDirectories = Directory.GetDirectories(packRootFolderAbsolutePath);
+                string? selectedPackAbsolutePath = packDirectories.FirstOrDefault(dir => dir.Split("\\").LastOrDefault() == packId);
+                if(string.IsNullOrEmpty(selectedPackAbsolutePath)) 
+                    return ServiceResponse<PackConfig>.Fail("Pack not found", true);
+
+                string packConfigPath = Path.Combine(selectedPackAbsolutePath, "config.json");
+                if(!File.Exists(packConfigPath)) 
+                    return ServiceResponse<PackConfig>.Fail("Pack config not found", true);
+
+                string packConfigJson = File.ReadAllText(packConfigPath);
+                PackConfig? config = JsonUtil.Deserialize<PackConfig>(packConfigJson);
+                if(config == null) 
+                    return ServiceResponse<PackConfig>.Fail("Failed to deserialize pack config", true);
+
+                return ServiceResponse<PackConfig>.Ok(config, "Pack config read successfully");
+            }
+            catch(Exception ex)
+            {
+                return ServiceResponse<PackConfig>.Fail($"Exception: {ex.Message}", false);
+            }
+        }
+
+        public ServiceResponse<object> DeletePackCoverImage(string packId)
+        {
+            try
+            {
+                string packRootFolderAbsolutePath = SD.PackFolderAbsolutePath;
+                string[] packDirectories = Directory.GetDirectories(packRootFolderAbsolutePath);
+                string? selectedPackAbsolutePath = packDirectories.FirstOrDefault(dir => dir.Split("\\").LastOrDefault() == packId);
+                if (string.IsNullOrEmpty(selectedPackAbsolutePath))
+                    return ServiceResponse<object>.Fail("Pack not found", true);
+            
+                string coverImagePath = Path.Combine(selectedPackAbsolutePath, "cover.png");
+                if (!File.Exists(coverImagePath))
+                    return ServiceResponse<object>.Fail("Cover image not found", true);
+
+                ServiceResponse<object> deletionResponse = _fileService.DeleteFile(coverImagePath);
+                if(!deletionResponse.Success)
+                    return ServiceResponse<object>.Fail(deletionResponse.Message ?? "Failed to delete cover image", deletionResponse.IsOperational);
+            
+                return ServiceResponse<object>.OkMessage("Cover image deleted successfully");
+            }
+            catch(Exception ex)
+            {
+                return ServiceResponse<object>.Fail($"Exception: {ex.Message}", false);
+            }
+        }
+
+        public ServiceResponse<object> ApplyCoverImage(string packId,  string base64Png)
+        {
+            try
+            {
+                string packRootFolderAbsolutePath = SD.PackFolderAbsolutePath;
+                string[] packDirectories = Directory.GetDirectories(packRootFolderAbsolutePath);
+                string? selectedPackAbsolutePath = packDirectories.FirstOrDefault(dir => dir.Split("\\").LastOrDefault() == packId);
+                if (string.IsNullOrEmpty(selectedPackAbsolutePath))
+                    return ServiceResponse<object>.Fail("Pack not found", true);
+
+                string coverImagePath = Path.Combine(selectedPackAbsolutePath, "cover.png");
+                // ensure delete existing cover image if exists
+                if (File.Exists(coverImagePath))
+                {
+                    _fileService.DeleteFile(coverImagePath);
+                }
+
+                ServiceResponse<object> writeResponse = _fileService.WriteBase64ToPath(base64Png, coverImagePath, overwrite:true);
+                if(!writeResponse.Success)
+                    return ServiceResponse<object>.Fail(writeResponse.Message ?? "Failed to write cover image", writeResponse.IsOperational);
+            
+                return ServiceResponse<object>.OkMessage("Cover image applied successfully");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResponse<object>.Fail($"Exception: {ex.Message}", false);
+            }
+        }
+
+        public ServiceResponse<object> UpdatePackConfig(string packId, PackConfig newConfig)
+        {
+            try
+            {
+                string packRootFolderAbsolutePath = SD.PackFolderAbsolutePath;
+                string[] packDirectories = Directory.GetDirectories(packRootFolderAbsolutePath);
+                string? selectedPackAbsolutePath = packDirectories.FirstOrDefault(dir => dir.Split("\\").LastOrDefault() == packId);
+                if (string.IsNullOrEmpty(selectedPackAbsolutePath))
+                    return ServiceResponse<object>.Fail("Pack not found", true);
+
+                string packConfigPath = Path.Combine(selectedPackAbsolutePath, "config.json");
+                if(File.Exists(packConfigPath))
+                    _fileService.DeleteFile(packConfigPath);    
+
+                string serializedPackConfig = JsonUtil.Serialize(newConfig);
+                File.WriteAllText(packConfigPath, serializedPackConfig);
+                return ServiceResponse<object>.OkMessage("Pack config updated successfully");
+
+            }
+            catch(Exception ex)
+            {
+                return ServiceResponse<object>.Fail($"Exception: {ex.Message}", false);
+            }
+        }
+
+        public ServiceResponse<object> DeletePack(string packId)
+        {
+            try
+            {
+                string packRootFolderAbsolutePath = SD.PackFolderAbsolutePath;
+                string[] packDirectories = Directory.GetDirectories(packRootFolderAbsolutePath);
+                string? selectedPackAbsolutePath = packDirectories.FirstOrDefault(dir => dir.Split("\\").LastOrDefault() == packId);
+                if (string.IsNullOrEmpty(selectedPackAbsolutePath))
+                    return ServiceResponse<object>.Fail("Pack not found", true);
+                Directory.Delete(selectedPackAbsolutePath, true);
+                return ServiceResponse<object>.OkMessage("Pack deleted successfully");
+            }
+            catch(Exception ex)
+            {
+                return ServiceResponse<object>.Fail($"Exception: {ex.Message}", false);
+            }
         }
     }
 }

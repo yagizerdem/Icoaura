@@ -14,7 +14,6 @@ namespace Model.Configs
         public string Author { get; set; } = string.Empty;
         public string Licance { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty ;
-        public string CoverImagePath { get; set; } = string.Empty; // png cover image
         public float OpacityAmount { get; set; } = 0;
         public float CornerRadiusAmount { get; set; } = 0;
     }
