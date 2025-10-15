@@ -11,6 +11,7 @@ namespace Icoaura
             ServiceCollection services = new();
             services.AddSingleton<FileService>();
             services.AddSingleton<LnkService>();
+            services.AddSingleton<ImageProcessorService>();
 
             Provider = services.BuildServiceProvider();
         }

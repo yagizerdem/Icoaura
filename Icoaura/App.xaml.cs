@@ -20,6 +20,9 @@ namespace Icoaura
             LnkService lnkService = ConfigureServices.Provider.GetRequiredService<LnkService>();
             var response = lnkService.GetLnkAbsolutePathsUnderDesktop();
      
+         
+            ImageProcessorService imgServcie = ConfigureServices.Provider.GetRequiredService<ImageProcessorService>();
+            var a =  imgServcie.ResizePng("C:\\Users\\yagiz\\Pictures\\Screenshots\\Ekran görüntüsü 2024-06-25 174053 - Kopya.png", 255, 255);
             
         }
     }
