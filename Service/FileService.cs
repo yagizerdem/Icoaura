@@ -42,14 +42,30 @@ namespace Service
             try
             {
                 if (string.IsNullOrWhiteSpace(absolutePath))
-                    return ServiceResponse<string>.Fail("Path cannot be null or empty", true);
+                    return ServiceResponse<string>.Fail("Path cannot be null or empty.", true);
 
                 if (!File.Exists(absolutePath))
-                    return ServiceResponse<string>.Fail("File does not exist", true);
+                    return ServiceResponse<string>.Fail("File does not exist.", true);
 
                 byte[] buffer = File.ReadAllBytes(absolutePath);
                 string base64 = Convert.ToBase64String(buffer);
-                return ServiceResponse<string>.Ok(base64);
+
+                string extension = Path.GetExtension(absolutePath).ToLowerInvariant();
+                string mimeType = extension switch
+                {
+                    ".png" => "image/png",
+                    ".jpg" or ".jpeg" => "image/jpeg",
+                    ".gif" => "image/gif",
+                    ".webp" => "image/webp",
+                    ".bmp" => "image/bmp",
+                    ".ico" => "image/x-icon",
+                    ".svg" => "image/svg+xml",
+                    ".pdf" => "application/pdf",
+                    _ => "application/octet-stream"
+                };
+
+                string dataUrl = $"data:{mimeType};base64,{base64}";
+                return ServiceResponse<string>.Ok(dataUrl);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -64,6 +80,7 @@ namespace Service
                 return ServiceResponse<string>.Fail($"Unexpected error: {ex.Message}", false);
             }
         }
+
 
         public ServiceResponse<byte[]> GetBuffer(string absolutePath)
         {
@@ -164,6 +181,11 @@ namespace Service
         {
             try
             {
+                // strip data header of base 64 if exists
+                int commaIndex = base64.IndexOf(',');
+                base64 = commaIndex >= 0 ? base64[(commaIndex + 1)..] : base64;
+
+
                 if (string.IsNullOrWhiteSpace(base64))
                     return ServiceResponse<object>.Fail("Base64 string cannot be null or empty", true);
 
@@ -275,7 +297,34 @@ namespace Service
     
         public ServiceResponse<FileInfo> GetFileInfoOfBase64(string base64)
         {
-            string tempFilePath = Path.Combine(SD.TempFolderAbsolutePath, Guid.NewGuid().ToString());
+            if(string.IsNullOrEmpty(base64))
+            {
+                return ServiceResponse<FileInfo>.Fail("Base64 string cannot be null or empty", true);
+            }
+
+            string mimeType = string.Empty;
+            int commaIndex = base64.IndexOf(',');
+
+            if (base64.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+            {
+                int semicolonIndex = base64.IndexOf(';');
+                if (semicolonIndex > 5)
+                {
+                    mimeType = base64.Substring(5, semicolonIndex - 5);
+                }
+
+                
+                base64 = commaIndex >= 0 ? base64[(commaIndex + 1)..] : base64;
+            }
+
+            if (string.IsNullOrWhiteSpace(mimeType))
+                mimeType = "application/octet-stream"; 
+
+            string extension = mimeType.Split("/").Skip(1).FirstOrDefault() ?? "bin";
+
+
+            string tempFilePath = Path.Combine(SD.TempFolderAbsolutePath, $"{Guid.NewGuid().ToString()}.{extension}");
+
 
             try
             {

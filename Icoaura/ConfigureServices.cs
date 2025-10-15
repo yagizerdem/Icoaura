@@ -12,6 +12,9 @@ namespace Icoaura
             services.AddSingleton<FileService>();
             services.AddSingleton<LnkService>();
             services.AddSingleton<ImageProcessorService>();
+            services.AddSingleton<UrlService>();
+            services.AddSingleton<DirIconService>();
+            services.AddSingleton<PackService>();
 
             Provider = services.BuildServiceProvider();
         }
