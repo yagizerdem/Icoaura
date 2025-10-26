@@ -1,4 +1,5 @@
 ﻿using Icoaura.Controller;
+using Icoaura.Service;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Icoaura
