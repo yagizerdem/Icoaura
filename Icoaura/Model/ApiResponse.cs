@@ -1,7 +1,7 @@
 ﻿
 namespace Icoaura.Model
 {
-    class ApiResponse<T>
+    public class ApiResponse<T>
     {
         public T Data { get; set; } = default!;
         public bool Success { get; set; }

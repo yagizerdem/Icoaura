@@ -14,7 +14,7 @@ namespace Icoaura
             Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             InitializePaths(); // set up app data folder strucure
             DIProvider.Initialize(); // set up di container

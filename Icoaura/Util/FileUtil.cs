@@ -94,42 +94,42 @@ namespace Icoaura.Util
         }
 
 
-        public static void EnsureFileExist(string path, LogLevel level = LogLevel.Error)
+        public static void EnsureFileExist(string path, LogLevel level = LogLevel.Error, bool isOperational = true)
         {
             if (!File.Exists(path))
             {
                 throw new AppException(
                     userMessage: $"File not found: {Path.GetFileName(path)}",
                     logMessage: $"File does not exist at path '{path}'",
-                    isOperational: true,
+                    isOperational: isOperational,
                     logLevel: level,
                     nameof(EnsureFileExist)
                 );
             }
         }
 
-        public static void EnsureFileNotExist(string path, LogLevel level = LogLevel.Error)
+        public static void EnsureFileNotExist(string path, LogLevel level = LogLevel.Error, bool isOperational = true)
         {
             if (File.Exists(path))
             {
                 throw new AppException(
                     userMessage: $"A file already exists: {Path.GetFileName(path)}",
                     logMessage: $"File already exists at path '{path}'",
-                    isOperational: true,
+                    isOperational: isOperational,
                     logLevel: level,
                     nameof(EnsureFileNotExist)
                 );
             }
         }
 
-        public static void EnsureFileHasExtension(string path, string[] allowedExtensions, LogLevel level = LogLevel.Error)
+        public static void EnsureFileHasExtension(string path, string[] allowedExtensions, LogLevel level = LogLevel.Error, bool isOperational = true)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
                 throw new AppException(
                     userMessage: "File path cannot be empty.",
                     logMessage: "EnsureFileHasExtension() received an empty file path.",
-                    isOperational: true,
+                    isOperational: isOperational,
                     logLevel: level
                 );
             }

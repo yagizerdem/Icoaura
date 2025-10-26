@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Icoaura.Controller
 {
-    class FileController : BaseController
+    public class FileController : BaseController
     {
         public FileController()
         {
@@ -161,6 +161,38 @@ namespace Icoaura.Controller
                 };
 
                 return meta;
+
+            });
+        }
+
+
+        public ApiResponse<UrlMetaData> GetUrlMetaData(string path)
+        {
+            return ExecuteSafe<UrlMetaData>(() => {
+                FileUtil.EnsureFileExist(path, Enum.LogLevel.Error);
+                FileUtil.EnsureFileHasExtension(path, [".url", "url"], Enum.LogLevel.Error);
+
+                var lines = System.IO.File.ReadAllLines(path);
+                string? targetUrl = null;
+                string? iconPath = null;
+
+                foreach (string line in lines)
+                {
+                    if (line.StartsWith("URL=", StringComparison.OrdinalIgnoreCase))
+                        targetUrl = line.Substring(4).Trim();
+
+                    if (line.StartsWith("IconFile=", StringComparison.OrdinalIgnoreCase))
+                        iconPath = line.Substring(9).Trim();
+                }
+
+                var metaData = new UrlMetaData
+                {
+                    ShortcutPath = path,
+                    IconPath = iconPath ?? string.Empty,
+                    Url = targetUrl ?? string.Empty
+                };
+
+                return metaData;
 
             });
         }

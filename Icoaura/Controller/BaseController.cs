@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Icoaura.Controller
 {
-    class BaseController
+    public class BaseController
     {
         public BaseController() { }
 
