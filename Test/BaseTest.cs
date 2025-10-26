@@ -12,6 +12,8 @@ namespace Test
 
         public ExternalController externalController { get; private set; }
 
+        public PackController packController { get; private set; }
+
 
         [TestInitialize]
         public void Initialize()
@@ -21,6 +23,7 @@ namespace Test
 
             fileController = DIProvider.Provider.GetRequiredService<FileController>();
             externalController = DIProvider.Provider.GetRequiredService<ExternalController>();
+            packController = DIProvider.Provider.GetRequiredService<PackController>();  
         }
     }
 }

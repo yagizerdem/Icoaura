@@ -75,7 +75,7 @@ namespace Icoaura.Exception
         public static AppException Operational(
             string userMessage,
             string? logMessage = null,
-            LogLevel level = LogLevel.Warning,
+            LogLevel level = LogLevel.Error,
             [CallerMemberName] string sourceName = "")
             => new(userMessage, logMessage ?? userMessage, true, level, sourceName);
 

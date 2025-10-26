@@ -30,7 +30,7 @@ namespace Icoaura.Controller
                 string tempFilePath = string.Empty;
                 try
                 {
-                    FileUtil.EnsureFileExist(exePath, LogLevel.Warning);
+                    FileUtil.EnsureFileExist(exePath, LogLevel.Error);
                     FileUtil.EnsureFileHasExtension(exePath, [".exe", "exe"]);
 
                     string extractIconExecutablePath = Path.Combine(
@@ -58,7 +58,7 @@ namespace Icoaura.Controller
                      );
                     }
 
-                    FileUtil.EnsureFileExist(tempFilePath, LogLevel.Warning);
+                    FileUtil.EnsureFileExist(tempFilePath, LogLevel.Error);
                     string base64 = _fileController.GetBase64(tempFilePath).Data;
                     _fileController.DeleteFile(tempFilePath);
 
@@ -118,7 +118,7 @@ namespace Icoaura.Controller
                     }
 
                     // --- Verify output file ---
-                    FileUtil.EnsureFileExist(tempFilePath, LogLevel.Warning);
+                    FileUtil.EnsureFileExist(tempFilePath, LogLevel.Error);
 
                     // --- Convert to Base64 ---
                     byte[] bytes = File.ReadAllBytes(tempFilePath);
@@ -335,12 +335,11 @@ namespace Icoaura.Controller
                     !int.TryParse(parts[0], out int width) ||
                     !int.TryParse(parts[1], out int height))
                 {
-                    throw new AppException(
+
+                    throw AppException.Operational(
                         userMessage: "Failed to parse image dimensions from output.",
                         logMessage: $"Invalid ImageMagick output for '{pngPath}': '{output}'",
-                        isOperational: true,
-                        logLevel: LogLevel.Warning,
-                        sourceName: nameof(GetPngDimensions)
+                        level: LogLevel.Error
                     );
                 }
 
@@ -512,7 +511,11 @@ namespace Icoaura.Controller
                 {
                     // --- Validation ---
                     if (string.IsNullOrWhiteSpace(icoBase64))
-                        throw new AppException("Base64 data cannot be empty.", true, LogLevel.Warning);
+                        throw AppException.Operational(
+                            userMessage: "Base64 data cannot be empty.",
+                            logMessage: "IcoBase64ToPngBase64 called with empty base64 string.",
+                            level: LogLevel.Error
+                        );
 
                     tempIcoPath = Path.Combine(
                         ApplicationPathContext.AppTempFolderPath,
@@ -549,7 +552,12 @@ namespace Icoaura.Controller
                 try
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
-                        throw new AppException("Base64 data cannot be empty.", true, LogLevel.Warning);
+                        throw AppException.Operational(
+                            userMessage: "Base64 data cannot be empty.",
+                            logMessage: "PngBase64ToIcoBase64 called with empty base64 string.",
+                            level: LogLevel.Error
+                        );
+
 
                     tempPngPath = Path.Combine(
                         ApplicationPathContext.AppTempFolderPath,
@@ -585,7 +593,11 @@ namespace Icoaura.Controller
                 try
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
-                        throw new AppException("Base64 data cannot be empty.", true, LogLevel.Warning);
+                        throw AppException.Operational(
+                            userMessage: "Base64 data cannot be empty.",
+                            logMessage: "ResizePngBase64 called with empty base64 string.",
+                            level: LogLevel.Error
+                        );
 
                     tempPngPath = Path.Combine(
                         ApplicationPathContext.AppTempFolderPath,
@@ -621,7 +633,11 @@ namespace Icoaura.Controller
                 try
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
-                        throw new AppException("Base64 data cannot be empty.", true, LogLevel.Warning);
+                        throw AppException.Operational(
+                            userMessage: "Base64 data cannot be empty.",
+                            logMessage: "ApplyOpacityOnPngBase64 called with empty base64 string.",
+                            level: LogLevel.Error
+                        );
 
                     tempPngPath = Path.Combine(
                         ApplicationPathContext.AppTempFolderPath,
@@ -657,7 +673,11 @@ namespace Icoaura.Controller
                 try
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
-                        throw new AppException("Base64 data cannot be empty.", true, LogLevel.Warning);
+                        throw AppException.Operational(
+                            userMessage: "Base64 data cannot be empty.",
+                            logMessage: "ApplyCornerRadiusOnPngBase64 called with empty base64 string.",
+                            level: LogLevel.Error
+                        );
 
                     tempPngPath = Path.Combine(
                         ApplicationPathContext.AppTempFolderPath,
@@ -691,12 +711,10 @@ namespace Icoaura.Controller
         {
             if (exitCode != 0)
             {
-                throw new AppException(
+                throw AppException.Operational(
                     userMessage: userMessage,
                     logMessage: logMessage,
-                    isOperational: isOperational,
-                    logLevel: logLevel,
-                    sourceName: nameof(EnsureProcessSafelyTerminated)
+                    level: logLevel
                 );
             }
         }

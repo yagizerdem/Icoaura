@@ -58,22 +58,31 @@ namespace Icoaura.Controller
             {
                 // --- Validation ---
                 if (string.IsNullOrWhiteSpace(path))
-                    throw new AppException("File path cannot be empty.", true, LogLevel.Warning);
+                    throw AppException.Operational(
+                        userMessage: "File path cannot be empty.",
+                        logMessage: "Attempted to write Base64 data to an empty file path.",
+                        level: LogLevel.Error
+                    );
 
                 if (string.IsNullOrWhiteSpace(base64))
-                    throw new AppException("Base64 data cannot be empty.", true, LogLevel.Warning);
+                    throw AppException.Operational(
+                        userMessage: "Base64 data cannot be empty.",
+                        logMessage: "Attempted to write empty Base64 data to file.",
+                        level: LogLevel.Error
+                    );
+
 
                 // --- File existence logic ---
                 if (System.IO.File.Exists(path))
                 {
                     if (!overwrite)
                     {
-                        throw new AppException(
+                        throw AppException.Operational(
                             userMessage: $"File already exists: {Path.GetFileName(path)}",
                             logMessage: $"Attempted to overwrite file '{path}' but overwrite=false",
-                            isOperational: true,
-                            logLevel: LogLevel.Warning
+                            level: LogLevel.Error
                         );
+
                     }
 
                     // Safe delete before write
@@ -90,12 +99,12 @@ namespace Icoaura.Controller
                 }
                 catch (FormatException ex)
                 {
-                    throw new AppException(
-                        userMessage: "Invalid Base64 data format.",
+                    throw AppException.Operational(
+                        userMessage: "The provided Base64 data is not in a valid format.",
                         logMessage: ex.Message,
-                        isOperational: true,
-                        logLevel: LogLevel.Error
+                        level: LogLevel.Error
                     );
+
                 }
 
                 System.IO.File.WriteAllBytes(path, buffer);
@@ -103,7 +112,6 @@ namespace Icoaura.Controller
                 return new object();
             });
         }
-
 
         public ApiResponse<LnkMetaData> GetLnkMetaData(string path)
         {
@@ -253,12 +261,12 @@ namespace Icoaura.Controller
 
                 if (depth < 0)
                 {
-                    throw new AppException(
+
+                    throw AppException.Operational(
                         userMessage: "Depth cannot be negative.",
                         logMessage: $"Invalid depth value: {depth}",
-                        isOperational: true,
-                        logLevel: LogLevel.Warning
-                    );
+                        level: LogLevel.Error
+                    );  
                 }
 
                 var result = new List<string>();
@@ -301,11 +309,10 @@ namespace Icoaura.Controller
                     }
                     catch (IOException ex)
                     {
-                        throw new AppException(
+                        throw AppException.Operational(
                             userMessage: "An I/O error occurred while scanning directories.",
                             logMessage: ex.Message,
-                            isOperational: true,
-                            logLevel: LogLevel.Error
+                            level: LogLevel.Error
                         );
                     }
                 }
@@ -324,11 +331,11 @@ namespace Icoaura.Controller
 
                 if (depth < 0)
                 {
-                    throw new AppException(
+
+                    throw AppException.Operational(
                         userMessage: "Depth cannot be negative.",
                         logMessage: $"Invalid depth value: {depth}",
-                        isOperational: true,
-                        logLevel: LogLevel.Warning
+                        level: LogLevel.Error
                     );
                 }
 
@@ -362,12 +369,12 @@ namespace Icoaura.Controller
                     }
                     catch (IOException ex)
                     {
-                        throw new AppException(
+                        throw AppException.Operational(
                             userMessage: "An I/O error occurred while scanning directories.",
                             logMessage: ex.Message,
-                            isOperational: true,
-                            logLevel: LogLevel.Error
+                            level: LogLevel.Error
                         );
+
                     }
                 }
 
