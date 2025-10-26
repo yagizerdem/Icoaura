@@ -65,8 +65,9 @@ namespace Test
             Assert.IsTrue(response.Success);
         }
 
+
         [TestMethod]
-        public void AppendPackItems()
+        public void WritePackItems()
         {
             List<PackItem> list = new()
 {

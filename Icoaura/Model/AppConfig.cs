@@ -1,4 +1,5 @@
 ﻿using Icoaura.Enum;
+using System.Reflection.Emit;
 
 namespace Icoaura.Model
 {
@@ -14,6 +15,8 @@ namespace Icoaura.Model
         // panel
         public float WindowOpacity { get; set; } = 1f;
 
+
+        public bool ForceExplorerRefreshAfterIcoChange { get; set; } = false;
 
         // loggings
         public bool EnableLogging { get; set; } = true;
@@ -46,12 +49,15 @@ namespace Icoaura.Model
 
                 WindowOpacity = 1f,
 
+                ForceExplorerRefreshAfterIcoChange = false,
+
                 EnableTraceLogging = false,
                 EnableDebugLogging = false,
                 EnableInfoLogging = false,
                 EnableWarningLogging = false,
                 EnableErrorLogging = true,
                 EnableFatalLogging = true,
+      
 
                 Theme = Theme.DefaultSystem,
                 Language = Language.En

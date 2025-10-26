@@ -355,7 +355,12 @@ namespace Icoaura.Controller
 
                 // --- Apply changes immediately ---
                 _packOperationController.RefreshWindowsShell();
-                //_packOperationController.ForceExplorerIconRefresh();
+
+                if(appConfig.ForceExplorerRefreshAfterIcoChange)
+                {
+                    _packOperationController.ForceExplorerIconRefresh();
+                }
+
 
                 return new object();
             });
