@@ -85,7 +85,7 @@ namespace Icoaura.Util
                 path = string.Join("\\", path.Split("\\").Select((item, index) =>
                 {
                     if (index == 0 || index == path.Split("\\").Length - 1) return item;
-                    return "**";
+                    return "*";
                 }).ToList());
 
                 return path;

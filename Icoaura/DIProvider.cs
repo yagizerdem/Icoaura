@@ -14,6 +14,7 @@ namespace Icoaura
             services.AddSingleton<FileController>();
             services.AddSingleton<ExternalController>();
             services.AddSingleton<PackController>();
+            services.AddSingleton<PackOperationController>();
 
             Provider = services.BuildServiceProvider();
         }

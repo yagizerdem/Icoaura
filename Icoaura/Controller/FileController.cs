@@ -6,6 +6,8 @@ using Icoaura.Util;
 using IWshRuntimeLibrary;
 using Model.DTO;
 using System.IO;
+using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 
 namespace Icoaura.Controller
 {
@@ -245,33 +247,31 @@ namespace Icoaura.Controller
         }
 
         public ApiResponse<List<string>> GetFilesUnderPath(
-                 string path,
-                 string[] allowedExtensions,
-                 int depth)
+            string path,
+            string[] allowedExtensions,
+            int depth)
         {
             return ExecuteSafe(() =>
             {
-                // --- Validation ---
                 FileUtil.EnsureDirectoryExist(path, LogLevel.Error);
 
                 if (allowedExtensions == null || allowedExtensions.Length == 0)
-                {
                     return new();
-                }
 
                 if (depth < 0)
                 {
-
                     throw AppException.Operational(
                         userMessage: "Depth cannot be negative.",
                         logMessage: $"Invalid depth value: {depth}",
                         level: LogLevel.Error
-                    );  
+                    );
                 }
 
                 var result = new List<string>();
                 var stack = new Stack<(string dir, int level)>();
                 stack.Push((path, 0));
+
+                bool matchAll = allowedExtensions.Any(e => e == "*" || e == ".*");
 
                 while (stack.Count > 0)
                 {
@@ -282,18 +282,18 @@ namespace Icoaura.Controller
 
                     try
                     {
-                        // collect files
                         foreach (var file in Directory.GetFiles(currentDir))
                         {
                             string ext = Path.GetExtension(file).ToLowerInvariant();
-                            if (allowedExtensions.Any(e =>
+
+                            // '*' matches all files
+                            if (matchAll || allowedExtensions.Any(e =>
                                 string.Equals(e.TrimStart('.'), ext.TrimStart('.'), StringComparison.OrdinalIgnoreCase)))
                             {
                                 result.Add(file);
                             }
                         }
 
-                        // dive deeper
                         if (currentLevel < depth)
                         {
                             foreach (var dir in Directory.GetDirectories(currentDir))
@@ -304,7 +304,6 @@ namespace Icoaura.Controller
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        // skip restricted folders silently
                         continue;
                     }
                     catch (IOException ex)
@@ -320,7 +319,6 @@ namespace Icoaura.Controller
                 return result;
             });
         }
-
 
         public ApiResponse<List<string>> GetFoldersUnderPath(string path, int depth)
         {
@@ -381,6 +379,142 @@ namespace Icoaura.Controller
                 return result;
             });
         }
+
+        public ApiResponse<List<string>> GetMatchingFileSystemEntries(string rootPath, string pattern)
+        {
+            return ExecuteSafe(() =>
+            {
+                if (!Directory.Exists(rootPath))
+                    throw AppException.Operational(
+                        userMessage: "Root path does not exist.",
+                        logMessage: $"GetMatchingFileSystemEntries failed: root path not found ({rootPath})",
+                        level: LogLevel.Error
+                    );
+
+                var results = new List<string>();
+                pattern = pattern.Replace('/', '\\');
+                var searchOption = pattern.Contains("**") ? SearchOption.AllDirectories : SearchOption.AllDirectories;
+
+                var matcher = new Matcher(StringComparison.OrdinalIgnoreCase);
+                matcher.AddInclude(pattern);
+
+                var directoryInfo = new DirectoryInfoWrapper(new DirectoryInfo(rootPath));
+                var matchResult = matcher.Execute(directoryInfo);
+
+                foreach (var match in matchResult.Files)
+                {
+                    string fullPath = Path.GetFullPath(Path.Combine(rootPath, match.Path.Replace('/', '\\')));
+                    results.Add(fullPath);
+                }
+
+                bool isSingleSegment = !pattern.Contains("\\") && !pattern.Contains("/");
+
+                if (isSingleSegment)
+                {
+                    foreach (var dir in Directory.EnumerateDirectories(rootPath, "*", SearchOption.TopDirectoryOnly))
+                    {
+                        string dirName = Path.GetFileName(dir);
+                        if (MatchesSimplePattern(dirName, pattern))
+                            results.Add(Path.GetFullPath(dir));
+                    }
+                }
+                else
+                {
+                    foreach (var dir in Directory.EnumerateDirectories(rootPath, "*", SearchOption.AllDirectories))
+                    {
+                        string relativePath = Path.GetRelativePath(rootPath, dir);
+                        if (MatchesGlobPattern(relativePath, pattern))
+                            results.Add(Path.GetFullPath(dir));
+                    }
+                }
+
+                return results
+                    .Select(p => Path.GetFullPath(p.Replace('/', '\\')))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+            });
+        }
+
+        public bool MatchesGlobPattern(string path, string pattern)
+        {
+            path = path.Replace('/', '\\').Trim('\\');
+            pattern = pattern.Replace('/', '\\').Trim('\\');
+
+            if (path.Equals(pattern, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            string[] pathParts = path.Split('\\', StringSplitOptions.RemoveEmptyEntries);
+            string[] patternParts = pattern.Split('\\', StringSplitOptions.RemoveEmptyEntries);
+
+            if (!pattern.Contains("*") && pathParts.Length != patternParts.Length)
+                return false;
+
+            return MatchesPatternParts(pathParts, patternParts, 0, 0);
+        }
+
+        public bool MatchesPatternParts(string[] pathParts, string[] patternParts, int pathIndex, int patternIndex)
+        {
+            if (pathIndex >= pathParts.Length && patternIndex >= patternParts.Length)
+                return true;
+
+            if (patternIndex >= patternParts.Length)
+                return false;
+
+            if (pathIndex >= pathParts.Length)
+            {
+                for (int i = patternIndex; i < patternParts.Length; i++)
+                {
+                    if (patternParts[i] != "**")
+                        return false;
+                }
+                return true;
+            }
+
+            string currentPattern = patternParts[patternIndex];
+            string currentPath = pathParts[pathIndex];
+
+            if (currentPattern == "**")
+            {
+                if (patternIndex == patternParts.Length - 1)
+                    return true;
+
+                if (MatchesPatternParts(pathParts, patternParts, pathIndex, patternIndex + 1))
+                    return true;
+
+                return MatchesPatternParts(pathParts, patternParts, pathIndex + 1, patternIndex);
+            }
+
+            if (currentPattern == "*" ||
+                System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(currentPattern, currentPath, ignoreCase: true))
+            {
+                return MatchesPatternParts(pathParts, patternParts, pathIndex + 1, patternIndex + 1);
+            }
+
+            if (currentPattern.Equals(currentPath, StringComparison.OrdinalIgnoreCase))
+            {
+                return MatchesPatternParts(pathParts, patternParts, pathIndex + 1, patternIndex + 1);
+            }
+
+            return false;
+        }
+
+        public bool MatchesSimplePattern(string name, string pattern)
+        {
+            if (name.Equals(pattern, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            if (pattern.Contains("*") || pattern.Contains("?"))
+            {
+                return System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(
+                    pattern,
+                    name,
+                    ignoreCase: true
+                );
+            }
+
+            return false;
+        }
+
 
 
     }

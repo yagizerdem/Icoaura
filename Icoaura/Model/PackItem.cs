@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace Icoaura.Model
 {
-    class PackItem
+    public class PackItem
     {
         public string Uid { get; set; } = string.Empty; // unique identifier
 
         // flags that indicate target entity types
+        [JsonIgnore]
         public bool IsLnkItem => TargetPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase);
+        [JsonIgnore]
         public bool IsUrlItem => TargetPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+        [JsonIgnore]
         public bool IsDirItem =>
             !string.IsNullOrEmpty(TargetPath) &&
             !System.IO.Path.HasExtension(TargetPath);

@@ -8,7 +8,6 @@ namespace Icoaura.Model
         public bool MatchLnkByTargetExe { get; set; } = true;
         public bool MatchUrlByTargetUrl { get; set; } = true;
         public bool ChangeDescriptionOfMatchedLnkFiles { get; set; } = true;
-        public bool RenameMatchedFiles { get; set; } = true;
         public float PackOpacity { get; set; } = 1f;
         public float PackCornerRadius { get; set; } = 0f;
 
@@ -42,7 +41,6 @@ namespace Icoaura.Model
                 MatchLnkByTargetExe = true,
                 MatchUrlByTargetUrl = true,
                 ChangeDescriptionOfMatchedLnkFiles = true,
-                RenameMatchedFiles = true,
                 PackOpacity = 1f,
                 PackCornerRadius = 0f,
 

@@ -50,7 +50,7 @@ namespace Test
         public void GetFilesUnderPath()
         {
             string resolved = PathUtil.Resolve(Path.Combine("%DESKTOP%"));
-            ApiResponse<List<string>> response = fileController.GetFilesUnderPath(resolved, [".lnk", "lnk", ".url", "url"],1);
+            ApiResponse<List<string>> response = fileController.GetFilesUnderPath(resolved, ["*"],1);
             Assert.IsTrue(response.Success);
             List<string> files = response.Data!;
         }
@@ -63,5 +63,16 @@ namespace Test
             Assert.IsTrue(response.Success);
             List<string> folders = response.Data!;
         }
+
+        [TestMethod]
+        public void GetMatchingParts()
+        {
+            string resolved = PathUtil.Resolve(Path.Combine("%DESKTOP%"));
+            ApiResponse<List<string>> response = fileController.GetMatchingFileSystemEntries(resolved , "ahmet");
+            Assert.IsTrue(response.Success);
+            List<string> parts = response.Data!;
+        }
+    
+
     }
 }
