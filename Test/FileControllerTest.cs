@@ -1,10 +1,10 @@
 ﻿namespace Test
 {
     [TestClass]
-    public sealed class Test1
+    public sealed class FileControllerTest
     {
         [TestMethod]
-        public void UtilTest()
+        public void LnkMetaData()
         {
         }
     }

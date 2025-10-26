@@ -1,4 +1,6 @@
 ﻿
+using Icoaura.Enum;
+using Icoaura.Exception;
 using System.IO;
 
 namespace Icoaura.Util
@@ -90,6 +92,79 @@ namespace Icoaura.Util
                 _ => ".bin"
             };
         }
+
+
+        public static void EnsureFileExist(string path, LogLevel level = LogLevel.Error)
+        {
+            if (!File.Exists(path))
+            {
+                throw new AppException(
+                    userMessage: $"File not found: {Path.GetFileName(path)}",
+                    logMessage: $"File does not exist at path '{path}'",
+                    isOperational: true,
+                    logLevel: level,
+                    nameof(EnsureFileExist)
+                );
+            }
+        }
+
+        public static void EnsureFileNotExist(string path, LogLevel level = LogLevel.Error)
+        {
+            if (File.Exists(path))
+            {
+                throw new AppException(
+                    userMessage: $"A file already exists: {Path.GetFileName(path)}",
+                    logMessage: $"File already exists at path '{path}'",
+                    isOperational: true,
+                    logLevel: level,
+                    nameof(EnsureFileNotExist)
+                );
+            }
+        }
+
+        public static void EnsureFileHasExtension(string path, string[] allowedExtensions, LogLevel level = LogLevel.Error)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new AppException(
+                    userMessage: "File path cannot be empty.",
+                    logMessage: "EnsureFileHasExtension() received an empty file path.",
+                    isOperational: true,
+                    logLevel: level
+                );
+            }
+
+            if (allowedExtensions == null || allowedExtensions.Length == 0)
+            {
+                throw new AppException(
+                    userMessage: "Allowed extensions list cannot be empty.",
+                    logMessage: "EnsureFileHasExtension() called with empty extension list.",
+                    isOperational: true,
+                    logLevel: level
+                );
+            }
+
+            string extension = Path.GetExtension(path).ToLowerInvariant();
+
+            if (!extension.StartsWith('.'))
+                extension = "." + extension;
+
+            bool isValid = allowedExtensions.Any(e =>
+                string.Equals(e.TrimStart('.'), extension.TrimStart('.'), StringComparison.OrdinalIgnoreCase));
+
+            if (!isValid)
+            {
+                string validList = string.Join(", ", allowedExtensions.Select(e => e.StartsWith(".") ? e : "." + e));
+
+                throw new AppException(
+                    userMessage: $"Invalid file type: expected one of [{validList}], got '{Path.GetFileName(path)}'.",
+                    logMessage: $"File '{path}' has invalid extension '{extension}'. Allowed: [{validList}]",
+                    isOperational: true,
+                    logLevel: level
+                );
+            }
+        }
+    
 
     }
 }
