@@ -9,6 +9,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="tools\extracticon.exe" />
+    <None Remove="tools\ImageMagick\ChangeLog.md" />
+    <None Remove="tools\ImageMagick\colors.xml" />
+    <None Remove="tools\ImageMagick\configure.xml" />
+    <None Remove="tools\ImageMagick\delegates.xml" />
+    <None Remove="tools\ImageMagick\english.xml" />
+    <None Remove="tools\ImageMagick\LICENSE.txt" />
+    <None Remove="tools\ImageMagick\locale.xml" />
+    <None Remove="tools\ImageMagick\log.xml" />
+    <None Remove="tools\ImageMagick\magick.exe" />
+    <None Remove="tools\ImageMagick\mime.xml" />
+    <None Remove="tools\ImageMagick\NOTICE.txt" />
+    <None Remove="tools\ImageMagick\policy.xml" />
+    <None Remove="tools\ImageMagick\sRGB.icc" />
+    <None Remove="tools\ImageMagick\thresholds.xml" />
+    <None Remove="tools\ImageMagick\type-ghostscript.xml" />
+    <None Remove="tools\ImageMagick\type.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
@@ -18,6 +38,60 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="tools\extracticon.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\ChangeLog.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\colors.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\configure.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\delegates.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\english.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\locale.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\log.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\magick.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\mime.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\NOTICE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\policy.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\sRGB.icc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\thresholds.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\type-ghostscript.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tools\ImageMagick\type.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

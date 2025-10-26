@@ -164,7 +164,19 @@ namespace Icoaura.Util
                 );
             }
         }
-    
 
+        public static void EnsureDirectoryExist(string path, LogLevel level = LogLevel.Error, bool isOperational = true)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new AppException(
+                    userMessage: $"Directory not found: {path}",
+                    logMessage: $"Directory does not exist at path '{path}'.",
+                    isOperational: isOperational,
+                    logLevel: level
+                );
+            }
+        }
+    
     }
 }

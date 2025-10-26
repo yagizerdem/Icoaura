@@ -13,8 +13,8 @@ namespace Icoaura.Controller
     {
         public FileController()
         {
-         
-            
+
+
         }
 
         public ApiResponse<string> ReadFileContentAsText(string path)
@@ -103,8 +103,8 @@ namespace Icoaura.Controller
                 return new object();
             });
         }
-    
-           
+
+
         public ApiResponse<LnkMetaData> GetLnkMetaData(string path)
         {
             return ExecuteSafe<LnkMetaData>(() =>
@@ -168,7 +168,8 @@ namespace Icoaura.Controller
 
         public ApiResponse<UrlMetaData> GetUrlMetaData(string path)
         {
-            return ExecuteSafe<UrlMetaData>(() => {
+            return ExecuteSafe<UrlMetaData>(() =>
+            {
                 FileUtil.EnsureFileExist(path, Enum.LogLevel.Error);
                 FileUtil.EnsureFileHasExtension(path, [".url", "url"], Enum.LogLevel.Error);
 
@@ -196,6 +197,184 @@ namespace Icoaura.Controller
 
             });
         }
+
+        public ApiResponse<DirMetaData> GetDirMetaData(string path)
+        {
+            return ExecuteSafe(() =>
+            {
+                FileUtil.EnsureDirectoryExist(path);
+
+                var meta = new DirMetaData
+                {
+                    DirectoryPath = path,
+                    IconPath = string.Empty
+                };
+
+                string desktopIniPath = Path.Combine(path, "desktop.ini");
+
+                if (System.IO.File.Exists(desktopIniPath))
+                {
+                    string? iconResourceLine = System.IO.File.ReadAllLines(desktopIniPath)
+                        .FirstOrDefault(line => line.StartsWith("IconResource=", StringComparison.OrdinalIgnoreCase));
+
+                    if (!string.IsNullOrWhiteSpace(iconResourceLine))
+                    {
+                        string iconPath = iconResourceLine
+                            .Substring("IconResource=".Length)
+                            .Split(',')[0]
+                            .Trim();
+
+                        if (System.IO.File.Exists(iconPath))
+                            meta.IconPath = iconPath;
+
+                    }
+                }
+
+                return meta;
+
+            });
+
+        }
+
+        public ApiResponse<List<string>> GetFilesUnderPath(
+                 string path,
+                 string[] allowedExtensions,
+                 int depth)
+        {
+            return ExecuteSafe(() =>
+            {
+                // --- Validation ---
+                FileUtil.EnsureDirectoryExist(path, LogLevel.Error);
+
+                if (allowedExtensions == null || allowedExtensions.Length == 0)
+                {
+                    return new();
+                }
+
+                if (depth < 0)
+                {
+                    throw new AppException(
+                        userMessage: "Depth cannot be negative.",
+                        logMessage: $"Invalid depth value: {depth}",
+                        isOperational: true,
+                        logLevel: LogLevel.Warning
+                    );
+                }
+
+                var result = new List<string>();
+                var stack = new Stack<(string dir, int level)>();
+                stack.Push((path, 0));
+
+                while (stack.Count > 0)
+                {
+                    var (currentDir, currentLevel) = stack.Pop();
+
+                    if (currentLevel > depth)
+                        continue;
+
+                    try
+                    {
+                        // collect files
+                        foreach (var file in Directory.GetFiles(currentDir))
+                        {
+                            string ext = Path.GetExtension(file).ToLowerInvariant();
+                            if (allowedExtensions.Any(e =>
+                                string.Equals(e.TrimStart('.'), ext.TrimStart('.'), StringComparison.OrdinalIgnoreCase)))
+                            {
+                                result.Add(file);
+                            }
+                        }
+
+                        // dive deeper
+                        if (currentLevel < depth)
+                        {
+                            foreach (var dir in Directory.GetDirectories(currentDir))
+                            {
+                                stack.Push((dir, currentLevel + 1));
+                            }
+                        }
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        // skip restricted folders silently
+                        continue;
+                    }
+                    catch (IOException ex)
+                    {
+                        throw new AppException(
+                            userMessage: "An I/O error occurred while scanning directories.",
+                            logMessage: ex.Message,
+                            isOperational: true,
+                            logLevel: LogLevel.Error
+                        );
+                    }
+                }
+
+                return result;
+            });
+        }
+
+
+        public ApiResponse<List<string>> GetFoldersUnderPath(string path, int depth)
+        {
+            return ExecuteSafe(() =>
+            {
+                // --- Validation ---
+                FileUtil.EnsureDirectoryExist(path, LogLevel.Error);
+
+                if (depth < 0)
+                {
+                    throw new AppException(
+                        userMessage: "Depth cannot be negative.",
+                        logMessage: $"Invalid depth value: {depth}",
+                        isOperational: true,
+                        logLevel: LogLevel.Warning
+                    );
+                }
+
+                var result = new List<string>();
+                var stack = new Stack<(string dir, int level)>();
+                stack.Push((path, 0));
+
+                while (stack.Count > 0)
+                {
+                    var (currentDir, currentLevel) = stack.Pop();
+
+                    if (currentLevel > depth)
+                        continue;
+
+                    try
+                    {
+                        // collect subdirectories
+                        foreach (var dir in Directory.GetDirectories(currentDir))
+                        {
+                            result.Add(dir);
+
+                            // recursive dive if allowed
+                            if (currentLevel < depth)
+                                stack.Push((dir, currentLevel + 1));
+                        }
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        // skip restricted folders silently
+                        continue;
+                    }
+                    catch (IOException ex)
+                    {
+                        throw new AppException(
+                            userMessage: "An I/O error occurred while scanning directories.",
+                            logMessage: ex.Message,
+                            isOperational: true,
+                            logLevel: LogLevel.Error
+                        );
+                    }
+                }
+
+                return result;
+            });
+        }
+
 
     }
 }

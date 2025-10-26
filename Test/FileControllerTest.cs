@@ -34,5 +34,34 @@ namespace Test
         }
 
 
+        [TestMethod]
+        public void GetDitMetaData()
+        {
+            string resolved = PathUtil.Resolve(Path.Combine("%DESKTOP%", "gitlearn"));
+
+            ApiResponse<DirMetaData> response = fileController.GetDirMetaData(resolved);
+            Assert.IsTrue(response.Success);
+
+            DirMetaData metaData = response.Data!;
+        }
+
+
+        [TestMethod]
+        public void GetFilesUnderPath()
+        {
+            string resolved = PathUtil.Resolve(Path.Combine("%DESKTOP%"));
+            ApiResponse<List<string>> response = fileController.GetFilesUnderPath(resolved, [".lnk", "lnk", ".url", "url"],1);
+            Assert.IsTrue(response.Success);
+            List<string> files = response.Data!;
+        }
+
+        [TestMethod]
+        public void GetFoldersUnderPath()
+        {
+            string resolved = PathUtil.Resolve(Path.Combine("%DESKTOP%"));
+            ApiResponse<List<string>> response = fileController.GetFoldersUnderPath(resolved, 1);
+            Assert.IsTrue(response.Success);
+            List<string> folders = response.Data!;
+        }
     }
 }

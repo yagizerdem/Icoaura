@@ -47,5 +47,13 @@ namespace Icoaura.Controller
                 return ApiResponse<T>.Fail("Unexpected internal error occurred.");
             }
         }
+ 
+        public void EnsureSuccess<T>(ApiResponse<T> response)
+        {
+            if (!response.Success)
+            {
+                throw new AppException(response.ErrorMessage, isOperational: true);
+            }
+        }
     }
 }

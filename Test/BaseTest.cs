@@ -10,6 +10,8 @@ namespace Test
 
         public FileController fileController { get; private set; }  
 
+        public ExternalController externalController { get; private set; }
+
 
         [TestInitialize]
         public void Initialize()
@@ -18,7 +20,7 @@ namespace Test
             app.Initialize();
 
             fileController = DIProvider.Provider.GetRequiredService<FileController>();
-
+            externalController = DIProvider.Provider.GetRequiredService<ExternalController>();
         }
     }
 }

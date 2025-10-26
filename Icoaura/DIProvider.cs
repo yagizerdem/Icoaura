@@ -12,6 +12,7 @@ namespace Icoaura
         {
             ServiceCollection services = new();
             services.AddSingleton<FileController>();
+            services.AddSingleton<ExternalController>();
 
             Provider = services.BuildServiceProvider();
         }
