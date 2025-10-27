@@ -23,6 +23,13 @@ namespace Icoaura.Bridge
             return serialized;
         }
          
+        public string CreatePack(string serializedPackConfig)
+        {
+            PackConfig packConfig = JsonUtil.Deserialize<PackConfig>(serializedPackConfig) ?? new PackConfig();
+            ApiResponse<PackConfig> response = _packController.CreatePack(packConfig);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
 
     }
 }

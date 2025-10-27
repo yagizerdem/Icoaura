@@ -9,4 +9,12 @@ async function getAllPackConfigs(): Promise<ApiResponse<PackConfig[]>> {
   return apiResponse;
 }
 
-export { getAllPackConfigs };
+async function createPack(packConfig: PackConfig): Promise<ApiResponse<null>> {
+  const serializedResponse = await packProx.CreatePack(
+    JSON.stringify(packConfig)
+  );
+  const apiResponse: ApiResponse<null> = JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
+export { getAllPackConfigs, createPack };

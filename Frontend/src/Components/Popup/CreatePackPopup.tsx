@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { CircleQuestionMark, X } from "lucide-react";
+import { CircleAlert, CircleQuestionMark, X } from "lucide-react";
 import { useLayoutEffect, useReducer, useRef, useState } from "react";
 import { useAppContext } from "../../Providers/AppContext";
 import {
@@ -9,6 +9,9 @@ import {
 import type { ApiResponse } from "../../models/ApiResponse";
 import { ModernTextInput } from "../../ui/ModernTextInput";
 import { ModernTextArea } from "../../ui/ModernTextArea";
+import { ModernButton } from "../../ui/ModernButton";
+import type { PackConfig } from "../../models/PackConfig";
+import { createPack } from "../../service/packService";
 
 interface PackFormState {
   PackName: string;
@@ -51,6 +54,8 @@ function Createpackpopup() {
   const cardRef = useRef<HTMLDivElement>(null);
   const [packCoverBase64, setPackCoverBase64] = useState<string | null>(null);
   const [formState, dispatch] = useReducer(packFormReducer, initialState);
+  const [packNameError, setPackNameError] = useState<string | null>(null);
+  const [versionError, setVersionError] = useState<string | null>(null);
 
   useLayoutEffect(() => {
     if (cardRef.current) {
@@ -93,6 +98,61 @@ function Createpackpopup() {
 
   async function removeCover() {
     setPackCoverBase64(null);
+  }
+
+  async function handleSubmit() {
+    try {
+      setIsLoading(true);
+      setPackNameError(null);
+      setVersionError(null);
+      let hasError = false;
+
+      if (formState.PackName.trim() === "") {
+        setPackNameError("Pack name is required.");
+        hasError = true;
+      }
+
+      if (formState.Version.trim() === "") {
+        setVersionError("Version is required.");
+        hasError = true;
+      }
+
+      const normalizedVersion = formState.Version.startsWith("v")
+        ? formState.Version.slice(1)
+        : formState.Version;
+
+      if (normalizedVersion.match(/^[0-9]+\.[0-9]+\.[0-9]+$/) === null) {
+        setVersionError("Version must be in the format 1.0.0");
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // @ts-ignore
+      const packConfig: PackConfig = {
+        PackName: formState.PackName,
+        Version: normalizedVersion,
+        Author: formState.Author,
+        Description: formState.Description,
+        License: formState.License,
+      };
+      if (packCoverBase64) {
+        packConfig.CoverPngBase64 = packCoverBase64;
+      }
+
+      const apiResponse: ApiResponse<null> = await createPack(packConfig);
+
+      console.log(apiResponse);
+
+      if (!apiResponse.Success) {
+        // show erro toast
+        return;
+      }
+
+      closePopup();
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -141,28 +201,38 @@ function Createpackpopup() {
           )}
         </div>
         <div className="mt-5 flex flex-col gap-1">
-          <div className="flex flex-row">
+          <div className="flex flex-row items-center gap-2">
             <span className="text-(--clr-text-secondary) w-fit">Pack Name</span>
+            {packNameError && (
+              <span className="flex flex-row items-center gap-1 text-(--clr-warning-10)">
+                <CircleAlert /> {packNameError}
+              </span>
+            )}
           </div>
           <ModernTextInput
             value={formState.PackName}
             onChange={(val) => {
               dispatch({ type: "SET_FIELD", field: "PackName", value: val });
             }}
-            placeholder="Enter pack name"
+            placeholder="Default pack"
             className="rounded-sm bg-(--clr-surface-900) "
           />
         </div>
         <div className="mt-5 flex flex-col gap-1">
-          <div className="flex flex-row">
+          <div className="flex flex-row gap-2">
             <span className="text-(--clr-text-secondary) w-fit">Version</span>
+            {versionError && (
+              <span className="flex flex-row items-center gap-1 text-(--clr-warning-10)">
+                <CircleAlert /> {versionError}
+              </span>
+            )}
           </div>
           <ModernTextInput
             value={formState.Version}
             onChange={(val) => {
               dispatch({ type: "SET_FIELD", field: "Version", value: val });
             }}
-            placeholder="Enter version"
+            placeholder="e.g., v1.0.0"
             className="rounded-sm bg-(--clr-surface-900) "
           />
         </div>
@@ -175,7 +245,7 @@ function Createpackpopup() {
             onChange={(val) => {
               dispatch({ type: "SET_FIELD", field: "Author", value: val });
             }}
-            placeholder="Enter author"
+            placeholder="Your name"
             className="rounded-sm bg-(--clr-surface-900) "
           />
         </div>
@@ -207,6 +277,13 @@ function Createpackpopup() {
             className="rounded-sm bg-(--clr-surface-900) "
           />
         </div>
+
+        <ModernButton
+          text="Create"
+          type="info"
+          className="mt-4 cursor-pointer"
+          onMouseUp={() => handleSubmit()}
+        />
       </div>
     </div>
   );
