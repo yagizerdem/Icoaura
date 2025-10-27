@@ -8,6 +8,10 @@ import { PackConfigCard } from "./PackConfigCard";
 function ConfigListView() {
   const { packConfigs, setPackConfigs } = usePackContext();
 
+  const sortedConfigs = [...packConfigs].sort((a, b) =>
+    a.CreatedAt < b.CreatedAt ? 1 : -1
+  );
+
   useEffect(() => {
     fetch();
     async function fetch() {
@@ -20,7 +24,7 @@ function ConfigListView() {
 
   return (
     <div className="w-full h-full  overflow-y-auto">
-      {packConfigs.map((config, i) => (
+      {sortedConfigs.map((config, i) => (
         <PackConfigCard key={i} packConfig={config} />
       ))}
     </div>

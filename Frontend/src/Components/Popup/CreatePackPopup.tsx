@@ -12,6 +12,7 @@ import { ModernTextArea } from "../../ui/ModernTextArea";
 import { ModernButton } from "../../ui/ModernButton";
 import type { PackConfig } from "../../models/PackConfig";
 import { createPack } from "../../service/packService";
+import { flash } from "../../util/cameraFlash";
 
 interface PackFormState {
   PackName: string;
@@ -142,14 +143,13 @@ function Createpackpopup() {
 
       const apiResponse: ApiResponse<null> = await createPack(packConfig);
 
-      console.log(apiResponse);
-
       if (!apiResponse.Success) {
-        // show erro toast
+        // show error toast
         return;
       }
 
       closePopup();
+      flash({ initialOpacity: 0.7, fadeOut: 300, duration: 500 });
     } finally {
       setIsLoading(false);
     }
