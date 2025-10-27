@@ -1,9 +1,7 @@
 ﻿using Icoaura.Controller;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Icoaura.Model;
+using Icoaura.Util;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Icoaura.Bridge
 {
@@ -13,15 +11,18 @@ namespace Icoaura.Bridge
     public class PackBridge
     {
         private readonly PackController _packController;
-        public PackBridge(PackController packController)
+        public PackBridge()
         {
-            _packController = packController;
+            _packController = DIProvider.Provider.GetRequiredService<PackController>();
         }
 
-        public void GetAllPackConfigs()
+        public string GetAllPackConfigs()
         {
-            
+            ApiResponse<List<PackConfig>> response = _packController.GetAllPackConfigs();
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
         }
          
+
     }
 }

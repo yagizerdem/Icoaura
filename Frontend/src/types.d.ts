@@ -17,4 +17,8 @@ interface windowBridge {
   Close: () => void;
 }
 
+interface PackBridge {
+  GetAllPackConfigs: () => Promise<string>; // ApiResopnse<List<PackConfig>>
+}
+
 export {};

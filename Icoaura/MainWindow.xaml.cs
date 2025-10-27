@@ -39,6 +39,7 @@ namespace Icoaura
 #endif
 
             webView.CoreWebView2.AddHostObjectToScript("windowBridge", new WindowBridge(this));
+            webView.CoreWebView2.AddHostObjectToScript("packBridge", new PackBridge());
 
 
         }
