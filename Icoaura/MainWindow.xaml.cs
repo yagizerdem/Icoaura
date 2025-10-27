@@ -19,6 +19,29 @@ namespace Icoaura
         public MainWindow()
         {
             InitializeComponent();
+            InitializeAsync();
         }
+
+
+
+        private async void InitializeAsync()
+        {
+
+
+            await webView.EnsureCoreWebView2Async();
+
+#if DEBUG
+            webView.CoreWebView2.Navigate("http://localhost:5173/");
+
+#else
+    // load from local file system
+#endif
+
+
+        }
+
+
+
+
     }
 }
