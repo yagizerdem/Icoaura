@@ -44,7 +44,7 @@ namespace Icoaura.Controller
                 catch (UnauthorizedAccessException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "Access denied while changing shortcut icon. Please check file permissions.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.UnauthorizedAccess"),
                         logMessage: $"UnauthorizedAccessException while modifying '{lnkPath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -53,7 +53,7 @@ namespace Icoaura.Controller
                 catch (COMException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "Failed to update the shortcut icon due to a COM error.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.IconUpdateFailed"),
                         logMessage: $"COMException during IWshShortcut operation for '{lnkPath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -62,7 +62,7 @@ namespace Icoaura.Controller
                 catch (System.Exception ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "An error occurred while updating the shortcut icon.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.IconUpdateFailed"),
                         logMessage: $"Exception while updating '{lnkPath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -81,7 +81,7 @@ namespace Icoaura.Controller
                 if (string.IsNullOrWhiteSpace(description))
                 {
                     throw AppException.Operational(
-                        userMessage: "Description cannot be empty.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.DescriptionEmpty"),
                         logMessage: $"ChangeLnkDescription failed: provided description is null or whitespace. [Input: '{description ?? "null"}']",
                         level: LogLevel.Warning
                     );
@@ -101,7 +101,7 @@ namespace Icoaura.Controller
                 catch (UnauthorizedAccessException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "Access denied while updating shortcut description. Please check file permissions.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.UnauthorizedAccess"),
                         logMessage: $"UnauthorizedAccessException while modifying '{lnkPath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -109,7 +109,7 @@ namespace Icoaura.Controller
                 catch (COMException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "Failed to update the shortcut description due to a COM error.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.IconUpdateFailed"),
                         logMessage: $"COMException during IWshShortcut operation for '{lnkPath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -117,7 +117,7 @@ namespace Icoaura.Controller
                 catch (System.Exception ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "An unexpected error occurred while updating the shortcut description.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.UnexpectedOperational"),
                         logMessage: $"Unexpected exception while updating '{lnkPath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -136,7 +136,7 @@ namespace Icoaura.Controller
                 if (string.IsNullOrWhiteSpace(newUrl))
                 {
                     throw AppException.Operational(
-                        userMessage: "New URL cannot be empty.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.UrlFileLoadFailed"),
                         logMessage: $"ChangeUrlOfUrlFile failed: new URL is null or whitespace. [Input: '{newUrl ?? "null"}']",
                         level: LogLevel.Warning
                     );
@@ -160,7 +160,7 @@ namespace Icoaura.Controller
                     if (!urlFound)
                     {
                         throw AppException.Operational(
-                            userMessage: "The URL line could not be found in the shortcut file.",
+                            userMessage: this._l10nService.GetLocalizedMessage("Errors.UrlLineNotFound"),
                             logMessage: $"ChangeUrlOfUrlFile failed: 'URL=' line missing in '{urlAbsolutePath}'.",
                             level: LogLevel.Error
                         );
@@ -172,7 +172,7 @@ namespace Icoaura.Controller
                 catch (IOException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "An I/O error occurred while updating the URL file.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.IOException"),
                         logMessage: $"IOException while modifying '{urlAbsolutePath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -180,7 +180,7 @@ namespace Icoaura.Controller
                 catch (UnauthorizedAccessException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "Access denied while writing to the URL file. Check permissions.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.UnauthorizedAccess"),
                         logMessage: $"UnauthorizedAccessException while modifying '{urlAbsolutePath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -189,7 +189,7 @@ namespace Icoaura.Controller
         }
 
 
-        public ApiResponse<string> ChangeIconPathOfUrlFile(string urlAbsolutePath, string newIconFilePath)
+        public ApiResponse<object> ChangeIconPathOfUrlFile(string urlAbsolutePath, string newIconFilePath)
         {
             return ExecuteSafe(() =>
             {
@@ -221,12 +221,12 @@ namespace Icoaura.Controller
                     }
 
                     File.WriteAllLines(urlAbsolutePath, lines);
-                    return "Icon file path updated successfully.";
+                    return new object();
                 }
                 catch (IOException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "An I/O error occurred while updating the URL icon path.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errros.IOException"),
                         logMessage: $"IOException while modifying '{urlAbsolutePath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -234,7 +234,7 @@ namespace Icoaura.Controller
                 catch (UnauthorizedAccessException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "Access denied while writing to the URL file. Check permissions.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.UnauthorizedAccess"),
                         logMessage: $"UnauthorizedAccessException while modifying '{urlAbsolutePath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -283,7 +283,7 @@ namespace Icoaura.Controller
                 catch (UnauthorizedAccessException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "Access denied while updating directory icon. Please run as administrator or check folder permissions.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.UnauthorizedAccess"),
                         logMessage: $"UnauthorizedAccessException while modifying folder '{dirPath}': {ex.Message}",
                         level: LogLevel.Error
                     );
@@ -291,7 +291,7 @@ namespace Icoaura.Controller
                 catch (IOException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "I/O error occurred while writing folder icon configuration.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.IOException"),
                         logMessage: $"IOException while updating '{dirPath}\\desktop.ini': {ex.Message}",
                         level: LogLevel.Error
                     );

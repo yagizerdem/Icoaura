@@ -1,5 +1,6 @@
 ﻿using Icoaura.Exception;
 using Icoaura.Model;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 
@@ -7,7 +8,11 @@ namespace Icoaura.Controller
 {
     public class BaseController
     {
-        public BaseController() { }
+        public readonly l10nService _l10nService;
+
+        public BaseController() {
+            this._l10nService = DIProvider.Provider.GetRequiredService<l10nService>();
+        }
 
         public ApiResponse<T> ExecuteSafe<T>(Func<T> func)
         {
@@ -19,19 +24,19 @@ namespace Icoaura.Controller
             // --- predicted user related exceptions hataları ---
             catch (UnauthorizedAccessException)
             {
-                return ApiResponse<T>.Fail("You do not have permission to access this resource.");
+                return ApiResponse<T>.Fail(this._l10nService.GetLocalizedMessage("Errors.UnauthorizedAccess"));
             }
             catch (FileNotFoundException)
             {
-                return ApiResponse<T>.Fail("The specified file could not be found.");
+                return ApiResponse<T>.Fail(this._l10nService.GetLocalizedMessage("Errors.FileNotFound"));
             }
             catch (DirectoryNotFoundException)
             {
-                return ApiResponse<T>.Fail("The specified folder could not be found.");
+                return ApiResponse<T>.Fail(this._l10nService.GetLocalizedMessage("Errors.DirectoryNotFound"));
             }
             catch (IOException)
             {
-                return ApiResponse<T>.Fail("A file I/O error occurred while processing your request.");
+                return ApiResponse<T>.Fail(this._l10nService.GetLocalizedMessage("Errors.IOException"));
             }
             // app level exceptions
             catch (AppException ex)
@@ -39,12 +44,12 @@ namespace Icoaura.Controller
                 if (ex.IsOperational)
                     return ApiResponse<T>.Fail(ex.UserMessage);
 
-                return ApiResponse<T>.Fail("Unexpected operational error occurred.");
+                return ApiResponse<T>.Fail(this._l10nService.GetLocalizedMessage("Errors.UnexpectedOperational"));
             }
             // fallback for unpredicted exceptions
             catch (System.Exception)
             {
-                return ApiResponse<T>.Fail("Unexpected internal error occurred.");
+                return ApiResponse<T>.Fail(this._l10nService.GetLocalizedMessage("Errors.UnexpectedInternal"));
             }
         }
  

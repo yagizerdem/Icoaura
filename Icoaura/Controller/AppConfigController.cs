@@ -28,7 +28,7 @@ namespace Icoaura.Controller
                 string jsonContent = response.Data;
                 AppConfig config = System.Text.Json.JsonSerializer.Deserialize<AppConfig>(jsonContent)
                 ?? throw AppException.Operational(
-                    userMessage: "The application configuration file is corrupted or invalid.",
+                    userMessage: this._l10nService.GetLocalizedMessage("Errors.AppConfigCorrupted"),
                     logMessage: $"Failed to deserialize AppConfig from '{configPath}'. The JSON structure may be malformed or contain invalid values.",
                     level: LogLevel.Fatal,
                     sourceName: nameof(ReadAppConfig));
@@ -45,7 +45,7 @@ namespace Icoaura.Controller
                 var serialized = JsonUtil.Serialize(config);
                 File.WriteAllText(configPath, serialized);
                 
-                GlobalContext.AppConfig = config;
+                GlobalContext.AppConfig = config; // sync with global context
 
                 return config;
             });

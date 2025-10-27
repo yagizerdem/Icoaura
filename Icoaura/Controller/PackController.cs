@@ -61,7 +61,7 @@ namespace Icoaura.Controller
                 string serializedConfig = File.ReadAllText(configPath);
                 PackConfig config = JsonUtil.Deserialize<PackConfig>(serializedConfig) ??
                     throw AppException.Operational(
-                        userMessage: "Failed to load pack configuration. The file may be corrupted or invalid.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.PackConfigCorrupted"),
                         logMessage: $"Deserialization of PackConfig failed for pack '{packId}'. File path: {configPath}",
                         level:LogLevel.Error );
 
@@ -76,7 +76,7 @@ namespace Icoaura.Controller
                 if(string.IsNullOrEmpty(config.Uid))
                 {
                     throw AppException.Operational(
-                        userMessage: "Pack configuration cannot be null or empty.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.PackConfigCorrupted"),
                         logMessage: "WritePackConfig failed: PackConfig is null or empty.",
                         level: LogLevel.Error
                     );
@@ -132,7 +132,7 @@ namespace Icoaura.Controller
                     var response = _fileController.GetLnkMetaData(itemPath);
                     EnsureSuccess(response);
                     LnkMetaData metaData = response.Data ?? throw AppException.Operational(
-                                userMessage: "Failed to load shortcut.",
+                                userMessage: this._l10nService.GetLocalizedMessage("Errors.ShortcutLoadFailed"),
                                 logMessage: $"LnkMetaData deserialization returned null for shortcut response (path: {itemPath}).",
                                 level: LogLevel.Error);
                     packItem.Description = metaData.Description;
@@ -152,7 +152,7 @@ namespace Icoaura.Controller
                     var response = _fileController.GetUrlMetaData(itemPath);
                     EnsureSuccess(response);
                     UrlMetaData metaData = response.Data ?? throw AppException.Operational(
-                                userMessage: "Failed to load URL file.",
+                                userMessage: this._l10nService.GetLocalizedMessage("UrlFileLoadFailed"),
                                 logMessage: $"UrlMetaData deserialization returned null for URL response (path: {itemPath}).",
                                 level: LogLevel.Error);
                     packItem.TargetUrl = PathUtil.ConvertToRelativePath(metaData.Url);
@@ -163,7 +163,7 @@ namespace Icoaura.Controller
                     var resopnse = _fileController.GetDirMetaData(itemPath);
                     EnsureSuccess(resopnse);
                     DirMetaData metaData = resopnse.Data ?? throw AppException.Operational(
-                                userMessage: "Failed to load directory metadata.",
+                                userMessage: this._l10nService.GetLocalizedMessage("Errors.DirectoryMetadataLoadFailed"),
                                 logMessage: $"DirMetaData deserialization returned null for directory response (path: {itemPath}).",
                                 level: LogLevel.Error);
 
@@ -528,7 +528,7 @@ namespace Icoaura.Controller
             if (string.IsNullOrEmpty(config.PackName))
             {
                 throw AppException.Operational(
-                    userMessage: "Pack name cannot be empty.",
+                    userMessage: this._l10nService.GetLocalizedMessage("Errors.PackNameEmpty"),
                     logMessage: "PackConfig validation failed: PackName is null or empty.",
                     level:LogLevel.Error
                 );
@@ -541,7 +541,7 @@ namespace Icoaura.Controller
             if (!System.Text.RegularExpressions.Regex.IsMatch(config.Version, versionPattern))
             {
                 throw AppException.Operational(
-                    userMessage: "Version must be in the format 'major.minor.patch' (e.g., '1.0.0').",
+                    userMessage: this._l10nService.GetLocalizedMessage("Errors.VersionFormatInvalid"),
                     logMessage: "PackConfig validation failed: Version format is invalid.",
                     level: LogLevel.Error
                 );

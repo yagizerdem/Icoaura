@@ -1,0 +1,22 @@
+﻿{
+  "Errors": {
+    "UnauthorizedAccess": "You do not have permission to access this resource.",
+    "FileNotFound": "The specified file could not be found.",
+    "DirectoryNotFound": "The specified folder could not be found.",
+    "IOException": "A file I/O error occurred while processing your request.",
+    "UnexpectedOperational": "Unexpected operational error occurred.",
+    "UnexpectedInternal": "Unexpected internal error occurred.",
+    "EnsureFailed": "Operation failed due to an unexpected error.",
+    "AppExceptionDefault": "An unexpected error occurred during the operation."
+  },
+  "Responses": {
+    "OperationSuccess": "Operation completed successfully.",
+    "OperationFailed": "Operation could not be completed.",
+    "ValidationFailed": "Input validation failed. Please check your data."
+  },
+  "Info": {
+    "Loading": "Loading, please wait...",
+    "Processing": "Processing your request...",
+    "Completed": "Task completed successfully."
+  }
+}

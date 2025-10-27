@@ -1,0 +1,22 @@
+﻿{
+  "Errors": {
+    "UnauthorizedAccess": "Bu kaynağa erişim izniniz yok.",
+    "FileNotFound": "Belirtilen dosya bulunamadı.",
+    "DirectoryNotFound": "Belirtilen klasör bulunamadı.",
+    "IOException": "İsteğiniz işlenirken bir dosya girdi/çıktı hatası oluştu.",
+    "UnexpectedOperational": "Beklenmeyen bir operasyonel hata oluştu.",
+    "UnexpectedInternal": "Beklenmeyen bir sistem hatası oluştu.",
+    "EnsureFailed": "İşlem beklenmeyen bir hata nedeniyle başarısız oldu.",
+    "AppExceptionDefault": "İşlem sırasında beklenmeyen bir hata oluştu."
+  },
+  "Responses": {
+    "OperationSuccess": "İşlem başarıyla tamamlandı.",
+    "OperationFailed": "İşlem tamamlanamadı.",
+    "ValidationFailed": "Girdi doğrulaması başarısız oldu. Lütfen verilerinizi kontrol edin."
+  },
+  "Info": {
+    "Loading": "Yükleniyor, lütfen bekleyin...",
+    "Processing": "İsteğiniz işleniyor...",
+    "Completed": "Görev başarıyla tamamlandı."
+  }
+}

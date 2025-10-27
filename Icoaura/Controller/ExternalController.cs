@@ -51,7 +51,7 @@ namespace Icoaura.Controller
                         
                         this.EnsureProcessSafelyTerminated(
                          exitCode: process.ExitCode,
-                         userMessage: "Failed to extract icon from executable. Please make sure the file is a valid Windows application.",
+                         userMessage: this._l10nService.GetLocalizedMessage("Errors.IconExtractionFailed"),
                          logMessage: $"extracticon.exe failed to extract icon from '{exePath}' (ExitCode: {process.ExitCode})",
                          logLevel: LogLevel.Error,
                          isOperational: true
@@ -111,7 +111,7 @@ namespace Icoaura.Controller
 
                         this.EnsureProcessSafelyTerminated(
                                    exitCode: process.ExitCode,
-                                   userMessage: "ImageMagick failed to process the image.",
+                                   userMessage: this._l10nService.GetLocalizedMessage("Errors.ImageMagickProcessFailed"),
                                    logMessage: "Magick.exe returned non-zero exit code during ICO->PNG conversion.",
                                    logLevel: LogLevel.Warning
                                );
@@ -179,7 +179,7 @@ namespace Icoaura.Controller
 
                         this.EnsureProcessSafelyTerminated(
                             exitCode: process.ExitCode,
-                            userMessage: "ImageMagick failed to process the image.",
+                            userMessage: this._l10nService.GetLocalizedMessage("Errors.ImageMagickProcessFailed"),
                             logMessage: "Magick.exe returned non-zero exit code during PNG->ICO conversion.",
                             logLevel: LogLevel.Warning
                         );
@@ -322,7 +322,7 @@ namespace Icoaura.Controller
 
                     this.EnsureProcessSafelyTerminated(
                         exitCode: process.ExitCode,
-                        userMessage: "Failed to read PNG image dimensions. Please check the file format.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.PngDimensionReadFailed"),
                         logMessage: $"ImageMagick 'identify' command failed for '{pngPath}' (ExitCode: {process.ExitCode}, Error: {errorOutput})",
                         logLevel: LogLevel.Error
                     );
@@ -337,7 +337,7 @@ namespace Icoaura.Controller
                 {
 
                     throw AppException.Operational(
-                        userMessage: "Failed to parse image dimensions from output.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.ImageDimensionParseFailed"),
                         logMessage: $"Invalid ImageMagick output for '{pngPath}': '{output}'",
                         level: LogLevel.Error
                     );
@@ -394,7 +394,7 @@ namespace Icoaura.Controller
 
                         this.EnsureProcessSafelyTerminated(
                             exitCode: process.ExitCode,
-                            userMessage: "Failed to apply opacity to PNG image.",
+                            userMessage: this._l10nService.GetLocalizedMessage("Errors.PngOpacityApplyFailed"),
                             logMessage: $"ImageMagick failed while adjusting opacity on '{pngPath}'. Error: {errorOutput}",
                             logLevel: LogLevel.Error
                         );
@@ -477,7 +477,7 @@ namespace Icoaura.Controller
 
                         this.EnsureProcessSafelyTerminated(
                             exitCode: process.ExitCode,
-                            userMessage: "Failed to apply corner radius to PNG image.",
+                            userMessage: this._l10nService.GetLocalizedMessage("Errors.PngCornerRadiusApplyFailed"),
                             logMessage: $"ImageMagick failed while rounding corners for '{pngPath}'. Error: {errorOutput}",
                             logLevel: LogLevel.Error
                         );
@@ -512,7 +512,7 @@ namespace Icoaura.Controller
                     // --- Validation ---
                     if (string.IsNullOrWhiteSpace(icoBase64))
                         throw AppException.Operational(
-                            userMessage: "Base64 data cannot be empty.",
+                            userMessage: this._l10nService.GetLocalizedMessage("Errors.Base64DataEmpty"),
                             logMessage: "IcoBase64ToPngBase64 called with empty base64 string.",
                             level: LogLevel.Error
                         );
@@ -553,7 +553,7 @@ namespace Icoaura.Controller
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
                         throw AppException.Operational(
-                            userMessage: "Base64 data cannot be empty.",
+                            userMessage: _l10nService.GetLocalizedMessage("Errors.Base64DataEmpty"),
                             logMessage: "PngBase64ToIcoBase64 called with empty base64 string.",
                             level: LogLevel.Error
                         );
@@ -594,7 +594,7 @@ namespace Icoaura.Controller
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
                         throw AppException.Operational(
-                            userMessage: "Base64 data cannot be empty.",
+                            userMessage: _l10nService.GetLocalizedMessage("Errors.Base64DataEmpty"),
                             logMessage: "ResizePngBase64 called with empty base64 string.",
                             level: LogLevel.Error
                         );
@@ -634,7 +634,7 @@ namespace Icoaura.Controller
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
                         throw AppException.Operational(
-                            userMessage: "Base64 data cannot be empty.",
+                            userMessage: _l10nService.GetLocalizedMessage("Errors.Base64DataEmpty"),
                             logMessage: "ApplyOpacityOnPngBase64 called with empty base64 string.",
                             level: LogLevel.Error
                         );
@@ -674,7 +674,7 @@ namespace Icoaura.Controller
                 {
                     if (string.IsNullOrWhiteSpace(pngBase64))
                         throw AppException.Operational(
-                            userMessage: "Base64 data cannot be empty.",
+                            userMessage: _l10nService.GetLocalizedMessage("Errors.Base64DataEmpty"),
                             logMessage: "ApplyCornerRadiusOnPngBase64 called with empty base64 string.",
                             level: LogLevel.Error
                         );

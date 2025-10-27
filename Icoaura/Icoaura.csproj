@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\l10n\en.json" />
+    <None Remove="Assets\l10n\tr.json" />
     <None Remove="tools\extracticon.exe" />
     <None Remove="tools\ImageMagick\ChangeLog.md" />
     <None Remove="tools\ImageMagick\colors.xml" />
@@ -41,6 +43,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Assets\l10n\en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\l10n\tr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="tools\extracticon.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

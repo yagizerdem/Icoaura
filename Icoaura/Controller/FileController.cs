@@ -61,14 +61,14 @@ namespace Icoaura.Controller
                 // --- Validation ---
                 if (string.IsNullOrWhiteSpace(path))
                     throw AppException.Operational(
-                        userMessage: "File path cannot be empty.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.FilePathEmpty"),
                         logMessage: "Attempted to write Base64 data to an empty file path.",
                         level: LogLevel.Error
                     );
 
                 if (string.IsNullOrWhiteSpace(base64))
                     throw AppException.Operational(
-                        userMessage: "Base64 data cannot be empty.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.Base64DataEmpty"),
                         logMessage: "Attempted to write empty Base64 data to file.",
                         level: LogLevel.Error
                     );
@@ -80,7 +80,7 @@ namespace Icoaura.Controller
                     if (!overwrite)
                     {
                         throw AppException.Operational(
-                            userMessage: $"File already exists: {Path.GetFileName(path)}",
+                            userMessage: $"{this._l10nService.GetLocalizedMessage("Errors.FileAlreadyExists")} : ${Path.GetFileName(path)}",
                             logMessage: $"Attempted to overwrite file '{path}' but overwrite=false",
                             level: LogLevel.Error
                         );
@@ -102,7 +102,7 @@ namespace Icoaura.Controller
                 catch (FormatException ex)
                 {
                     throw AppException.Operational(
-                        userMessage: "The provided Base64 data is not in a valid format.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Error.Base64DataInvalid"),
                         logMessage: ex.Message,
                         level: LogLevel.Error
                     );
@@ -261,7 +261,7 @@ namespace Icoaura.Controller
                 if (depth < 0)
                 {
                     throw AppException.Operational(
-                        userMessage: "Depth cannot be negative.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.DepthNegative"),
                         logMessage: $"Invalid depth value: {depth}",
                         level: LogLevel.Error
                     );
@@ -309,7 +309,7 @@ namespace Icoaura.Controller
                     catch (IOException ex)
                     {
                         throw AppException.Operational(
-                            userMessage: "An I/O error occurred while scanning directories.",
+                            userMessage: this._l10nService.GetLocalizedMessage("Errors.IOException"),
                             logMessage: ex.Message,
                             level: LogLevel.Error
                         );
@@ -386,7 +386,7 @@ namespace Icoaura.Controller
             {
                 if (!Directory.Exists(rootPath))
                     throw AppException.Operational(
-                        userMessage: "Root path does not exist.",
+                        userMessage: this._l10nService.GetLocalizedMessage("Errors.DirectoryNotFound"),
                         logMessage: $"GetMatchingFileSystemEntries failed: root path not found ({rootPath})",
                         level: LogLevel.Error
                     );
