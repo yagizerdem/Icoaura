@@ -4,12 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
-        xmlns:local="clr-namespace:Icoaura"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Icoaura"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        AllowsTransparency="False"
+        Width="1280" Height="720"
+                xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Background="#FF1E1E1E">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome
+            CaptionHeight="0"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="6"
+            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
     <Grid>
-
         <wv2:WebView2 x:Name="webView" />
-
     </Grid>
 </Window>

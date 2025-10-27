@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Icoaura.Bridge;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,6 +37,8 @@ namespace Icoaura
 #else
     // load from local file system
 #endif
+
+            webView.CoreWebView2.AddHostObjectToScript("windowBridge", new WindowBridge(this));
 
 
         }
