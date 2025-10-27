@@ -14,7 +14,12 @@ export const PackProvider: React.FC<{ children: React.ReactNode }> = ({
   const [packConfigs, setPackConfigs] = useState<PackConfig[]>([]);
 
   return (
-    <PackContext.Provider value={{ packConfigs, setPackConfigs }}>
+    <PackContext.Provider
+      value={{
+        packConfigs,
+        setPackConfigs,
+      }}
+    >
       {children}
     </PackContext.Provider>
   );

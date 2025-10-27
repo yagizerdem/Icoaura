@@ -1,6 +1,7 @@
 import { CircleQuestionMark } from "lucide-react";
 import type { PackConfig } from "../../models/PackConfig";
 import { cn } from "../../util/twUtil";
+import { useNavigate } from "react-router";
 
 interface PackConfigCardProps {
   packConfig: PackConfig;
@@ -8,12 +9,17 @@ interface PackConfigCardProps {
 }
 
 function PackConfigCard({ packConfig, className }: PackConfigCardProps) {
+  const navigate = useNavigate();
+
   return (
     <div
       className={cn(
         "w-full h-fit flex flex-row px-3 my-5 cursor-pointer hover:bg-(--clr-surface-800) rounded-md py-3 transition-colors duration-300",
         className
       )}
+      onMouseUp={() => {
+        navigate(`/pack/${packConfig.Uid}`);
+      }}
     >
       <div className="flex flex-row">
         {packConfig.CoverPngBase64 && (

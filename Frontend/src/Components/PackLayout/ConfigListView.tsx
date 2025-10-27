@@ -13,17 +13,10 @@ function ConfigListView() {
     async function fetch() {
       const apiResponse: ApiResponse<PackConfig[]> = await getAllPackConfigs();
       if (apiResponse && apiResponse?.Success) {
-        apiResponse.Data.forEach((c) => {
-          setPackConfigs((prev) => [...prev, c]);
-          setPackConfigs((prev) => [...prev, c]);
-          setPackConfigs((prev) => [...prev, c]);
-          setPackConfigs((prev) => [...prev, c]);
-        });
+        setPackConfigs(apiResponse.Data || []);
       }
     }
   }, []);
-
-  console.log(packConfigs);
 
   return (
     <div className="w-full h-full  overflow-y-auto">

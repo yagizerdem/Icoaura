@@ -1,5 +1,12 @@
+import { PackInfo } from "../Components/Pack/PackInfo";
+import { getSelectedPackConfig } from "../util/getSelectedPackConfig";
+
 function PackPage() {
-  return <div>packpage</div>;
+  return (
+    <div className="w-full h-full overflow-y-auto p-5 bg-(--clr-surface-900)">
+      <PackInfo />
+    </div>
+  );
 }
 
 export { PackPage };
