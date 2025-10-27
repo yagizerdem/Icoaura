@@ -4,6 +4,7 @@ declare global {
       webview: {
         hostObjects: {
           windowBridge: windowBridge;
+          packBridge: PackBridge;
         };
       };
     };

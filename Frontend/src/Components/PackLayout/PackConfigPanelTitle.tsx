@@ -1,6 +1,6 @@
 import { Import, Plus, RefreshCcw } from "lucide-react";
 
-function PackItemsPanelTitle() {
+function PackConfigPanelTitle() {
   return (
     <div className=" flex flex-row justify-between items-center text-(--clr-text-primary) w-full h-8 bg-(--clr-surface-700)">
       <div className="flex flex-row  gap-2 px-3 py-2 h-full">
@@ -20,4 +20,4 @@ function PackItemsPanelTitle() {
   );
 }
 
-export { PackItemsPanelTitle };
+export { PackConfigPanelTitle };

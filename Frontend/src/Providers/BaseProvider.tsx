@@ -1,22 +1,22 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext } from "react";
 import { AppProvider } from "../Providers/AppContext";
+import { PackProvider } from "./PackContext";
 
-interface BaseContextType {
-  isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
-}
+interface BaseContextType {}
 
 const BaseContext = createContext<BaseContextType | undefined>(undefined);
 
 export const BaseProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const value = {} as BaseContextType;
 
   return (
-    <BaseContext.Provider value={{ isLoading, setIsLoading }}>
-      <AppProvider>{children}</AppProvider>
-    </BaseContext.Provider>
+    <AppProvider>
+      <PackProvider>
+        <BaseContext.Provider value={value}>{children}</BaseContext.Provider>
+      </PackProvider>
+    </AppProvider>
   );
 };
 
