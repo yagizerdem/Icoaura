@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { HorizontalSplitPane } from "../Ui/HorizontalSplitPane";
+import { HorizontalSplitPane } from "../ui/HorizontalSplitPane";
 import { PackItemsPanel } from "../Components/PackLayout/PackItemsPanel";
 
 function PackLayout() {

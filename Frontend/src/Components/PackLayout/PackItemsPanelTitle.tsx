@@ -11,7 +11,7 @@ function PackItemsPanelTitle() {
           <RefreshCcw />
         </button>
       </div>
-      <div className="px-3  flex-row  gap-2 px-3 py-2 h-full ">
+      <div className="px-3  flex-row  gap-2 py-2 h-full ">
         <button className="w-6 h-6 p-1 cursor-pointer bg-(--clr-surface-600) flex justify-center items-center rounded hover:bg-(--clr-surface-500)">
           <Import />
         </button>

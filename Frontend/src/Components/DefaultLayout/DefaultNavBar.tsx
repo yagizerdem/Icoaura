@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router";
-import { ModernButton } from "../../Ui/ModernButton";
+import { ModernButton } from "../../ui/ModernButton";
 import { cn } from "../../util/twUtil";
 
 function DefaultNavBar() {
