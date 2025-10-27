@@ -1,17 +1,56 @@
 import gsap from "gsap";
 import { CircleQuestionMark, X } from "lucide-react";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useReducer, useRef, useState } from "react";
 import { useAppContext } from "../../Providers/AppContext";
 import {
   getBase64FromPath,
   selectFileAbsolutePath,
 } from "../../service/fileService";
 import type { ApiResponse } from "../../models/ApiResponse";
+import { ModernTextInput } from "../../ui/ModernTextInput";
+import { ModernTextArea } from "../../ui/ModernTextArea";
+
+interface PackFormState {
+  PackName: string;
+  Version: string;
+  Author: string;
+  Description: string;
+  License: string;
+}
+
+type PackFormAction =
+  | { type: "SET_FIELD"; field: keyof PackFormState; value: string }
+  | { type: "RESET"; payload?: Partial<PackFormState> };
+
+const initialState: PackFormState = {
+  PackName: "",
+  Version: "",
+  Author: "",
+  Description: "",
+  License: "MIT",
+};
+
+function packFormReducer(
+  state: PackFormState,
+  action: PackFormAction
+): PackFormState {
+  switch (action.type) {
+    case "SET_FIELD":
+      return { ...state, [action.field]: action.value };
+
+    case "RESET":
+      return { ...initialState, ...action.payload };
+
+    default:
+      return state;
+  }
+}
 
 function Createpackpopup() {
   const { setIsLoading, setShowCreatePackPopup } = useAppContext();
   const cardRef = useRef<HTMLDivElement>(null);
   const [packCoverBase64, setPackCoverBase64] = useState<string | null>(null);
+  const [formState, dispatch] = useReducer(packFormReducer, initialState);
 
   useLayoutEffect(() => {
     if (cardRef.current) {
@@ -57,11 +96,11 @@ function Createpackpopup() {
   }
 
   return (
-    <div className="w-full h-full absolute top-0 left-0 inset-0 z-100 ">
+    <div className="w-full h-full absolute top-0 left-0 inset-0 z-100 overflow-y-auto">
       <div className="w-full h-full absolute top-0 left-0 inset-0 z-101 bg-black opacity-90 blur-xl" />
       <div
         ref={cardRef}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-102 w-96 h-fit p-3 bg-(--clr-surface-900) rounded-md border border-(--clr-surface-700) shadow-lg flex flex-col"
+        className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-102 w-96 h-fit p-3 bg-(--clr-surface-900) rounded-md border border-(--clr-surface-700) shadow-lg flex flex-col"
       >
         <div className="flex flex-row justify-between items-center">
           <span className="text-(--clr-text-secondary) font-bold ">
@@ -100,6 +139,73 @@ function Createpackpopup() {
               <CircleQuestionMark className="text-(--clr-text-secondary) w-full h-full" />
             </div>
           )}
+        </div>
+        <div className="mt-5 flex flex-col gap-1">
+          <div className="flex flex-row">
+            <span className="text-(--clr-text-secondary) w-fit">Pack Name</span>
+          </div>
+          <ModernTextInput
+            value={formState.PackName}
+            onChange={(val) => {
+              dispatch({ type: "SET_FIELD", field: "PackName", value: val });
+            }}
+            placeholder="Enter pack name"
+            className="rounded-sm bg-(--clr-surface-900) "
+          />
+        </div>
+        <div className="mt-5 flex flex-col gap-1">
+          <div className="flex flex-row">
+            <span className="text-(--clr-text-secondary) w-fit">Version</span>
+          </div>
+          <ModernTextInput
+            value={formState.Version}
+            onChange={(val) => {
+              dispatch({ type: "SET_FIELD", field: "Version", value: val });
+            }}
+            placeholder="Enter version"
+            className="rounded-sm bg-(--clr-surface-900) "
+          />
+        </div>
+        <div className="mt-5 flex flex-col gap-1">
+          <div className="flex flex-row">
+            <span className="text-(--clr-text-secondary) w-fit">Author</span>
+          </div>
+          <ModernTextInput
+            value={formState.Author}
+            onChange={(val) => {
+              dispatch({ type: "SET_FIELD", field: "Author", value: val });
+            }}
+            placeholder="Enter author"
+            className="rounded-sm bg-(--clr-surface-900) "
+          />
+        </div>
+        <div className="mt-5 flex flex-col gap-1">
+          <div className="flex flex-row">
+            <span className="text-(--clr-text-secondary) w-fit">License</span>
+          </div>
+          <ModernTextInput
+            value={formState.License}
+            onChange={(val) => {
+              dispatch({ type: "SET_FIELD", field: "License", value: val });
+            }}
+            placeholder="Enter license"
+            className="rounded-sm bg-(--clr-surface-900) "
+          />
+        </div>
+        <div className="mt-5 flex flex-col gap-1">
+          <div className="flex flex-row">
+            <span className="text-(--clr-text-secondary) w-fit">
+              Description
+            </span>
+          </div>
+          <ModernTextArea
+            value={formState.Description}
+            onChange={(val) => {
+              dispatch({ type: "SET_FIELD", field: "Description", value: val });
+            }}
+            placeholder="Enter description"
+            className="rounded-sm bg-(--clr-surface-900) "
+          />
         </div>
       </div>
     </div>
