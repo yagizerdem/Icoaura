@@ -123,7 +123,15 @@ namespace Test
             Assert.IsTrue(response.Success);
         }
 
- 
+
+        [TestMethod]
+        public void GetAllPackConfigs()
+        {
+            var response = packController.GetAllPackConfigs();
+            Assert.IsTrue(response.Success);
+        
+        }   
+
 
     }
 }

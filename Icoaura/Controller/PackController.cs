@@ -366,6 +366,34 @@ namespace Icoaura.Controller
             });
         }
 
+        public ApiResponse<List<PackConfig>> GetAllPackConfigs()
+        {
+            return ExecuteSafe(() =>
+            {
+                List<PackConfig> packConfigs = new List<PackConfig>();
+                string packsFolderPath = ApplicationPathContext.AppPacksFolderPath;
+                if (!Directory.Exists(packsFolderPath))
+                    return packConfigs;
+                string[] packDirectories = Directory.GetDirectories(packsFolderPath);
+                foreach (string packDirectory in packDirectories)
+                {
+                    string packId = Path.GetFileName(packDirectory);
+                    try
+                    {
+                        PackConfig config = GetPackConfig(packId).Data;
+                        if(config != null) packConfigs.Add(config);
+                    }
+                    catch (AppException ex)
+                    {
+                        // Log and skip corrupted pack configs
+
+                    }
+                }
+               
+                return packConfigs;
+            });
+        }
+
         private void HandleLnkPackItem(
             PackItem packItem,
             string processedIconPath,
