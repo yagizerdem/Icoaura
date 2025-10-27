@@ -1,5 +1,5 @@
 function PackLayout() {
-  return <div>test</div>;
+  return <div>pack layout</div>;
 }
 
 export { PackLayout };
