@@ -1,5 +1,4 @@
 import { PackInfo } from "../Components/Pack/PackInfo";
-import { getSelectedPackConfig } from "../util/getSelectedPackConfig";
 
 function PackPage() {
   return (

@@ -5,6 +5,7 @@ declare global {
         hostObjects: {
           windowBridge: windowBridge;
           packBridge: PackBridge;
+          fileBridge: FileBridge;
         };
       };
     };
@@ -20,6 +21,11 @@ interface windowBridge {
 
 interface PackBridge {
   GetAllPackConfigs: () => Promise<string>; // ApiResopnse<List<PackConfig>>
+}
+
+interface FileBridge {
+  SelectFilePath(allowedExtensionsJsonArray: string): Promise<string>; // string
+  GetBase64FromPath(filePath: string): Promise<string>; // ApiResponse<string>
 }
 
 export {};

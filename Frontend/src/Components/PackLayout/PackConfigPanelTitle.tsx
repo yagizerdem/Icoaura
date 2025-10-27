@@ -7,7 +7,7 @@ import { useAppContext } from "../../Providers/AppContext";
 
 function PackConfigPanelTitle() {
   const { setPackConfigs } = usePackContext();
-  const { setIsLoading } = useAppContext();
+  const { setIsLoading, setShowCreatePackPopup } = useAppContext();
 
   async function RefreshPackConfig() {
     try {
@@ -21,10 +21,17 @@ function PackConfigPanelTitle() {
     }
   }
 
+  async function CreatePack() {
+    setShowCreatePackPopup(true);
+  }
+
   return (
     <div className=" flex flex-row justify-between items-center text-(--clr-text-primary) w-full h-8 bg-(--clr-surface-700)">
       <div className="flex flex-row  gap-2 px-3 py-2 h-full">
-        <button className="w-6 h-6 p-1 cursor-pointer bg-(--clr-surface-600) flex justify-center items-center rounded hover:bg-(--clr-surface-500)">
+        <button
+          onMouseUp={() => CreatePack()}
+          className="w-6 h-6 p-1 cursor-pointer bg-(--clr-surface-600) flex justify-center items-center rounded hover:bg-(--clr-surface-500)"
+        >
           <Plus />
         </button>
         <button

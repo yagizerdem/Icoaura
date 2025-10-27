@@ -3,6 +3,8 @@ import React, { createContext, useContext, useState } from "react";
 interface AppContextType {
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
+  showCreatePackPopup: boolean;
+  setShowCreatePackPopup: (value: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -11,9 +13,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showCreatePackPopup, setShowCreatePackPopup] = useState(false);
 
   return (
-    <AppContext.Provider value={{ isLoading, setIsLoading }}>
+    <AppContext.Provider
+      value={{
+        isLoading,
+        setIsLoading,
+        showCreatePackPopup,
+        setShowCreatePackPopup,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
