@@ -5,7 +5,6 @@ import { cn } from "../../util/twUtil";
 function DefaultNavBar() {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location.pathname);
 
   function navigateToPack() {
     navigate("/pack");
