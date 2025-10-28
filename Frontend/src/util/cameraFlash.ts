@@ -18,9 +18,6 @@ function flash({
 
 $(document).ready(function () {
   $(".flash").hide();
-  $(document).mouseup(function () {
-    flash();
-  });
 });
 
 export { flash };

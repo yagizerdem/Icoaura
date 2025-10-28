@@ -5,6 +5,8 @@ interface AppContextType {
   setIsLoading: (value: boolean) => void;
   showCreatePackPopup: boolean;
   setShowCreatePackPopup: (value: boolean) => void;
+  showDeletePackPopup: boolean;
+  setShowDeletePackPopup: (value: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -14,6 +16,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showCreatePackPopup, setShowCreatePackPopup] = useState(false);
+  const [showDeletePackPopup, setShowDeletePackPopup] = useState(false);
 
   return (
     <AppContext.Provider
@@ -22,6 +25,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsLoading,
         showCreatePackPopup,
         setShowCreatePackPopup,
+        showDeletePackPopup,
+        setShowDeletePackPopup,
       }}
     >
       {children}

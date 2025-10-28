@@ -68,7 +68,7 @@ function Createpackpopup() {
     }
   }, []);
 
-  function closePopup() {
+  function closePopup(withFlash = false) {
     if (cardRef.current) {
       gsap.to(cardRef.current, {
         scale: 0.6,
@@ -76,6 +76,9 @@ function Createpackpopup() {
         duration: 0.3,
         onComplete: () => {
           setShowCreatePackPopup(false);
+          if (withFlash) {
+            flash({});
+          }
         },
       });
     }
@@ -148,8 +151,7 @@ function Createpackpopup() {
         return;
       }
 
-      closePopup();
-      flash({ initialOpacity: 0.7, fadeOut: 300, duration: 500 });
+      closePopup(true);
     } finally {
       setIsLoading(false);
     }

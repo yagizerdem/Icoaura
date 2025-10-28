@@ -1,8 +1,20 @@
 import { PenBox, Trash } from "lucide-react";
 import { getSelectedPackConfig } from "../../util/getSelectedPackConfig";
+import { usePackContext } from "../../Providers/PackContext";
+import { useAppContext } from "../../Providers/AppContext";
 
 function PackInfo() {
   const packConfig = getSelectedPackConfig();
+  const { setEditPackConfigMode } = usePackContext();
+  const { setShowDeletePackPopup } = useAppContext();
+
+  function editPackConfig() {
+    setEditPackConfigMode(true);
+  }
+
+  function deletePack() {
+    setShowDeletePackPopup(true);
+  }
 
   return (
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
@@ -59,11 +71,17 @@ function PackInfo() {
           </div>
         </div>
         <div className="flex flex-row gap-3">
-          <button className="w-8 h-8 p-1 cursor-pointer text-(--clr-text-primary) flex justify-center items-center rounded">
+          <button
+            onMouseUp={() => editPackConfig()}
+            className="w-8 h-8 p-1 cursor-pointer text-(--clr-text-primary) flex justify-center items-center rounded"
+          >
             <PenBox />
           </button>
 
-          <button className="w-8 h-8 p-1 cursor-pointer  text-(--clr-text-primary) flex justify-center items-center rounded ">
+          <button
+            onMouseUp={() => deletePack()}
+            className="w-8 h-8 p-1 cursor-pointer  text-(--clr-text-primary) flex justify-center items-center rounded "
+          >
             <Trash />
           </button>
         </div>
