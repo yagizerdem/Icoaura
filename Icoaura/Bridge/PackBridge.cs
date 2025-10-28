@@ -68,5 +68,12 @@ namespace Icoaura.Bridge
             return serialized;
         }
 
+        public string AppendPackItemFromPath(string packId, string path)
+        {
+            ApiResponse<PackItem> response = _packController.AppendPackItemFromPath(packId, path);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
     }
 }

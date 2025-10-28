@@ -103,6 +103,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.10" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3537.50" />

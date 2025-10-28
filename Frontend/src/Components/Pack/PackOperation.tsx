@@ -14,11 +14,19 @@ import { ModernIconButton } from "../../ui/ModernIconButton";
 import { getSelectedPackConfig } from "../../util/getSelectedPackConfig";
 import type { ApiResponse } from "../../models/ApiResponse";
 import type { PackItem } from "../../models/PackItem";
-import { AddDesktopIcons, getAllPackConfigs } from "../../service/packService";
+import {
+  AddDesktopIcons,
+  AppendPackItemFromPath,
+  getAllPackConfigs,
+} from "../../service/packService";
 import { Toast } from "../../util/toast";
 import type { PackConfig } from "../../models/PackConfig";
 import { usePackContext } from "../../Providers/PackContext";
 import { flash } from "../../util/cameraFlash";
+import {
+  selectDirectoryPath,
+  selectFileAbsolutePath,
+} from "../../service/fileService";
 
 function PackOperation() {
   const { isAdmin, setIsAdmin, setIsLoading } = useAppContext();
@@ -47,6 +55,66 @@ function PackOperation() {
       const configs: PackConfig[] = (await getAllPackConfigs()).Data;
       setPackConfigs(configs);
       Toast.success("Desktop icons added successfully");
+      flash({});
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleAddIcon() {
+    try {
+      if (!packConfig?.Uid) return;
+
+      setIsLoading(true);
+      const filePath = await selectFileAbsolutePath([
+        ".lnk",
+        "lnk",
+        "url",
+        ".url",
+      ]);
+      if (!filePath) return;
+
+      const apiResponse: ApiResponse<PackItem> = await AppendPackItemFromPath(
+        packConfig.Uid,
+        filePath
+      );
+
+      if (!apiResponse.Success) {
+        Toast.error(apiResponse.ErrorMessage || "Failed to add icon");
+        return;
+      }
+
+      const configs: PackConfig[] = (await getAllPackConfigs()).Data;
+      setPackConfigs(configs);
+      Toast.success("Icon added successfully");
+      flash({});
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleAddDirIcon() {
+    try {
+      if (!packConfig?.Uid) return;
+
+      setIsLoading(true);
+      const dirPath = await selectDirectoryPath();
+
+      if (!dirPath) return;
+
+      const apiResponse: ApiResponse<PackItem> = await AppendPackItemFromPath(
+        packConfig.Uid,
+        dirPath
+      );
+
+      if (!apiResponse.Success) {
+        Toast.error(apiResponse.ErrorMessage || "Failed to add icon");
+        return;
+      }
+
+      const configs: PackConfig[] = (await getAllPackConfigs()).Data;
+      setPackConfigs(configs);
+      Toast.success("Icon added successfully");
       flash({});
     } finally {
       setIsLoading(false);
@@ -108,12 +176,14 @@ function PackOperation() {
           text="Add icon"
           type="ghost"
           className="cursor-pointer"
+          onMouseUp={() => handleAddIcon()}
         />
         <ModernIconButton
           icon={<Folder />}
           text="Add directory icon"
           type="ghost"
           className="cursor-pointer"
+          onMouseUp={() => handleAddDirIcon()}
         />
       </div>
     </div>

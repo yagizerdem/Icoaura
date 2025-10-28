@@ -64,6 +64,18 @@ async function AddDesktopIcons(
   return apiResponse;
 }
 
+async function AppendPackItemFromPath(
+  packId: string,
+  filePath: string
+): Promise<ApiResponse<PackItem>> {
+  const serializedResponse = await packProx.AppendPackItemFromPath(
+    packId,
+    filePath
+  );
+  const apiResponse: ApiResponse<PackItem> = JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
 export {
   getAllPackConfigs,
   createPack,
@@ -72,4 +84,5 @@ export {
   GetPackItems,
   GetPackItemIconBase64,
   AddDesktopIcons,
+  AppendPackItemFromPath,
 };

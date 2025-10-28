@@ -18,4 +18,9 @@ async function getBase64FromPath(
   return JSON.parse(serialized) as ApiResponse<string>;
 }
 
-export { selectFileAbsolutePath, getBase64FromPath };
+async function selectDirectoryPath(): Promise<string> {
+  const dirPath = await fileProx.SelectDirectoryPath();
+  return dirPath;
+}
+
+export { selectFileAbsolutePath, getBase64FromPath, selectDirectoryPath };

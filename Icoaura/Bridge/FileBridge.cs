@@ -3,11 +3,7 @@ using Icoaura.Model;
 using Icoaura.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Icoaura.Bridge
 {
@@ -35,6 +31,12 @@ namespace Icoaura.Bridge
             return filePath ?? string.Empty;
         }
 
+        public string SelectDirectoryPath()
+        {
+            string? folderPath = PickFolder();
+            return folderPath ?? string.Empty;
+        }
+
 
         private string? PickFile(string[] allowedExtensions)
         {
@@ -46,7 +48,7 @@ namespace Icoaura.Bridge
                 ext.StartsWith(".") ? ext : $".{ext}"
             ));
 
-            var dlg = new OpenFileDialog
+            var dlg = new Microsoft.Win32.OpenFileDialog
             {
                 Title = $"Select File ({titleExtensions})",
                 Filter = $"Supported Files|{joinedExtensions}|All Files (*.*)|*.*",
@@ -59,6 +61,24 @@ namespace Icoaura.Bridge
 
             return dlg.ShowDialog() == true ? dlg.FileName : null;
         }
-    
+
+        private string? PickFolder()
+        {
+            using (var dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select a folder";
+                dialog.UseDescriptionForTitle = true;
+                dialog.ShowNewFolderButton = true;
+                dialog.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                DialogResult result = dialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+                    return dialog.SelectedPath;
+
+                return null;
+            }
+        }
+
     }
 }
