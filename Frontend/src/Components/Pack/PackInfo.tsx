@@ -1,4 +1,4 @@
-import { PenBox, Trash } from "lucide-react";
+import { CircleQuestionMark, PenBox, Trash } from "lucide-react";
 import { getSelectedPackConfig } from "../../util/getSelectedPackConfig";
 import { usePackContext } from "../../Providers/PackContext";
 import { useAppContext } from "../../Providers/AppContext";
@@ -24,11 +24,19 @@ function PackInfo() {
       <hr className="my-2 border-(--clr-surface-500)" />
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-row gap-5 ">
-          <img
-            src={packConfig?.CoverPngBase64}
-            alt={packConfig?.PackName}
-            className="w-12 h-12 object-cover rounded-md"
-          />
+          {packConfig?.CoverPngBase64 && (
+            <img
+              src={packConfig?.CoverPngBase64}
+              alt={packConfig?.PackName}
+              className="w-12 h-12 object-cover rounded-md"
+            />
+          )}
+          {!packConfig?.CoverPngBase64 && (
+            <div className="w-12 h-12 relative bg-(--clr-surface-900) rounded-sm">
+              <CircleQuestionMark className="w-full h-full text-(--clr-text-primary)" />
+            </div>
+          )}
+
           <div className="flex flex-col ">
             <span className="text-left text-(--clr-text-primary) font-bold">
               Name

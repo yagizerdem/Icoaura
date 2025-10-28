@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getSelectedPackConfig } from "../../util/getSelectedPackConfig";
 import type { PackConfig } from "../../models/PackConfig";
-import { CircleQuestionMark, X } from "lucide-react";
+import { CircleAlert, CircleQuestionMark, X } from "lucide-react";
 import { useAppContext } from "../../Providers/AppContext";
 import {
   getBase64FromPath,
@@ -13,13 +13,17 @@ import { ModernTextArea } from "../../ui/ModernTextArea";
 import { ModernButton } from "../../ui/ModernButton";
 import { usePackContext } from "../../Providers/PackContext";
 import { flash } from "../../util/cameraFlash";
+import { WritePackConfig } from "../../service/packService";
+import { Toast } from "../../util/toast";
 
 function EditPackConfig() {
   const packConfig = getSelectedPackConfig();
   const [packConfigDeepCopy, setPackConfigDeepCopy] =
     useState<PackConfig | null>({ ...packConfig } as PackConfig);
   const { setIsLoading } = useAppContext();
-  const { setEditPackConfigMode } = usePackContext();
+  const { setEditPackConfigMode, setPackConfigs } = usePackContext();
+  const [packNameError, setPackNameError] = useState<string | null>(null);
+  const [versionError, setVersionError] = useState<string | null>(null);
 
   // sync pack config deep copy
   useEffect(() => {
@@ -59,7 +63,52 @@ function EditPackConfig() {
   async function save() {
     try {
       setIsLoading(true);
+      setPackNameError(null);
+      setVersionError(null);
+      if (!packConfigDeepCopy) return;
 
+      let hasError = false;
+
+      if (packConfigDeepCopy.PackName.trim() === "") {
+        setPackNameError("Pack name is required.");
+        hasError = true;
+      }
+
+      if (packConfigDeepCopy.Version.trim() === "") {
+        setVersionError("Version is required.");
+        hasError = true;
+      }
+
+      const normalizedVersion = packConfigDeepCopy.Version.startsWith("v")
+        ? packConfigDeepCopy.Version.slice(1)
+        : packConfigDeepCopy.Version;
+
+      if (normalizedVersion.match(/^[0-9]+\.[0-9]+\.[0-9]+$/) === null) {
+        setVersionError("Version must be in the format 1.0.0");
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      const apiResponse: ApiResponse<PackConfig> = await WritePackConfig(
+        packConfigDeepCopy
+      );
+
+      if (!apiResponse.Success) {
+        // show error toast
+        Toast.error(apiResponse.ErrorMessage || "Failed to create package.");
+        return;
+      }
+
+      const updatedPackConfig = apiResponse.Data;
+      setPackConfigs((prevConfigs) => {
+        const otherConfigs = prevConfigs.filter(
+          (pc) => pc.Uid !== updatedPackConfig.Uid
+        );
+        return [...otherConfigs, updatedPackConfig];
+      });
+
+      Toast.success("Pack information updated successfully.");
       flash({});
       setEditPackConfigMode(false);
     } finally {
@@ -108,9 +157,17 @@ function EditPackConfig() {
           <div className="flex flex-row w-full  gap-2">
             {/* pack name */}
             <div className="flex flex-col gap-1 flex-1">
-              <span className="text-(--clr-text-primary)  text-left font-bold">
-                Name
-              </span>
+              <div className="flex flex-row items-center">
+                <span className="text-(--clr-text-primary)  text-left font-bold">
+                  Name
+                </span>
+                {packNameError && (
+                  <span className="text-(--clr-warning-10) ml-2 text-sm">
+                    <CircleAlert className="inline w-4 h-4 mr-1" />
+                    {packNameError}
+                  </span>
+                )}
+              </div>
               <ModernTextInput
                 value={packConfigDeepCopy?.PackName ?? ""}
                 onChange={(val) => {
@@ -126,9 +183,18 @@ function EditPackConfig() {
             {/* version  */}
 
             <div className="flex flex-col gap-1 flex-1">
-              <span className="text-(--clr-text-primary)  text-left font-bold">
-                Version
-              </span>
+              <div className="flex flex-row ">
+                <span className="text-(--clr-text-primary)  text-left font-bold">
+                  Version
+                </span>
+                {versionError && (
+                  <span className="text-(--clr-warning-10) ml-2 text-sm">
+                    <CircleAlert className="inline w-4 h-4 mr-1" />{" "}
+                    {versionError}
+                  </span>
+                )}
+              </div>
+
               <ModernTextInput
                 value={packConfigDeepCopy?.Version ?? ""}
                 onChange={(val) => {

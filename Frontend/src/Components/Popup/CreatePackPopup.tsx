@@ -11,9 +11,10 @@ import { ModernTextInput } from "../../ui/ModernTextInput";
 import { ModernTextArea } from "../../ui/ModernTextArea";
 import { ModernButton } from "../../ui/ModernButton";
 import type { PackConfig } from "../../models/PackConfig";
-import { createPack } from "../../service/packService";
+import { createPack, getAllPackConfigs } from "../../service/packService";
 import { flash } from "../../util/cameraFlash";
 import { Toast } from "../../util/toast";
+import { usePackContext } from "../../Providers/PackContext";
 
 interface PackFormState {
   PackName: string;
@@ -58,6 +59,7 @@ function Createpackpopup() {
   const [formState, dispatch] = useReducer(packFormReducer, initialState);
   const [packNameError, setPackNameError] = useState<string | null>(null);
   const [versionError, setVersionError] = useState<string | null>(null);
+  const { setPackConfigs } = usePackContext();
 
   useLayoutEffect(() => {
     if (cardRef.current) {
@@ -153,6 +155,8 @@ function Createpackpopup() {
         return;
       }
 
+      const packConfigs = (await getAllPackConfigs()).Data;
+      setPackConfigs(packConfigs);
       closePopup(true);
       Toast.success("Package created successfully.");
     } finally {
