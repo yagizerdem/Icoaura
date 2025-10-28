@@ -110,7 +110,7 @@ namespace Test
         [TestMethod]
         public void AddDesktopIcons()
         {
-            string packId = "48a939a4-b4f7-4689-a90b-5d7423131d34";
+            string packId = "a495e304-f928-4b1d-bd63-3cd5275cf042";
             var response = packController.AddDesktopIcons(packId);
             Assert.IsTrue(response.Success);
         }

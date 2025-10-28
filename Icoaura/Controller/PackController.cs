@@ -111,6 +111,23 @@ namespace Icoaura.Controller
             });
         }
 
+        public ApiResponse<string> GetPackItemIconBase64(string packId, string packItemId)
+        {
+            return ExecuteSafe(() =>
+            {
+                string packDir = Path.Combine(ApplicationPathContext.AppPacksFolderPath,
+                    packId);
+                FileUtil.EnsureDirectoryExist(packDir);
+
+                string iconPath = Path.Combine(packDir, ApplicationPathContext.PACK_ICONS_FOLDER_NAME, $"{packItemId}.png");
+                FileUtil.EnsureFileExist(iconPath);
+
+                ApiResponse<string> response = _fileController.GetBase64(iconPath);
+                EnsureSuccess(response);
+                return response.Data ?? string.Empty;
+            });
+        }
+
         public ApiResponse<PackItem> AppendPackItemFromPath(string packId, string itemPath)
         {
             return ExecuteSafe(() =>

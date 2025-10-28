@@ -1,4 +1,5 @@
 import { EditPackConfig } from "../Components/Pack/EditPackConfig";
+import { IconList } from "../Components/Pack/IconList";
 import { PackInfo } from "../Components/Pack/PackInfo";
 import { PackOperation } from "../Components/Pack/PackOperation";
 import { PackSettings } from "../Components/Pack/PackSettings";
@@ -14,6 +15,8 @@ function PackPage() {
       <PackOperation />
       <br />
       <PackSettings />
+      <br />
+      <IconList />
     </div>
   );
 }

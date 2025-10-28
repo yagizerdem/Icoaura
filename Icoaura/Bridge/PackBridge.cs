@@ -38,5 +38,29 @@ namespace Icoaura.Bridge
             return serialized;
         }
 
+        public string WritePackConfig(string serializedPackConfig)
+        {
+            PackConfig packConfig = JsonUtil.Deserialize<PackConfig>(serializedPackConfig) ?? new PackConfig();
+            ApiResponse<PackConfig> response = _packController.WritePackConfig(packConfig);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
+        public string GetPackItems(string packId)
+        {
+            ApiResponse<List<PackItem>> response = _packController.GetPackItems(packId);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
+        public string GetPackItemIconBase64(string packId, string packItemId)
+        {
+            ApiResponse<string> response = _packController.GetPackItemIconBase64(packId, packItemId);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
+
+
     }
 }

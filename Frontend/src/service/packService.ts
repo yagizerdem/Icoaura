@@ -1,5 +1,6 @@
 import type { ApiResponse } from "../models/ApiResponse";
 import type { PackConfig } from "../models/PackConfig";
+import type { PackItem } from "../models/PackItem";
 
 const packProx = window.chrome.webview.hostObjects.packBridge;
 
@@ -26,4 +27,40 @@ async function DeletePack(
   return apiResponse;
 }
 
-export { getAllPackConfigs, createPack, DeletePack };
+async function WritePackConfig(
+  packConfig: PackConfig
+): Promise<ApiResponse<PackConfig>> {
+  const serializedResponse = await packProx.WritePackConfig(
+    JSON.stringify(packConfig)
+  );
+  const apiResponse: ApiResponse<PackConfig> = JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
+async function GetPackItems(packId: string): Promise<ApiResponse<PackItem[]>> {
+  const serializedResponse = await packProx.GetPackItems(packId);
+  const apiResponse: ApiResponse<PackItem[]> = JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
+async function GetPackItemIconBase64(
+  packId: string,
+  itemId: string
+): Promise<ApiResponse<string | null>> {
+  const serializedResponse = await packProx.GetPackItemIconBase64(
+    packId,
+    itemId
+  );
+  const apiResponse: ApiResponse<string | null> =
+    JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
+export {
+  getAllPackConfigs,
+  createPack,
+  DeletePack,
+  WritePackConfig,
+  GetPackItems,
+  GetPackItemIconBase64,
+};
