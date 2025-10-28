@@ -1,4 +1,7 @@
 import type { ApiResponse } from "../models/ApiResponse";
+import type { DirMetaData } from "../models/DirMetaData";
+import type { LnkMetaData } from "../models/LnkMetaData";
+import type { UrlMetaData } from "../models/UrlMetaData";
 
 const fileProx = window.chrome.webview.hostObjects.fileBridge;
 
@@ -52,6 +55,26 @@ async function ExportPack(packId: string): Promise<ApiResponse<string>> {
   return JSON.parse(serialized) as ApiResponse<string>;
 }
 
+async function GetLnkMetaData(
+  filePath: string
+): Promise<ApiResponse<LnkMetaData>> {
+  const serialized = await fileProx.GetLnkMetaData(filePath);
+  return JSON.parse(serialized) as ApiResponse<LnkMetaData>;
+}
+async function GetUrlMetaData(
+  filePath: string
+): Promise<ApiResponse<UrlMetaData>> {
+  const serialized = await fileProx.GetUrlMetaData(filePath);
+  return JSON.parse(serialized) as ApiResponse<any>;
+}
+
+async function GetDirMetaData(
+  filePath: string
+): Promise<ApiResponse<DirMetaData>> {
+  const serialized = await fileProx.GetDirMetaData(filePath);
+  return JSON.parse(serialized) as ApiResponse<DirMetaData>;
+}
+
 export {
   selectFileAbsolutePath,
   getBase64FromPath,
@@ -61,4 +84,7 @@ export {
   IsFileSystemEntryExist,
   ImportPack,
   ExportPack,
+  GetLnkMetaData,
+  GetUrlMetaData,
+  GetDirMetaData,
 };

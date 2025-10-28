@@ -4,7 +4,7 @@ import { PackConfigPanel } from "../Components/PackLayout/PackConfigPanel";
 
 function PackLayout() {
   return (
-    <div className="flex-1 h-full min-h-0  bg-(--clr-surface-600)">
+    <div className="flex-1 h-full min-h-0  bg-(--clr-surface-800)">
       <HorizontalSplitPane
         leftPanelMinSize={200}
         leftPanelInitialSize={250}

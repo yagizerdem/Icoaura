@@ -36,8 +36,10 @@ function PackConfigCard({ packConfig, className }: PackConfigCardProps) {
         )}
 
         <div className="flex flex-col ml-3">
-          <span className="font-semibold text-lg">{packConfig.PackName}</span>
-          <span className="text-sm text-gray-500">
+          <span className="font-semibold text-lg text-(--clr-text-primary)">
+            {packConfig.PackName}
+          </span>
+          <span className="text-sm text-(--clr-text-secondary)">
             {packConfig.Version.startsWith("v")
               ? packConfig.Version
               : `v${packConfig.Version}`}

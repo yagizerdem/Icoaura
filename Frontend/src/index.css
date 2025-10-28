@@ -36,3 +36,40 @@
   --clr-info-10: #4077d1;
   --clr-info-0: #92b2e5;
 }
+
+.light-default {
+  --clr-surface-50: #1f2732;
+  --clr-surface-100: #2e3c4c;
+  --clr-surface-200: #334659;
+  --clr-surface-300: #3a526a;
+  --clr-surface-400: #496988;
+  --clr-surface-500: #5a7e9d;
+  --clr-surface-600: #7a9ab6;
+  --clr-surface-700: #a9bdd0;
+  --clr-surface-800: #d1dce6;
+  --clr-surface-900: #eaeef4;
+  --clr-surface-950: #f5f7fa;
+
+  --clr-text-primary: #1f2732;
+  --clr-text-secondary: #3a526a;
+
+  /** Success colors */
+  --clr-success-20: #9ae8ce;
+  --clr-success-10: #47d5a6;
+  --clr-success-0: #22946e;
+
+  /** Warning colors */
+  --clr-warning-20: #ecd7b2;
+  --clr-warning-10: #d7ac61;
+  --clr-warning-0: #a87a2a;
+
+  /** Danger colors */
+  --clr-danger-20: #eb9e9e;
+  --clr-danger-10: #d94a4a;
+  --clr-danger-0: #9c2121;
+
+  /** Info colors */
+  --clr-info-20: #92b2e5;
+  --clr-info-10: #4077d1;
+  --clr-info-0: #21498a;
+}

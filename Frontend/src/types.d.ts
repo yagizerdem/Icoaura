@@ -52,6 +52,9 @@ interface FileBridge {
   IsFileSystemEntryExist: (filePath: string) => Promise<boolean>; // ApiResponse<boolean>
   ImportPack(filePath): Promise<string>; // ApiResponse<PackConfig>
   ExportPack(packId: string): Promise<string>; // ApiResponse<null>
+  GetLnkMetaData(filePath: string): Promise<string>; // ApiResponse<LnkMetaData>
+  GetUrlMetaData(filePath: string): Promise<string>; // ApiResponse<UrlMetaData>
+  GetDirMetaData(filePath: string): Promise<string>; // ApiResponse<DirMetaData>
 }
 
 export {};

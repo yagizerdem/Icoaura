@@ -2,8 +2,9 @@
 using Icoaura.Model;
 using Icoaura.Util;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Win32;
+using Model.DTO;
 using System.IO;
+using System.Windows.Data;
 using System.Windows.Forms;
 
 namespace Icoaura.Bridge
@@ -136,6 +137,27 @@ namespace Icoaura.Bridge
 
                 return null;
             }
+        }
+
+        public string GetLnkMetaData(string lnkPath)
+        {
+            ApiResponse<LnkMetaData> response = _fileController.GetLnkMetaData(lnkPath);
+            string serializedResponse = JsonUtil.Serialize(response);
+            return serializedResponse;
+        }
+
+        public string GetUrlMetaData(string urlPath)
+        {
+            ApiResponse<UrlMetaData> response = _fileController.GetUrlMetaData(urlPath);
+            string serializedResponse = JsonUtil.Serialize(response);
+            return serializedResponse;
+        }
+
+        public string GetDirMetaData(string dirPath)
+        {
+            ApiResponse<DirMetaData> response = _fileController.GetDirMetaData(dirPath);
+            string serializedResponse = JsonUtil.Serialize(response);
+            return serializedResponse;
         }
 
     }
