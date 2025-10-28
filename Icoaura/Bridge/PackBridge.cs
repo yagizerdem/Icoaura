@@ -75,5 +75,23 @@ namespace Icoaura.Bridge
             return serialized;
         }
 
+        
+        public string ApplyPackOperations(string packId)
+        {
+            ApiResponse<object> response = _packController.ApplyPackOperations(packId);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
+        public string WritePackItems(string packId, string packItemsSerialized, string mapSerialized)
+        {
+            List<PackItem> packItems = JsonUtil.Deserialize<List<PackItem>>(packItemsSerialized) ?? new List<PackItem>();
+            Dictionary<string, string> UidBase64Map = JsonUtil.Deserialize<Dictionary<string, string>>(mapSerialized) ?? new Dictionary<string, string>();
+
+            ApiResponse<List<PackItem>> response = _packController.WritePackItems(packId, packItems, UidBase64Map);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
     }
 }

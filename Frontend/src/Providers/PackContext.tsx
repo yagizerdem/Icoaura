@@ -6,6 +6,8 @@ interface PackContextType {
   setPackConfigs: React.Dispatch<React.SetStateAction<PackConfig[]>>;
   editPackConfigMode: boolean;
   setEditPackConfigMode: React.Dispatch<React.SetStateAction<boolean>>;
+  editPackItemMode: boolean;
+  setEditPackItemMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PackContext = createContext<PackContextType | undefined>(undefined);
@@ -15,6 +17,7 @@ export const PackProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [packConfigs, setPackConfigs] = useState<PackConfig[]>([]);
   const [editPackConfigMode, setEditPackConfigMode] = useState<boolean>(false);
+  const [editPackItemMode, setEditPackItemMode] = useState<boolean>(false);
 
   return (
     <PackContext.Provider
@@ -23,6 +26,8 @@ export const PackProvider: React.FC<{ children: React.ReactNode }> = ({
         setPackConfigs,
         editPackConfigMode,
         setEditPackConfigMode,
+        editPackItemMode,
+        setEditPackItemMode,
       }}
     >
       {children}

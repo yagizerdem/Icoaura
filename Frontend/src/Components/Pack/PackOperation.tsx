@@ -17,6 +17,7 @@ import type { PackItem } from "../../models/PackItem";
 import {
   AddDesktopIcons,
   AppendPackItemFromPath,
+  ApplyPackOperations,
   getAllPackConfigs,
 } from "../../service/packService";
 import { Toast } from "../../util/toast";
@@ -30,7 +31,7 @@ import {
 
 function PackOperation() {
   const { isAdmin, setIsAdmin, setIsLoading } = useAppContext();
-  const { setPackConfigs } = usePackContext();
+  const { setPackConfigs, setEditPackItemMode } = usePackContext();
   const packConfig = getSelectedPackConfig();
 
   useEffect(() => {
@@ -121,6 +122,30 @@ function PackOperation() {
     }
   }
 
+  async function handleApplyPackOperations() {
+    try {
+      if (!packConfig?.Uid) return;
+      setIsLoading(true);
+      const apiResponse: ApiResponse<null> = await ApplyPackOperations(
+        packConfig.Uid
+      );
+
+      if (!apiResponse.Success) {
+        Toast.error(apiResponse.ErrorMessage || "Failed to apply pack ops");
+        return;
+      }
+
+      Toast.success("Pack operations applied successfully");
+      flash({});
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function handleEdit() {
+    setEditPackItemMode(true);
+  }
+
   return (
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
       <div className="flex flex-row gap-4">
@@ -148,12 +173,18 @@ function PackOperation() {
       <hr className="my-2 border-(--clr-surface-500)" />
 
       <div className="flex flex-row gap-4 mt-5">
-        <ModernButton text="Apply" type="success" className="cursor-pointer" />
+        <ModernButton
+          text="Apply"
+          type="success"
+          className="cursor-pointer"
+          onMouseUp={() => handleApplyPackOperations()}
+        />
         <ModernIconButton
           icon={<Pen />}
           text="Edit"
           type="ghost"
           className="cursor-pointer"
+          onMouseUp={() => handleEdit()}
         />
         <ModernIconButton
           icon={<Upload />}

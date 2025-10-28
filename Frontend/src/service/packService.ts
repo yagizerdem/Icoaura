@@ -76,13 +76,35 @@ async function AppendPackItemFromPath(
   return apiResponse;
 }
 
+async function ApplyPackOperations(packId: string): Promise<ApiResponse<null>> {
+  const serializedResponse = await packProx.ApplyPackOperations(packId);
+  const apiResponse: ApiResponse<null> = JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
+async function WritePackItems(
+  packId: string,
+  packItems: PackItem[],
+  map: Record<string, string>
+): Promise<ApiResponse<null>> {
+  const serializedResponse = await packProx.WritePackItems(
+    packId,
+    JSON.stringify(packItems),
+    JSON.stringify(map)
+  );
+  const apiResponse: ApiResponse<null> = JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
 export {
   getAllPackConfigs,
   createPack,
   DeletePack,
+  ApplyPackOperations,
   WritePackConfig,
   GetPackItems,
   GetPackItemIconBase64,
   AddDesktopIcons,
   AppendPackItemFromPath,
+  WritePackItems,
 };

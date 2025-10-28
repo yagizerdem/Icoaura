@@ -33,6 +33,12 @@ interface PackBridge {
   ) => Promise<string>; // ApiResponse<string>
   AddDesktopIcons: (packId: string) => Promise<string>; // ApiResponse<PackItem[]>
   AppendPackItemFromPath: (packId: string, filePath: string) => Promise<string>; // ApiResponse<PackItem>
+  ApplyPackOperations: (packId: string) => Promise<string>; // ApiResponse<null>
+  WritePackItems: (
+    packId: string,
+    packItemsJson: string,
+    mapJson: string
+  ) => Promise<string>; // ApiResponse<PackItem[]>
 }
 
 interface FileBridge {
