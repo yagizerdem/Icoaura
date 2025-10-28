@@ -45,6 +45,11 @@ interface FileBridge {
   SelectFilePath(allowedExtensionsJsonArray: string): Promise<string>; // string
   GetBase64FromPath(filePath: string): Promise<string>; // ApiResponse<string>
   SelectDirectoryPath(): Promise<string>; // string
+  SelectFileRelativeFilePath(
+    allowedExtensionsJsonArray: string
+  ): Promise<string>; // string
+  SelectRelativeDirectoryPath(): Promise<string>; // string
+  IsFileSystemEntryExist: (filePath: string) => Promise<boolean>; // ApiResponse<boolean>
 }
 
 export {};

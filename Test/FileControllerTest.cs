@@ -72,7 +72,16 @@ namespace Test
             Assert.IsTrue(response.Success);
             List<string> parts = response.Data!;
         }
-    
 
+
+
+        [TestMethod]
+        public void GetMatchingFileSystemEntries()
+        {
+            string resolved = PathUtil.Resolve(Path.Combine("%LOCALAPPDATA%"));
+            ApiResponse<List<string>> response = fileController.GetMatchingFileSystemEntries(resolved, "*\\*\\*\\LTspice.exe");
+            Assert.IsTrue(response.Success);
+            List<string> entries = response.Data!;
+        }
     }
 }

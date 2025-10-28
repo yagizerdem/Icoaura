@@ -23,4 +23,30 @@ async function selectDirectoryPath(): Promise<string> {
   return dirPath;
 }
 
-export { selectFileAbsolutePath, getBase64FromPath, selectDirectoryPath };
+async function SelectFileRelativeFilePath(
+  allowedExtensions: string[]
+): Promise<string> {
+  const filePath = await fileProx.SelectFileRelativeFilePath(
+    JSON.stringify(allowedExtensions)
+  );
+  return filePath;
+}
+
+async function SelectRelativeDirectoryPath(): Promise<string> {
+  const dirPath = await fileProx.SelectRelativeDirectoryPath();
+  return dirPath;
+}
+
+async function IsFileSystemEntryExist(filePath: string): Promise<boolean> {
+  const response = await fileProx.IsFileSystemEntryExist(filePath);
+  return response;
+}
+
+export {
+  selectFileAbsolutePath,
+  getBase64FromPath,
+  selectDirectoryPath,
+  SelectFileRelativeFilePath,
+  SelectRelativeDirectoryPath,
+  IsFileSystemEntryExist,
+};

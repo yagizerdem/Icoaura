@@ -3,6 +3,7 @@ using Icoaura.Model;
 using Icoaura.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Icoaura.Bridge
@@ -31,12 +32,52 @@ namespace Icoaura.Bridge
             return filePath ?? string.Empty;
         }
 
+        public string SelectFileRelativeFilePath(string allowedExtensionJsonArray)
+        {
+            string[] allowedExtensions = JsonUtil.Deserialize<string[]>(allowedExtensionJsonArray) ?? [];
+            string? filePath = PickFile(allowedExtensions);
+            if (filePath == null)
+            {
+                return string.Empty;
+            }
+            string relativePath = PathUtil.ConvertToRelativePath(filePath);
+            return relativePath;
+        }
+
+        public string SelectRelativeDirectoryPath()
+        {
+            string? folderPath = PickFolder();
+            string relativePath = PathUtil.ConvertToRelativePath(folderPath ?? string.Empty);
+            return relativePath;
+        }
+
         public string SelectDirectoryPath()
         {
             string? folderPath = PickFolder();
             return folderPath ?? string.Empty;
         }
 
+
+        public bool IsFileSystemEntryExist(string relativePath)
+        {
+            if (File.Exists(relativePath)) return true;
+            string? firstPart = relativePath.Split("\\").FirstOrDefault();
+            string remainingPart = relativePath.Substring(firstPart?.Length ?? 0).TrimStart('\\');
+
+            List<string> matches = new();
+
+            if (!string.IsNullOrEmpty(firstPart))
+            {
+                matches = _fileController.GetMatchingFileSystemEntries(
+                    PathUtil.Resolve(firstPart),
+                    remainingPart
+                ).Data ?? new();
+
+                return matches.Count > 0;
+            }
+
+            return false;
+        }
 
         private string? PickFile(string[] allowedExtensions)
         {

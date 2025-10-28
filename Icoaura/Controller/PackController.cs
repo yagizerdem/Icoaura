@@ -342,7 +342,7 @@ namespace Icoaura.Controller
                     var result = _fileController.GetFilesUnderPath(
                         PathUtil.Resolve(specialPath),
                         new[] { "lnk", ".lnk", "url", ".url" },
-                        2
+                        4
                     ).Data ?? new();
 
                     possibleLnkFiles.AddRange(result.Where(p => p.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase)));
