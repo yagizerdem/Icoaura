@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -45,5 +48,57 @@ namespace Icoaura.Bridge
         public void Minimize() => Application.Current.Dispatcher.Invoke(() => _window.WindowState = WindowState.Minimized);
         public void Maximize() => Application.Current.Dispatcher.Invoke(() => _window.WindowState = WindowState.Maximized);
         public void Close() => Application.Current.Dispatcher.Invoke(() => _window.Close());
+
+        public void RebootAsAdmin()
+        {
+            try
+            {
+                string exePath = Process.GetCurrentProcess().MainModule?.FileName
+                                 ?? throw new InvalidOperationException("Cannot determine executable path.");
+
+                bool isAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent())
+                    .IsInRole(WindowsBuiltInRole.Administrator);
+
+                if (isAdmin)
+                {
+                    // already running as admin
+                    return;
+                }
+
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = exePath,
+                    UseShellExecute = true,
+                    Verb = "runas", // This triggers the UAC prompt
+                    WorkingDirectory = Directory.GetCurrentDirectory(),
+                    Arguments = Environment.CommandLine.Replace("\"" + exePath + "\"", "")
+                };
+
+                Process.Start(startInfo);
+
+                Application.Current.Shutdown();
+            }
+            catch (System.Exception ex)
+            {
+                // silently skip exceptions
+            }
+        }
+
+        public bool HasAdminPrivilege()
+        {
+            try
+            {
+                using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+                {
+                    WindowsPrincipal principal = new WindowsPrincipal(identity);
+                    return principal.IsInRole(WindowsBuiltInRole.Administrator);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

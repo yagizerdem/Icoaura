@@ -17,6 +17,8 @@ interface windowBridge {
   Minimize: () => void;
   Maximize: () => void;
   Close: () => void;
+  RebootAsAdmin: () => void;
+  HasAdminPrivilege: () => Promise<boolean>;
 }
 
 interface PackBridge {

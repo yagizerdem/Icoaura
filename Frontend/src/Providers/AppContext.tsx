@@ -7,6 +7,8 @@ interface AppContextType {
   setShowCreatePackPopup: (value: boolean) => void;
   showDeletePackPopup: boolean;
   setShowDeletePackPopup: (value: boolean) => void;
+  isAdmin: boolean;
+  setIsAdmin: (value: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -17,6 +19,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showCreatePackPopup, setShowCreatePackPopup] = useState(false);
   const [showDeletePackPopup, setShowDeletePackPopup] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   return (
     <AppContext.Provider
@@ -27,6 +30,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         setShowCreatePackPopup,
         showDeletePackPopup,
         setShowDeletePackPopup,
+        isAdmin,
+        setIsAdmin,
       }}
     >
       {children}

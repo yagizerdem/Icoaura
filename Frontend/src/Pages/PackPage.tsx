@@ -1,5 +1,7 @@
 import { EditPackConfig } from "../Components/Pack/EditPackConfig";
 import { PackInfo } from "../Components/Pack/PackInfo";
+import { PackOperation } from "../Components/Pack/PackOperation";
+import { PackSettings } from "../Components/Pack/PackSettings";
 import { usePackContext } from "../Providers/PackContext";
 
 function PackPage() {
@@ -8,6 +10,10 @@ function PackPage() {
   return (
     <div className="w-full h-full overflow-y-auto p-5 bg-(--clr-surface-900)">
       {editPackConfigMode ? <EditPackConfig /> : <PackInfo />}
+      <br />
+      <PackOperation />
+      <br />
+      <PackSettings />
     </div>
   );
 }
