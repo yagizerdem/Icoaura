@@ -50,6 +50,8 @@ interface FileBridge {
   ): Promise<string>; // string
   SelectRelativeDirectoryPath(): Promise<string>; // string
   IsFileSystemEntryExist: (filePath: string) => Promise<boolean>; // ApiResponse<boolean>
+  ImportPack(filePath): Promise<string>; // ApiResponse<PackConfig>
+  ExportPack(packId: string): Promise<string>; // ApiResponse<null>
 }
 
 export {};

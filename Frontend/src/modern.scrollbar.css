@@ -1,0 +1,30 @@
+/* === Modern Scrollbar === */
+* {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--clr-surface-700) var(--clr-surface-900);
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--clr-surface-900);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--clr-surface-600);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--clr-surface-400);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}

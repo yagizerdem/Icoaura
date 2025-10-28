@@ -25,6 +25,7 @@ import type { PackConfig } from "../../models/PackConfig";
 import { usePackContext } from "../../Providers/PackContext";
 import { flash } from "../../util/cameraFlash";
 import {
+  ExportPack,
   selectDirectoryPath,
   selectFileAbsolutePath,
 } from "../../service/fileService";
@@ -146,6 +147,23 @@ function PackOperation() {
     setEditPackItemMode(true);
   }
 
+  async function handleExportPack() {
+    try {
+      if (!packConfig || !packConfig?.Uid) return;
+      setIsLoading(true);
+
+      const apiResponse: ApiResponse<string> = await ExportPack(packConfig.Uid);
+
+      if (!apiResponse.Success) {
+        Toast.error(apiResponse.ErrorMessage || "Failed to export pack");
+        return;
+      }
+      Toast.success("Pack exported to downloads folder");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
       <div className="flex flex-row gap-4">
@@ -187,6 +205,7 @@ function PackOperation() {
           onMouseUp={() => handleEdit()}
         />
         <ModernIconButton
+          onMouseUp={() => handleExportPack()}
           icon={<Upload />}
           text="Export"
           type="ghost"

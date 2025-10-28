@@ -16,6 +16,8 @@ namespace Test
 
         public l10nService l10nService { get; private set; }
 
+        public ImportExportController ImportExportController { get; private set; }
+
         [TestInitialize]
         public void Initialize()
         {
@@ -26,6 +28,7 @@ namespace Test
             externalController = DIProvider.Provider.GetRequiredService<ExternalController>();
             packController = DIProvider.Provider.GetRequiredService<PackController>();
             l10nService = DIProvider.Provider.GetRequiredService<l10nService>();
+            ImportExportController = DIProvider.Provider.GetRequiredService<ImportExportController>();
         }
     }
 }

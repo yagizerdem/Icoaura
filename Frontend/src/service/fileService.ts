@@ -42,6 +42,16 @@ async function IsFileSystemEntryExist(filePath: string): Promise<boolean> {
   return response;
 }
 
+async function ImportPack(path: string): Promise<ApiResponse<void>> {
+  const serialized = await fileProx.ImportPack(path);
+  return JSON.parse(serialized) as ApiResponse<void>;
+}
+
+async function ExportPack(packId: string): Promise<ApiResponse<string>> {
+  const serialized = await fileProx.ExportPack(packId);
+  return JSON.parse(serialized) as ApiResponse<string>;
+}
+
 export {
   selectFileAbsolutePath,
   getBase64FromPath,
@@ -49,4 +59,6 @@ export {
   SelectFileRelativeFilePath,
   SelectRelativeDirectoryPath,
   IsFileSystemEntryExist,
+  ImportPack,
+  ExportPack,
 };

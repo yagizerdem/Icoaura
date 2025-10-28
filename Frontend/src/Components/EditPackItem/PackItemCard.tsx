@@ -29,7 +29,7 @@ interface PackItemCardProps {
   setPackItems: React.Dispatch<React.SetStateAction<PackItem[]>>;
   packItemIconMap: Record<string, string | null>;
   setPackItemIconMap: React.Dispatch<
-    React.SetStateAction<Record<string, string | null>>
+    React.SetStateAction<Record<string, string>>
   >;
 }
 
@@ -171,7 +171,7 @@ function PackItemCard({
 
   function removePackItemIcon() {
     packItemIconMap[selectedPackItem.Uid] = null;
-    setPackItemIconMap({ ...packItemIconMap });
+    setPackItemIconMap({ ...(packItemIconMap as Record<string, string>) });
   }
 
   async function selectPackItemIcon() {
@@ -184,7 +184,7 @@ function PackItemCard({
 
       if (base64) {
         packItemIconMap[selectedPackItem.Uid] = base64;
-        setPackItemIconMap({ ...packItemIconMap });
+        setPackItemIconMap({ ...(packItemIconMap as Record<string, string>) });
       }
     } finally {
       setIsLoading(false);

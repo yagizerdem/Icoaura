@@ -13,9 +13,12 @@ namespace Icoaura.Bridge
     public class FileBridge
     {
         private readonly FileController _fileController;
+
+        private readonly ImportExportController _importExporController;
         public FileBridge()
         {
             _fileController = DIProvider.Provider.GetRequiredService<FileController>();
+            _importExporController = DIProvider.Provider.GetRequiredService<ImportExportController>();
         }
 
         public string GetBase64FromPath(string path)
@@ -77,6 +80,20 @@ namespace Icoaura.Bridge
             }
 
             return false;
+        }
+
+        public string ExportPack(string packId)
+        {
+            ApiResponse<object> response = _importExporController.ExportPack(packId);
+            string serializedResponse = JsonUtil.Serialize(response);
+            return serializedResponse;
+        }
+
+        public string ImportPack(string packPath)
+        {
+            ApiResponse<object> response = _importExporController.ImportPack(packPath);
+            string serializedResponse = JsonUtil.Serialize(response);
+            return serializedResponse;
         }
 
         private string? PickFile(string[] allowedExtensions)
