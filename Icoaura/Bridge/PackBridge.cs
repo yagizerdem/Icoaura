@@ -31,5 +31,12 @@ namespace Icoaura.Bridge
             return serialized;
         }
 
+        public string DeletePack(string packId, bool deleteIcons)
+        {
+            ApiResponse<object> response =  _packController.DeletePack(packId, deleteIcons);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
     }
 }

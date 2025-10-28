@@ -13,6 +13,7 @@ import { ModernButton } from "../../ui/ModernButton";
 import type { PackConfig } from "../../models/PackConfig";
 import { createPack } from "../../service/packService";
 import { flash } from "../../util/cameraFlash";
+import { Toast } from "../../util/toast";
 
 interface PackFormState {
   PackName: string;
@@ -148,10 +149,12 @@ function Createpackpopup() {
 
       if (!apiResponse.Success) {
         // show error toast
+        Toast.error(apiResponse.ErrorMessage || "Failed to create package.");
         return;
       }
 
       closePopup(true);
+      Toast.success("Package created successfully.");
     } finally {
       setIsLoading(false);
     }

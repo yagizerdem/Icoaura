@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
@@ -238,6 +239,28 @@ namespace Icoaura.Controller
                 string serializedItems = JsonUtil.Serialize(packItems);
                 File.WriteAllText(packItemsPath, serializedItems);
                 return packItems;
+            });
+        }
+
+        public ApiResponse<object> DeletePack(string packId, bool deleteIcons)
+        {
+            return ExecuteSafe(() =>
+            {
+                string packPath = Path.Combine(ApplicationPathContext.AppPacksFolderPath, packId);
+                if (Directory.Exists(packPath))
+                {
+                    Directory.Delete(packPath, true);
+                }
+                if (deleteIcons)
+                {
+                    string iconsPath = Path.Combine(ApplicationPathContext.AppIconsFolderPath, packId);
+                    if (Directory.Exists(iconsPath))
+                    {
+                        Directory.Delete(iconsPath, true);
+                    }
+                }
+
+                return new object();
             });
         }
 
@@ -549,6 +572,7 @@ namespace Icoaura.Controller
             if (string.IsNullOrEmpty(bas64)) return string.Empty;
             return bas64;
         }
+
 
         // auxilary
         public void ValidatePackConfig(PackConfig config)

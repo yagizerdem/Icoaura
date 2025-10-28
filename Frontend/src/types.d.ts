@@ -22,6 +22,7 @@ interface windowBridge {
 interface PackBridge {
   GetAllPackConfigs: () => Promise<string>; // ApiResopnse<List<PackConfig>>
   CreatePack: (packConfigJson: string) => Promise<string>; // ApiResponse<null>
+  DeletePack: (packId: string, deleteIcons: boolean) => Promise<string>; // ApiResponse<null>
 }
 
 interface FileBridge {

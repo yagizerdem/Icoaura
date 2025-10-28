@@ -17,4 +17,13 @@ async function createPack(packConfig: PackConfig): Promise<ApiResponse<null>> {
   return apiResponse;
 }
 
-export { getAllPackConfigs, createPack };
+async function DeletePack(
+  packId: string,
+  deleteIcons: boolean
+): Promise<ApiResponse<null>> {
+  var serializedResponse = await packProx.DeletePack(packId, deleteIcons);
+  const apiResponse: ApiResponse<null> = JSON.parse(serializedResponse);
+  return apiResponse;
+}
+
+export { getAllPackConfigs, createPack, DeletePack };
