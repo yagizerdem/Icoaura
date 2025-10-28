@@ -11,9 +11,19 @@ import {
   Upload,
 } from "lucide-react";
 import { ModernIconButton } from "../../ui/ModernIconButton";
+import { getSelectedPackConfig } from "../../util/getSelectedPackConfig";
+import type { ApiResponse } from "../../models/ApiResponse";
+import type { PackItem } from "../../models/PackItem";
+import { AddDesktopIcons, getAllPackConfigs } from "../../service/packService";
+import { Toast } from "../../util/toast";
+import type { PackConfig } from "../../models/PackConfig";
+import { usePackContext } from "../../Providers/PackContext";
+import { flash } from "../../util/cameraFlash";
 
 function PackOperation() {
-  const { isAdmin, setIsAdmin } = useAppContext();
+  const { isAdmin, setIsAdmin, setIsLoading } = useAppContext();
+  const { setPackConfigs } = usePackContext();
+  const packConfig = getSelectedPackConfig();
 
   useEffect(() => {
     helper();
@@ -22,6 +32,27 @@ function PackOperation() {
       setIsAdmin(isAdmin);
     }
   }, []);
+
+  async function handleAddDesktopIcons() {
+    try {
+      if (!packConfig?.Uid) return;
+      setIsLoading(true);
+      const response: ApiResponse<PackItem[]> = await AddDesktopIcons(
+        packConfig.Uid
+      );
+      if (!response.Success) {
+        Toast.error(response.ErrorMessage || "Failed to add desktop icons");
+      }
+
+      const configs: PackConfig[] = (await getAllPackConfigs()).Data;
+      setPackConfigs(configs);
+      Toast.success("Desktop icons added successfully");
+      flash({});
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
       <div className="flex flex-row gap-4">
@@ -70,6 +101,7 @@ function PackOperation() {
           text="Add dekstop icons"
           type="ghost"
           className="cursor-pointer"
+          onMouseUp={() => handleAddDesktopIcons()}
         />
         <ModernIconButton
           icon={<Image />}

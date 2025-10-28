@@ -61,6 +61,12 @@ namespace Icoaura.Bridge
         }
 
 
+        public string AddDesktopIcons(string packId)
+        {
+            ApiResponse<List<PackItem>> response =  _packController.AddDesktopIcons(packId);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
 
     }
 }

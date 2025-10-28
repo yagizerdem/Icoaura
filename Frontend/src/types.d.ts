@@ -31,6 +31,7 @@ interface PackBridge {
     packId: string,
     packItemId: string
   ) => Promise<string>; // ApiResponse<string>
+  AddDesktopIcons: (packId: string) => Promise<string>; // ApiResponse<PackItem[]>
 }
 
 interface FileBridge {
