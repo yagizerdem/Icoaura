@@ -21,4 +21,5 @@ export interface AppConfig {
   Theme: Theme;
   Language: Language;
   Filter: Filter;
+  RecursiveScanningDepth: number;
 }

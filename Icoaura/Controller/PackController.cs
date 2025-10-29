@@ -4,18 +4,7 @@ using Icoaura.Exception;
 using Icoaura.Model;
 using Icoaura.Util;
 using Model.DTO;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace Icoaura.Controller
 {
@@ -342,7 +331,7 @@ namespace Icoaura.Controller
                     var result = _fileController.GetFilesUnderPath(
                         PathUtil.Resolve(specialPath),
                         new[] { "lnk", ".lnk", "url", ".url" },
-                        4
+                        GlobalContext.AppConfig.RecursiveScanningDepth
                     ).Data ?? new();
 
                     possibleLnkFiles.AddRange(result.Where(p => p.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase)));

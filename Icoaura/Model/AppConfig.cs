@@ -29,6 +29,8 @@ namespace Icoaura.Model
         public bool EnableErrorLogging { get; set; } = true;
         public bool EnableFatalLogging { get; set; } = true;
 
+        public int RecursiveScanningDepth { get; set; } = 2;
+
         // thme
         public Theme Theme { get; set; } = Theme.DefaultSystem;
 
@@ -48,6 +50,7 @@ namespace Icoaura.Model
                 ChangeDescriptionOfMatchedLnkFiles = true,
                 PackOpacity = 1f,
                 PackCornerRadius = 0f,
+                RecursiveScanningDepth = 2,
 
                 WindowOpacity = 1f,
 

@@ -4,6 +4,8 @@ import { PackLayout } from "./Layout/PackLayout";
 import { DefaultLayout } from "./Layout/DefaultLayout";
 import { SettingsLayout } from "./Layout/SettingsLayout";
 import { GeneralSettingsPage } from "./Pages/GeneralSettingsPage";
+import { IconPackSettingsPage } from "./Pages/IconPackSettingsPage";
+import { SystemSettingsPage } from "./Pages/SystemSettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
           {
             path: "/settings/general",
             element: <GeneralSettingsPage />,
+          },
+          {
+            path: "/settings/iconpack",
+            element: <IconPackSettingsPage />,
+          },
+          {
+            path: "/settings/system",
+            element: <SystemSettingsPage />,
           },
         ],
       },
