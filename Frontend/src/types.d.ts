@@ -6,6 +6,7 @@ declare global {
           windowBridge: windowBridge;
           packBridge: PackBridge;
           fileBridge: FileBridge;
+          appConfigBridge: AppConfigBridge;
         };
       };
     };
@@ -19,6 +20,7 @@ interface windowBridge {
   Close: () => void;
   RebootAsAdmin: () => void;
   HasAdminPrivilege: () => Promise<boolean>;
+  GetSystemDefaultTheme: () => Promise<number>; // ApiResponse<Theme>
 }
 
 interface PackBridge {
@@ -55,6 +57,11 @@ interface FileBridge {
   GetLnkMetaData(filePath: string): Promise<string>; // ApiResponse<LnkMetaData>
   GetUrlMetaData(filePath: string): Promise<string>; // ApiResponse<UrlMetaData>
   GetDirMetaData(filePath: string): Promise<string>; // ApiResponse<DirMetaData>
+}
+
+interface AppConfigBridge {
+  GetAppConfig: () => Promise<string>; // ApiResponse<AppConfig>
+  WriteAppConfig: (appConfigJson: string) => Promise<string>; // ApiResponse<AppConfig>
 }
 
 export {};

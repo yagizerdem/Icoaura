@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import type { AppConfig } from "../models/AppConfig";
+import { useDebounce } from "../hook/useDebounce";
+import { writeAppConfig } from "../service/appConfigService";
 
 interface AppContextType {
   isLoading: boolean;
@@ -9,6 +12,8 @@ interface AppContextType {
   setShowDeletePackPopup: (value: boolean) => void;
   isAdmin: boolean;
   setIsAdmin: (value: boolean) => void;
+  appConfig: AppConfig | null;
+  setAppConfig: (config: AppConfig) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -20,6 +25,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [showCreatePackPopup, setShowCreatePackPopup] = useState(false);
   const [showDeletePackPopup, setShowDeletePackPopup] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [appConfig, setAppConfig] = useState<AppConfig | null>(null);
+
+  const debouncedConfig = useDebounce(appConfig, 500);
+
+  useEffect(() => {
+    if (debouncedConfig) {
+      writeAppConfig(debouncedConfig);
+    }
+  }, [debouncedConfig]);
 
   return (
     <AppContext.Provider
@@ -32,6 +46,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         setShowDeletePackPopup,
         isAdmin,
         setIsAdmin,
+        appConfig,
+        setAppConfig,
       }}
     >
       {children}

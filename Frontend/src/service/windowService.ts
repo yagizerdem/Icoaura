@@ -1,3 +1,4 @@
+import type { Theme } from "../enum/Theme";
 import type { ApiResponse } from "../models/ApiResponse";
 
 const windowProxy = window.chrome.webview.hostObjects.windowBridge;
@@ -10,4 +11,9 @@ async function HasAdminPrivilege(): Promise<boolean> {
   return await windowProxy.HasAdminPrivilege();
 }
 
-export { rebootAsAdmin, HasAdminPrivilege };
+async function GetSystemDefaultTheme(): Promise<Theme.Dark | Theme.Light> {
+  const response = await windowProxy.GetSystemDefaultTheme();
+  return response;
+}
+
+export { rebootAsAdmin, HasAdminPrivilege, GetSystemDefaultTheme };

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Icoaura.Enum;
+using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
@@ -98,6 +100,32 @@ namespace Icoaura.Bridge
             {
                 return false;
             }
+        }
+
+        public int GetSystemDefaultTheme()
+        {
+            const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            const string valueName = "AppsUseLightTheme";
+
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(registryKey))
+                {
+                    if (key != null)
+                    {
+                        object? value = key.GetValue(valueName);
+                        if (value is int intValue)
+                        {
+                            return intValue == 0 ? ((int)Theme.Dark) : ((int)Theme.Light);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return ((int)Theme.Light);
         }
 
     }

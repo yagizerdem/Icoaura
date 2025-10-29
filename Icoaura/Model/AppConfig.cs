@@ -34,6 +34,8 @@ namespace Icoaura.Model
 
         public Language Language { get; set; } = Language.En;
 
+        public Filter Filter { get; set; } = Filter.Default;
+
         public static AppConfig GetDefault()
         {
             return new AppConfig
@@ -60,7 +62,8 @@ namespace Icoaura.Model
       
 
                 Theme = Theme.DefaultSystem,
-                Language = Language.En
+                Language = Language.En,
+                Filter = Filter.Default
             };
         }
     }

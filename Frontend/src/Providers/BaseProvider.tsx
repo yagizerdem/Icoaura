@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { AppProvider } from "../Providers/AppContext";
 import { PackProvider } from "./PackContext";
+import { ThemeProvider } from "./ThemeProvider";
 
 interface BaseContextType {}
 
@@ -14,7 +15,9 @@ export const BaseProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <AppProvider>
       <PackProvider>
-        <BaseContext.Provider value={value}>{children}</BaseContext.Provider>
+        <ThemeProvider>
+          <BaseContext.Provider value={value}>{children}</BaseContext.Provider>
+        </ThemeProvider>
       </PackProvider>
     </AppProvider>
   );

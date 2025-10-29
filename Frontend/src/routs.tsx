@@ -1,8 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { PackPage } from "./Pages/PackPage";
-import { SettingsPage } from "./Pages/SettingsPage";
 import { PackLayout } from "./Layout/PackLayout";
 import { DefaultLayout } from "./Layout/DefaultLayout";
+import { SettingsLayout } from "./Layout/SettingsLayout";
+import { GeneralSettingsPage } from "./Pages/GeneralSettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/settings",
-        element: <SettingsPage />,
+        element: <SettingsLayout />,
+        children: [
+          {
+            path: "/settings",
+            element: <Navigate to="/settings/general" replace />,
+          },
+          {
+            path: "/settings/general",
+            element: <GeneralSettingsPage />,
+          },
+        ],
       },
       {
         path: "/pack",

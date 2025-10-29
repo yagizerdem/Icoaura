@@ -1,3 +1,7 @@
+import type { Filter } from "../enum/Filter";
+import type { Language } from "../enum/Language";
+import type { Theme } from "../enum/Theme";
+
 export interface AppConfig {
   MatchLnkByTargetExe: boolean;
   MatchUrlByTargetUrl: boolean;
@@ -14,6 +18,7 @@ export interface AppConfig {
   EnableWarningLogging: boolean;
   EnableErrorLogging: boolean;
   EnableFatalLogging: boolean;
-  Theme: string;
-  Language: string;
+  Theme: Theme;
+  Language: Language;
+  Filter: Filter;
 }
