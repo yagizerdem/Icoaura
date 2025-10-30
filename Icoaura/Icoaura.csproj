@@ -11,6 +11,14 @@
   <ItemGroup>
     <None Remove="Assets\l10n\en.json" />
     <None Remove="Assets\l10n\tr.json" />
+    <None Remove="reactDist\assets\index-CBN586Be.js" />
+    <None Remove="reactDist\assets\index-C_8pQRKd.css" />
+    <None Remove="reactDist\assets\index-DuPzOw6l.js" />
+    <None Remove="reactDist\assets\index-EbrlunWV.js" />
+    <None Remove="reactDist\assets\Logo-DERbl3UZ.png" />
+    <None Remove="reactDist\index.html" />
+    <None Remove="reactDist\locales\en\translation.json" />
+    <None Remove="reactDist\locales\tr\translation.json" />
     <None Remove="tools\extracticon.exe" />
     <None Remove="tools\ImageMagick\ChangeLog.md" />
     <None Remove="tools\ImageMagick\colors.xml" />
@@ -47,6 +55,24 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\l10n\tr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="reactDist\assets\index-CBN586Be.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="reactDist\assets\index-C_8pQRKd.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="reactDist\assets\Logo-DERbl3UZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="reactDist\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="reactDist\locales\en\translation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="reactDist\locales\tr\translation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="tools\extracticon.exe">

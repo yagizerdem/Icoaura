@@ -1,0 +1,190 @@
+{
+  "Common": {
+    "Pack": "Paket",
+    "Settings": "Ayarlar"
+  },
+  "Package": {
+    "PackInformation": {
+      "Title": "Paket Bilgileri",
+      "Name": "Ad",
+      "Version": "Sürüm",
+      "Author": "Yazar",
+      "License": "Lisans"
+    },
+    "PackOperations": {
+      "Title": "Paket İşlemleri",
+      "RebootAsAdmin": "Yönetici olarak yeniden başlat",
+      "AdminInfo": "Bazı simgeler yalnızca uygulama yönetici olarak çalıştırıldığında uygulanır",
+      "Apply": "Uygula",
+      "Edit": "Düzenle",
+      "Export": "Dışa aktar",
+      "AddDesktopIcons": "Masaüstü simgelerini ekle",
+      "AddIcon": "Simge ekle",
+      "AddDirectoryIcon": "Klasör simgesi ekle"
+    },
+    "PackSettings": {
+      "Title": "Paket Ayarları",
+      "CornerRadius": {
+        "Label": "Köşe Yarıçapı",
+        "Description": "Bu paketteki simgelerin köşe yarıçapını değiştirir"
+      },
+      "Opacity": {
+        "Label": "Opaklık",
+        "Description": "Bu paketteki simgelerin opaklığını değiştirir"
+      }
+    },
+    "Icons": {
+      "Title": "Simgeler"
+    },
+    "EditPackConfig": {
+      "Title": "Paket Bilgileri",
+      "Icon": "Simge",
+      "Name": "Ad",
+      "Version": "Sürüm",
+      "Author": "Yazar",
+      "License": "Lisans",
+      "Description": "Açıklama",
+      "Save": "Kaydet",
+      "Cancel": "İptal"
+    },
+    "CreatePack": {
+      "Title": "Simge Paketi Oluştur",
+      "Icon": "Simge",
+      "PackName": "Paket Adı",
+      "PackNamePlaceholder": "Varsayılan paket",
+      "Version": "Sürüm",
+      "VersionPlaceholder": "ör. v1.0.0",
+      "Author": "Yazar",
+      "AuthorPlaceholder": "Adınızı girin",
+      "License": "Lisans",
+      "LicensePlaceholder": "Lisans girin",
+      "Description": "Açıklama",
+      "DescriptionPlaceholder": "Açıklama girin",
+      "Create": "Oluştur",
+      "PackNameRequired": "Paket adı gereklidir.",
+      "VersionRequired": "Sürüm gereklidir.",
+      "VersionFormatInvalid": "Sürüm biçimi 1.0.0 şeklinde olmalıdır."
+    },
+    "DeletePackPopup": {
+      "Title": "Bu paketi silmek istediğinizden emin misiniz?",
+      "Warning": "Bu işlem geri alınamaz.",
+      "DeleteIconsLabel": "Oluşturulan simgeleri de sil",
+      "Delete": "Sil",
+      "Cancel": "İptal",
+      "Success": "Paket başarıyla silindi.",
+      "Error": "Paket silinemedi."
+    }
+  },
+  "Settings": {
+    "SettingsMenu": {
+      "General": "Genel",
+      "Application": "Uygulama",
+      "IconPack": "Simge Paketi",
+      "System": "Sistem",
+      "Advanced": "Gelişmiş",
+      "Update": "Güncelle"
+    },
+    "GeneralSettings": {
+      "Language": {
+        "Title": "Dil",
+        "Description": "Tercih ettiğiniz dili seçin",
+        "English": "İngilizce",
+        "Turkish": "Türkçe"
+      },
+      "ColorSchema": {
+        "Title": "Renk Şeması",
+        "Description": "Tercih ettiğiniz renk şemasını seçin",
+        "Default": "Varsayılan",
+        "Ash": "Kül",
+        "Mist": "Sis",
+        "Forest": "Orman",
+        "Ember": "Köz"
+      },
+      "Theme": {
+        "Title": "Tema",
+        "Description": "Tercih ettiğiniz temayı seçin",
+        "DefaultSystem": "Sistem Varsayılanı",
+        "Light": "Açık",
+        "Dark": "Koyu"
+      }
+    },
+    "AdvancedSettings": {
+      "EnableLogging": {
+        "Title": "Dosyaya Günlük Kaydını Etkinleştir",
+        "Description": "Günlüklerin dosyalara kaydedilmesini etkinleştirir. (Değişikliklerin uygulanması için uygulamayı yeniden başlatın.)"
+      },
+      "LogLevels": {
+        "Title": "Günlük Düzeyleri",
+        "Description": "Hangi günlük düzeylerinin kaydedileceğini seçin.",
+        "Trace": "İzleme",
+        "Debug": "Hata Ayıklama",
+        "Info": "Bilgi",
+        "Warning": "Uyarı",
+        "Error": "Hata",
+        "Fatal": "Kritik"
+      },
+      "MaxLogCount": {
+        "Title": "Günlük Dosyası Sayısı (Günlük)",
+        "Description": "Saklanacak günlük dosyalarının maksimum sayısını ayarlayın. (Değişikliklerin uygulanması için uygulamayı yeniden başlatın.)"
+      },
+      "ImportExport": {
+        "Title": "Yapılandırma İçe / Dışa Aktarma",
+        "Description": "Uygulama yapılandırmanızı içe veya dışa aktarın.",
+        "Import": "İçe Aktar",
+        "Export": "Dışa Aktar",
+        "ImportSuccess": "Yapılandırma başarıyla içe aktarıldı. Değişikliklerin uygulanması için uygulamayı yeniden başlatın.",
+        "ImportError": "Yapılandırma içe aktarılamadı.",
+        "ExportSuccess": "Yapılandırma başarıyla dışa aktarıldı.",
+        "ExportError": "Yapılandırma dışa aktarılamadı."
+      }
+    },
+    "ApplicationSettings": {
+      "Theme": {
+        "Title": "Tema",
+        "Description": "Tercih ettiğiniz temayı seçin",
+        "DefaultSystem": "Sistem Varsayılanı",
+        "Light": "Açık",
+        "Dark": "Koyu"
+      },
+      "ColorSchema": {
+        "Title": "Renk Şeması",
+        "Description": "Tercih ettiğiniz renk şemasını seçin",
+        "Default": "Varsayılan",
+        "Ash": "Kül",
+        "Mist": "Sis",
+        "Forest": "Orman",
+        "Ember": "Köz"
+      },
+      "WindowScale": {
+        "Title": "Pencere Ölçeği",
+        "Description": "Pencere ölçeklendirmesini ayarlayın."
+      },
+      "WindowOpacity": {
+        "Title": "Pencere Opaklığı",
+        "Description": "Pencere opaklığını ayarlayın."
+      }
+    },
+    "IconPackSettings": {
+      "MatchLnkByTargetExe": {
+        "Title": "Windows Kısayollarını (.lnk) Hedef Dosyalarına Göre Eşleştir",
+        "Description": "Dosya yoluna göre eşleştirme başarısız olursa, kısayolları hedef yollarına göre eşleştir."
+      },
+      "MatchUrlByTargetUrl": {
+        "Title": "URL Dosyalarını URL'lerine Göre Eşleştir",
+        "Description": "Dosya yoluna göre eşleştirme başarısız olursa, dosyaları URL’lerine göre eşleştir."
+      },
+      "ChangeDescriptionOfMatchedLnkFiles": {
+        "Title": "Eşleşen Windows Kısayollarının (.lnk) Açıklamasını Değiştir",
+        "Description": "Eşleşen kısayol dosyalarının açıklamasını değiştir."
+      },
+      "ForceExplorerRefreshAfterIcoChange": {
+        "Title": "Simge Değişikliğinden Sonra Explorer’ı Yenilemeye Zorla",
+        "Description": "Bu seçenek, simge değişikliğinden sonra Windows Gezgini’ni agresif biçimde yeniler. Simgelerin hemen güncellenmesini sağlar ancak düşük donanımlı sistemlerde geçici yavaşlamalara veya yüksek CPU kullanımına neden olabilir."
+      },
+      "RecursiveScanningDepth": {
+        "Title": "Yinelemeli Tarama Derinliği",
+        "Description": "Simge dosyalarını hedef yürütülebilir dosyalarla eşleştirmek için taranacak özel Windows alt dizinlerinin maksimum derinliğini ayarlayın. Bu seçenek yalnızca 'Hedefe göre .lnk eşleştir' seçeneği etkinse geçerlidir."
+      }
+    }
+  }
+}

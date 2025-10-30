@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router";
+import { createHashRouter, Navigate } from "react-router";
 import { PackPage } from "./Pages/PackPage";
 import { PackLayout } from "./Layout/PackLayout";
 import { DefaultLayout } from "./Layout/DefaultLayout";
@@ -10,7 +10,7 @@ import { AdvancedSettingsPage } from "./Pages/AdvancedSettingsPage";
 import { ApplicationSettingsPage } from "./Pages/ApplicationSettingsPage";
 import { UpdateSettingsPage } from "./Pages/UpdateSettingsPage";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <DefaultLayout />,
