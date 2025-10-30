@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { CurlyBraces, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useAppContext } from "../../Providers/AppContext";
 import { flash } from "../../util/cameraFlash";
@@ -10,6 +10,7 @@ import { getSelectedPackConfig } from "../../util/getSelectedPackConfig";
 import { useNavigate } from "react-router";
 import { usePackContext } from "../../Providers/PackContext";
 import { Toast } from "../../util/toast";
+import { useL10NContext } from "../../Providers/L10NContext";
 
 function DeletePackPopup() {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -18,6 +19,8 @@ function DeletePackPopup() {
   const [deleteIcons, setDeleteIcons] = useState(false);
   const selectedPackConfig = getSelectedPackConfig();
   const navigate = useNavigate();
+
+  const { getLocalizedString } = useL10NContext();
 
   useLayoutEffect(() => {
     if (cardRef.current) {
@@ -55,7 +58,10 @@ function DeletePackPopup() {
       );
 
       if (!apiResponse.Success) {
-        Toast.error(apiResponse.ErrorMessage || "Failed to delete package.");
+        Toast.error(
+          apiResponse.ErrorMessage ||
+            getLocalizedString("Package.DeletePackPopup.Error")
+        );
         return;
       }
 
@@ -64,7 +70,7 @@ function DeletePackPopup() {
 
       closePopup(true);
       navigate("/");
-      Toast.success("Package deleted successfully.");
+      Toast.success(getLocalizedString("Package.DeletePackPopup.Success"));
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +88,7 @@ function DeletePackPopup() {
       >
         <div className="flex flex-row justify-between mb-2 gap-x-20 items-center">
           <div className="text-(--clr-text-primary) font-bold text-lg ">
-            Are you sure you want to delete this package?
+            {getLocalizedString("Package.DeletePackPopup.Title")}
           </div>
           <button
             onMouseUp={() => closePopup()}
@@ -93,7 +99,7 @@ function DeletePackPopup() {
         </div>
 
         <div className="text-(--clr-text-secondary)  font-medium text-sm">
-          This action cannot be reversed.
+          {getLocalizedString("Package.DeletePackPopup.Warning")}
         </div>
 
         <div className="flex flex-row  gap-2 mt-6 ">
@@ -106,19 +112,19 @@ function DeletePackPopup() {
             checked={deleteIcons}
           />
           <div className="text-(--clr-text-secondary) font-md text-sm">
-            deleting created icons
+            {getLocalizedString("Package.DeletePackPopup.DeleteIconsLabel")}
           </div>
         </div>
 
         <div className="mt-5 flex flex-row justify-end gap-3">
           <ModernButton
-            text="Delete"
+            text={getLocalizedString("Package.DeletePackPopup.Delete")}
             type="danger"
             className="cursor-pointer"
             onMouseUp={() => deletePack()}
           />
           <ModernButton
-            text="Cancel"
+            text={getLocalizedString("Package.DeletePackPopup.Cancel")}
             type="ghost"
             className="cursor-pointer"
             onMouseUp={() => closePopup()}

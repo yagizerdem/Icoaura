@@ -1,6 +1,7 @@
 import type { ApiResponse } from "../models/ApiResponse";
 import type { AppConfig } from "../models/AppConfig";
 import { useAppContext } from "../Providers/AppContext";
+import { useL10NContext } from "../Providers/L10NContext";
 import { exportAppConfig, importAppConfig } from "../service/appConfigService";
 import { selectFileAbsolutePath } from "../service/fileService";
 import { ModernButton } from "../ui/ModernButton";
@@ -13,6 +14,7 @@ import { showToast, Toast } from "../util/toast";
 
 function AdvancedSettingsPage() {
   const { appConfig, setAppConfig, setIsLoading } = useAppContext();
+  const { getLocalizedString } = useL10NContext();
 
   function handleOnEnableLoggingChange(checked: boolean) {
     if (appConfig) {
@@ -90,9 +92,18 @@ function AdvancedSettingsPage() {
       setIsLoading(true);
       const response: ApiResponse<any> = await exportAppConfig();
       if (response.Success) {
-        Toast.success("Configuration exported successfully.");
+        Toast.success(
+          getLocalizedString(
+            "Settings.AdvancedSettings.ImportExport.ExportSuccess"
+          )
+        );
       } else {
-        Toast.error(response.ErrorMessage || "Failed to export configuration");
+        Toast.error(
+          response.ErrorMessage ||
+            getLocalizedString(
+              "Settings.AdvancedSettings.ImportExport.ExportError"
+            )
+        );
       }
     } finally {
       setIsLoading(false);
@@ -108,14 +119,21 @@ function AdvancedSettingsPage() {
 
       if (response.Success) {
         Toast.success(
-          "Configuration imported successfully. Please restart the application to apply the changes."
+          getLocalizedString(
+            "Settings.AdvancedSettings.ImportExport.ImportSuccess"
+          )
         );
 
         const config: AppConfig = response.Data;
         setAppConfig(config);
         flash({});
       } else {
-        Toast.error(response.ErrorMessage || "Failed to import configuration");
+        Toast.error(
+          response.ErrorMessage ||
+            getLocalizedString(
+              "Settings.AdvancedSettings.ImportExport.ImportError"
+            )
+        );
       }
     } finally {
       setIsLoading(false);
@@ -128,11 +146,14 @@ function AdvancedSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Enable Logging to File
+            {getLocalizedString(
+              "Settings.AdvancedSettings.EnableLogging.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Enable saving logs to files. (Restart the application for changes to
-            take effect.)
+            {getLocalizedString(
+              "Settings.AdvancedSettings.EnableLogging.Description"
+            )}
           </span>
         </div>
         <ModernSwitch
@@ -144,50 +165,63 @@ function AdvancedSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Enable Logging to File
+            {getLocalizedString("Settings.AdvancedSettings.LogLevels.Title")}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Enable saving logs to files. (Restart the application for changes to
-            take effect.)
+            {getLocalizedString(
+              "Settings.AdvancedSettings.LogLevels.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row gap-3">
           <ModernCheckButton
             className="border border-(--clr-surface-700)"
             checked={appConfig?.EnableTraceLogging || false}
-            text="Trace"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.LogLevels.Trace"
+            )}
             onChange={handleOnEnableTraceLoggingChange}
           />
 
           <ModernCheckButton
             className="border border-(--clr-surface-700)"
             checked={appConfig?.EnableDebugLogging || false}
-            text="Debug"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.LogLevels.Debug"
+            )}
             onChange={handleOnEnableDebugLoggingChange}
           />
 
           <ModernCheckButton
             className="border border-(--clr-surface-700)"
             checked={appConfig?.EnableInfoLogging || false}
-            text="Info"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.LogLevels.Info"
+            )}
             onChange={handleOnEnableInfoLoggingChange}
           />
           <ModernCheckButton
             className="border border-(--clr-surface-700)"
             checked={appConfig?.EnableWarningLogging || false}
-            text="Warning"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.LogLevels.Warning"
+            )}
             onChange={handleOnEnableWarningLoggingChange}
           />
           <ModernCheckButton
             className="border border-(--clr-surface-700)"
             checked={appConfig?.EnableErrorLogging || false}
-            text="Error"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.LogLevels.Error"
+            )}
             onChange={handleOnEnableErrorLoggingChange}
           />
           <ModernCheckButton
             className="border border-(--clr-surface-700)"
             checked={appConfig?.EnableFatalLogging || false}
-            text="Fatal"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.LogLevels.Fatal"
+            )}
             onChange={handleOnEnableFatalLoggingChange}
           />
         </div>
@@ -195,11 +229,12 @@ function AdvancedSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Maximum Daily Log Files
+            {getLocalizedString("Settings.AdvancedSettings.MaxLogCount.Title")}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Set the maximum number of daily log files to keep. (Restart the
-            application for changes to take effect.)
+            {getLocalizedString(
+              "Settings.AdvancedSettings.MaxLogCount.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row gap-3 w-24">
@@ -219,21 +254,26 @@ function AdvancedSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Maximum Daily Log Files
+            {getLocalizedString("Settings.AdvancedSettings.ImportExport.Title")}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Set the maximum number of daily log files to keep. (Restart the
-            application for changes to take effect.)
+            {getLocalizedString(
+              "Settings.AdvancedSettings.ImportExport.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row gap-3 w-fit">
           <ModernButton
-            text="Import"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.ImportExport.Import"
+            )}
             onMouseUp={handleImport}
             className="bg-(--clr-surface-100) text-(--clr-surface-900) hover:bg-(--clr-surface-200) border border-(--clr-surface-700) cursor-pointer "
           />
           <ModernButton
-            text="Export"
+            text={getLocalizedString(
+              "Settings.AdvancedSettings.ImportExport.Export"
+            )}
             onMouseUp={handleExport}
             className="bg-(--clr-surface-100) text-(--clr-surface-900) hover:bg-(--clr-surface-200) border border-(--clr-surface-700) cursor-pointer "
           />

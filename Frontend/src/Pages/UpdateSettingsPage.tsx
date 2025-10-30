@@ -1,5 +1,5 @@
 function UpdateSettingsPage() {
-  return <div>Update Settings Page</div>;
+  return <div></div>;
 }
 
 export { UpdateSettingsPage };

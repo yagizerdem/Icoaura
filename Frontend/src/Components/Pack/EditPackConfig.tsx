@@ -15,6 +15,7 @@ import { usePackContext } from "../../Providers/PackContext";
 import { flash } from "../../util/cameraFlash";
 import { WritePackConfig } from "../../service/packService";
 import { Toast } from "../../util/toast";
+import { useL10NContext } from "../../Providers/L10NContext";
 
 function EditPackConfig() {
   const packConfig = getSelectedPackConfig();
@@ -24,6 +25,8 @@ function EditPackConfig() {
   const { setEditPackConfigMode, setPackConfigs } = usePackContext();
   const [packNameError, setPackNameError] = useState<string | null>(null);
   const [versionError, setVersionError] = useState<string | null>(null);
+
+  const { getLocalizedString } = useL10NContext();
 
   // sync pack config deep copy
   useEffect(() => {
@@ -119,14 +122,14 @@ function EditPackConfig() {
   return (
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
       <h1 className="text-xl text-(--clr-text-primary) font-medium">
-        Pack Information
+        {getLocalizedString("Package.EditPackConfig.Title")}
       </h1>
       <hr className="my-2 border-(--clr-surface-500)" />
       <div className="flex flex-row">
         {/* pack cover */}
         <div className="flex flex-col gap-1">
           <span className="text-(--clr-text-primary)  text-left font-bold">
-            Icon
+            {getLocalizedString("Package.EditPackConfig.Icon")}
           </span>
           {packConfigDeepCopy?.CoverPngBase64 &&
           packConfigDeepCopy?.CoverPngBase64.trim().length > 0 ? (
@@ -159,7 +162,7 @@ function EditPackConfig() {
             <div className="flex flex-col gap-1 flex-1">
               <div className="flex flex-row items-center">
                 <span className="text-(--clr-text-primary)  text-left font-bold">
-                  Name
+                  {getLocalizedString("Package.EditPackConfig.Name")}
                 </span>
                 {packNameError && (
                   <span className="text-(--clr-warning-10) ml-2 text-sm">
@@ -185,7 +188,7 @@ function EditPackConfig() {
             <div className="flex flex-col gap-1 flex-1">
               <div className="flex flex-row ">
                 <span className="text-(--clr-text-primary)  text-left font-bold">
-                  Version
+                  {getLocalizedString("Package.EditPackConfig.Version")}
                 </span>
                 {versionError && (
                   <span className="text-(--clr-warning-10) ml-2 text-sm">
@@ -212,7 +215,7 @@ function EditPackConfig() {
             {/* author */}
             <div className="flex flex-col gap-1 flex-1">
               <span className="text-(--clr-text-primary)  text-left font-bold">
-                Author
+                {getLocalizedString("Package.EditPackConfig.Author")}
               </span>
               <ModernTextInput
                 value={packConfigDeepCopy?.Author ?? ""}
@@ -230,7 +233,7 @@ function EditPackConfig() {
 
             <div className="flex flex-col gap-1 flex-1">
               <span className="text-(--clr-text-primary)  text-left font-bold">
-                License
+                {getLocalizedString("Package.EditPackConfig.License")}
               </span>
               <ModernTextInput
                 value={packConfigDeepCopy?.License ?? ""}
@@ -248,7 +251,7 @@ function EditPackConfig() {
           <div className="flex flex-row w-full  gap-2">
             <div className="flex flex-col gap-1 flex-1">
               <span className="text-(--clr-text-primary)  text-left font-bold">
-                Description
+                {getLocalizedString("Package.EditPackConfig.Description")}
               </span>
               <ModernTextArea
                 value={packConfigDeepCopy?.Description ?? ""}
@@ -267,13 +270,13 @@ function EditPackConfig() {
       <div className="flex flex-row justify-end mt-4 gap-2">
         <ModernButton
           onMouseUp={() => save()}
-          text="Save"
+          text={getLocalizedString("Package.EditPackConfig.Save")}
           type="success"
           className="cursor-pointer"
         />
         <ModernButton
           onMouseUp={() => cancel()}
-          text="Cancel"
+          text={getLocalizedString("Package.EditPackConfig.Cancel")}
           type="warning"
           className="cursor-pointer"
         />

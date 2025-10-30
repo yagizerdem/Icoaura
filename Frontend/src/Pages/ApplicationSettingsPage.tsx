@@ -7,31 +7,58 @@ import { Theme } from "../enum/Theme";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { cn } from "../util/twUtil";
 import { ModernSlider } from "../ui/ModernSlider";
+import { useL10NContext } from "../Providers/L10NContext";
 
-function mapFilterToString(filter: Filter): string {
-  if (filter === Filter.Default) return "Default";
-  if (filter === Filter.Ash) return "Ash";
-  if (filter === Filter.Mist) return "Mist";
-  if (filter === Filter.Forest) return "Forest";
-  if (filter === Filter.Ember) return "Ember";
-  return "Default";
+function mapFilterToString(
+  filter: Filter,
+  getLocalizedString: (key: string) => string
+): string {
+  if (filter === Filter.Default)
+    return getLocalizedString("Settings.GeneralSettings.ColorSchema.Default");
+  if (filter === Filter.Ash)
+    return getLocalizedString("Settings.GeneralSettings.ColorSchema.Ash");
+  if (filter === Filter.Mist)
+    return getLocalizedString("Settings.GeneralSettings.ColorSchema.Mist");
+  if (filter === Filter.Forest)
+    return getLocalizedString("Settings.GeneralSettings.ColorSchema.Forest");
+  if (filter === Filter.Ember)
+    return getLocalizedString("Settings.GeneralSettings.ColorSchema.Ember");
+  return getLocalizedString("Settings.GeneralSettings.ColorSchema.Default");
 }
 
-function mapStringToFilter(filter: string): Filter {
-  if (filter === "Default") return Filter.Default;
-  if (filter === "Ash") return Filter.Ash;
-  if (filter === "Mist") return Filter.Mist;
-  if (filter === "Forest") return Filter.Forest;
-  if (filter === "Ember") return Filter.Ember;
+function mapStringToFilter(
+  filter: string,
+  getLocalizedString: (key: string) => string
+): Filter {
+  if (
+    filter ===
+    getLocalizedString("Settings.GeneralSettings.ColorSchema.Default")
+  )
+    return Filter.Default;
+  if (filter === getLocalizedString("Settings.GeneralSettings.ColorSchema.Ash"))
+    return Filter.Ash;
+  if (
+    filter === getLocalizedString("Settings.GeneralSettings.ColorSchema.Mist")
+  )
+    return Filter.Mist;
+  if (
+    filter === getLocalizedString("Settings.GeneralSettings.ColorSchema.Forest")
+  )
+    return Filter.Forest;
+  if (
+    filter === getLocalizedString("Settings.GeneralSettings.ColorSchema.Ember")
+  )
+    return Filter.Ember;
   return Filter.Default;
 }
 
 function ApplicationSettingsPage() {
   const { appConfig, setAppConfig } = useAppContext();
+  const { getLocalizedString } = useL10NContext();
 
   function onSelectFilter(option: string) {
     if (!appConfig) return;
-    const filter = mapStringToFilter(option);
+    const filter = mapStringToFilter(option, getLocalizedString);
     appConfig.Filter = filter;
     setAppConfig({ ...appConfig });
   }
@@ -59,9 +86,13 @@ function ApplicationSettingsPage() {
       {/* theme */}
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
-          <span className="text-(--clr-text-primary) font-bold">Theme</span>
+          <span className="text-(--clr-text-primary) font-bold">
+            {getLocalizedString("Settings.ApplicationSettings.Theme.Title")}
+          </span>
           <span className="text-(--clr-text-secondary)">
-            Choose your preferred theme
+            {getLocalizedString(
+              "Settings.ApplicationSettings.Theme.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row  items-center text-(--clr-text-secondary) gap-2">
@@ -105,25 +136,29 @@ function ApplicationSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Color Schema
+            {getLocalizedString(
+              "Settings.ApplicationSettings.ColorSchema.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Choose your preferred schema
+            {getLocalizedString(
+              "Settings.ApplicationSettings.ColorSchema.Description"
+            )}
           </span>
         </div>
         <ModernSelectList
           onSelectOption={onSelectFilter}
           options={[
-            mapFilterToString(Filter.Default),
-            mapFilterToString(Filter.Ash),
-            mapFilterToString(Filter.Ember),
-            mapFilterToString(Filter.Forest),
-            mapFilterToString(Filter.Mist),
+            mapFilterToString(Filter.Default, getLocalizedString),
+            mapFilterToString(Filter.Ash, getLocalizedString),
+            mapFilterToString(Filter.Ember, getLocalizedString),
+            mapFilterToString(Filter.Forest, getLocalizedString),
+            mapFilterToString(Filter.Mist, getLocalizedString),
           ]}
           selectedOption={
             appConfig
-              ? mapFilterToString(appConfig.Filter)
-              : mapFilterToString(Filter.Default)
+              ? mapFilterToString(appConfig.Filter, getLocalizedString)
+              : mapFilterToString(Filter.Default, getLocalizedString)
           }
         />
       </div>
@@ -132,10 +167,14 @@ function ApplicationSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Window Scale
+            {getLocalizedString(
+              "Settings.ApplicationSettings.WindowScale.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Adjust the window scaling.
+            {getLocalizedString(
+              "Settings.ApplicationSettings.WindowScale.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row  items-center text-(--clr-text-secondary) gap-2 w-fit">
@@ -160,10 +199,14 @@ function ApplicationSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Window Opacity
+            {getLocalizedString(
+              "Settings.ApplicationSettings.WindowOpacity.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Adjust the window opacity.
+            {getLocalizedString(
+              "Settings.ApplicationSettings.WindowOpacity.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row  items-center text-(--clr-text-secondary) gap-2 w-fit">

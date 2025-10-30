@@ -29,11 +29,13 @@ import {
   selectDirectoryPath,
   selectFileAbsolutePath,
 } from "../../service/fileService";
+import { useL10NContext } from "../../Providers/L10NContext";
 
 function PackOperation() {
   const { isAdmin, setIsAdmin, setIsLoading } = useAppContext();
   const { setPackConfigs, setEditPackItemMode } = usePackContext();
   const packConfig = getSelectedPackConfig();
+  const { getLocalizedString } = useL10NContext();
 
   useEffect(() => {
     helper();
@@ -168,12 +170,12 @@ function PackOperation() {
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
       <div className="flex flex-row gap-4">
         <h1 className="text-xl text-(--clr-text-primary) font-medium">
-          Pack Operations
+          {getLocalizedString("Package.PackOperations.Title")}
         </h1>
 
         <ModernButton
           onMouseUp={() => rebootAsAdmin()}
-          text="Reboot as admin"
+          text={getLocalizedString("Package.PackOperations.RebootAsAdmin")}
           type="ghost"
           className="cursor-pointer bg-(--clr-surface-900)"
           disabled={isAdmin}
@@ -182,8 +184,7 @@ function PackOperation() {
           <div className="flex flex-row items-center gap-1 text-(--clr-warning-10)">
             <CircleQuestionMark />
             <span className=" self-center ">
-              Some icons are only applied when the application is run as
-              administrator
+              {getLocalizedString("Package.PackOperations.AdminInfo")}
             </span>
           </div>
         )}
@@ -192,14 +193,14 @@ function PackOperation() {
 
       <div className="flex flex-row gap-4 mt-5">
         <ModernButton
-          text="Apply"
+          text={getLocalizedString("Package.PackOperations.Apply")}
           type="success"
           className="cursor-pointer"
           onMouseUp={() => handleApplyPackOperations()}
         />
         <ModernIconButton
           icon={<Pen />}
-          text="Edit"
+          text={getLocalizedString("Package.PackOperations.Edit")}
           type="ghost"
           className="cursor-pointer"
           onMouseUp={() => handleEdit()}
@@ -207,7 +208,7 @@ function PackOperation() {
         <ModernIconButton
           onMouseUp={() => handleExportPack()}
           icon={<Upload />}
-          text="Export"
+          text={getLocalizedString("Package.PackOperations.Export")}
           type="ghost"
           className="cursor-pointer"
         />
@@ -216,21 +217,21 @@ function PackOperation() {
       <div className="flex flex-row gap-4 mt-5">
         <ModernIconButton
           icon={<Monitor />}
-          text="Add dekstop icons"
+          text={getLocalizedString("Package.PackOperations.AddDesktopIcons")}
           type="ghost"
           className="cursor-pointer"
           onMouseUp={() => handleAddDesktopIcons()}
         />
         <ModernIconButton
           icon={<Image />}
-          text="Add icon"
+          text={getLocalizedString("Package.PackOperations.AddIcon")}
           type="ghost"
           className="cursor-pointer"
           onMouseUp={() => handleAddIcon()}
         />
         <ModernIconButton
           icon={<Folder />}
-          text="Add directory icon"
+          text={getLocalizedString("Package.PackOperations.AddDirectoryIcon")}
           type="ghost"
           className="cursor-pointer"
           onMouseUp={() => handleAddDirIcon()}

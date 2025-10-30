@@ -5,6 +5,7 @@ import { useDebounce } from "../../hook/useDebounce";
 import { WritePackConfig } from "../../service/packService";
 import { Toast } from "../../util/toast";
 import { usePackContext } from "../../Providers/PackContext";
+import { useL10NContext } from "../../Providers/L10NContext";
 
 function PackSettings() {
   const selectedPackConfig = getSelectedPackConfig();
@@ -15,6 +16,8 @@ function PackSettings() {
   const debuncedOpacity = useDebounce(opacity, 300);
   const debuncedCornerRadius = useDebounce(cornerRadius, 300);
   const [hasUserEdit, setHasUserEdit] = useState(false);
+
+  const { getLocalizedString } = useL10NContext();
 
   useEffect(() => {
     if (!selectedPackConfig) return;
@@ -67,16 +70,18 @@ function PackSettings() {
   return (
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
       <h1 className="text-xl text-(--clr-text-primary) font-medium">
-        Pack Settings
+        {getLocalizedString("Package.PackSettings.Title")}
       </h1>
       <hr className="my-2 border-(--clr-surface-500)" />
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
           <span className="text-(--clr-text-primary) font-bold">
-            Corner Radius
+            {getLocalizedString("Package.PackSettings.CornerRadius.Label")}
           </span>
           <span className="text-(--clr-text-secondary) font-sm text-sm">
-            Changes the corner radius of icons in this pack
+            {getLocalizedString(
+              "Package.PackSettings.CornerRadius.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row items-center gap-2">
@@ -99,9 +104,11 @@ function PackSettings() {
 
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
-          <span className="text-(--clr-text-primary) font-bold">Opacity</span>
+          <span className="text-(--clr-text-primary) font-bold">
+            {getLocalizedString("Package.PackSettings.Opacity.Label")}
+          </span>
           <span className="text-(--clr-text-secondary) font-sm text-sm">
-            Changes the opacity of icons in this pack
+            {getLocalizedString("Package.PackSettings.Opacity.Description")}
           </span>
         </div>
         <div className="flex flex-row items-center gap-2">

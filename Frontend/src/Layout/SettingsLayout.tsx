@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ModernButton } from "../ui/ModernButton";
 import { cn } from "../util/twUtil";
 import { Outlet, useLocation, useNavigate } from "react-router";
+import { useL10NContext } from "../Providers/L10NContext";
 
 interface SettingsLayoutProps {}
 
@@ -9,6 +10,8 @@ function SettingsLayout({}: SettingsLayoutProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const panel = location.pathname.split("/").pop() || "general";
+
+  const { getLocalizedString } = useL10NContext();
 
   return (
     <div className="w-full h-full bg-(--clr-surface-800) overflow-y-auto flex flex-row ">
@@ -19,7 +22,7 @@ function SettingsLayout({}: SettingsLayoutProps) {
             panel === "general" && "bg-(--clr-surface-900)"
           )}
           onMouseUp={() => navigate("/settings/general")}
-          text="General"
+          text={getLocalizedString("Settings.SettingsMenu.General")}
           type="ghost"
         />
         <ModernButton
@@ -28,7 +31,7 @@ function SettingsLayout({}: SettingsLayoutProps) {
             panel === "application" && "bg-(--clr-surface-900)"
           )}
           onMouseUp={() => navigate("/settings/application")}
-          text="Application"
+          text={getLocalizedString("Settings.SettingsMenu.Application")}
           type="ghost"
         />
         <ModernButton
@@ -37,7 +40,7 @@ function SettingsLayout({}: SettingsLayoutProps) {
             panel === "iconpack" && "bg-(--clr-surface-900)"
           )}
           onMouseUp={() => navigate("/settings/iconpack")}
-          text="Icon Pack"
+          text={getLocalizedString("Settings.SettingsMenu.IconPack")}
           type="ghost"
         />
         <ModernButton
@@ -46,7 +49,7 @@ function SettingsLayout({}: SettingsLayoutProps) {
             panel === "system" && "bg-(--clr-surface-900)"
           )}
           onMouseUp={() => navigate("/settings/system")}
-          text="System"
+          text={getLocalizedString("Settings.SettingsMenu.System")}
           type="ghost"
         />
         <ModernButton
@@ -55,7 +58,7 @@ function SettingsLayout({}: SettingsLayoutProps) {
             panel === "advanced" && "bg-(--clr-surface-900)"
           )}
           onMouseUp={() => navigate("/settings/advanced")}
-          text="Advanced"
+          text={getLocalizedString("Settings.SettingsMenu.Advanced")}
           type="ghost"
         />
         <ModernButton
@@ -64,7 +67,7 @@ function SettingsLayout({}: SettingsLayoutProps) {
             panel === "update" && "bg-(--clr-surface-900)"
           )}
           onMouseUp={() => navigate("/settings/update")}
-          text="Update"
+          text={getLocalizedString("Settings.SettingsMenu.Update")}
           type="ghost"
         />
       </div>

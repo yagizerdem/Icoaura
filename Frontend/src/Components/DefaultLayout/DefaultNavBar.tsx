@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { Theme } from "../../enum/Theme";
 import gsap from "gsap";
 import { GetSystemDefaultTheme } from "../../service/windowService";
+import { useL10NContext } from "../../Providers/L10NContext";
 
 function DefaultNavBar() {
   const { appConfig, setAppConfig } = useAppContext();
@@ -16,6 +17,8 @@ function DefaultNavBar() {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { getLocalizedString } = useL10NContext();
 
   function navigateToPack() {
     navigate("/pack");
@@ -78,7 +81,7 @@ function DefaultNavBar() {
     <div className="w-full flex flex-row justify-between  bg-(--clr-surface-700) ">
       <div className=" h-12 flex items-center flex-row px-3 gap-3">
         <ModernButton
-          text="Pack"
+          text={getLocalizedString("Common.Pack")}
           type="ghost"
           className={cn(
             "cursor-pointer transition-colors duration-300 hover:bg-(--clr-surface-700) bg-(--clr-surface-800) border-none",
@@ -88,7 +91,7 @@ function DefaultNavBar() {
           onMouseUp={navigateToPack}
         />
         <ModernButton
-          text="Settings"
+          text={getLocalizedString("Common.Settings")}
           type="ghost"
           className={cn(
             "cursor-pointer transition-colors duration-300  hover:bg-(--clr-surface-700) bg-(--clr-surface-800) border-none",

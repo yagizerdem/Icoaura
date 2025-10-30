@@ -2,11 +2,13 @@ import { CircleQuestionMark, PenBox, Trash } from "lucide-react";
 import { getSelectedPackConfig } from "../../util/getSelectedPackConfig";
 import { usePackContext } from "../../Providers/PackContext";
 import { useAppContext } from "../../Providers/AppContext";
+import { useL10NContext } from "../../Providers/L10NContext";
 
 function PackInfo() {
   const packConfig = getSelectedPackConfig();
   const { setEditPackConfigMode } = usePackContext();
   const { setShowDeletePackPopup } = useAppContext();
+  const { getLocalizedString } = useL10NContext();
 
   function editPackConfig() {
     setEditPackConfigMode(true);
@@ -19,7 +21,7 @@ function PackInfo() {
   return (
     <div className="w-full h-fit bg-(--clr-surface-800) p-3 rounded-md">
       <h1 className="text-xl text-(--clr-text-primary) font-medium">
-        Pack Information
+        {getLocalizedString("Package.PackInformation.Title")}
       </h1>
       <hr className="my-2 border-(--clr-surface-500)" />
       <div className="flex flex-row justify-between items-center">
@@ -39,7 +41,7 @@ function PackInfo() {
 
           <div className="flex flex-col ">
             <span className="text-left text-(--clr-text-primary) font-bold">
-              Name
+              {getLocalizedString("Package.PackInformation.Name")}
             </span>
             <span className="text-center  text-(--clr-text-secondary) font-medium">
               {packConfig?.PackName && packConfig?.PackName.length > 20
@@ -49,7 +51,7 @@ function PackInfo() {
           </div>
           <div className="flex flex-col ">
             <span className="text-left text-(--clr-text-primary) font-bold">
-              Version
+              {getLocalizedString("Package.PackInformation.Version")}
             </span>
             <span className="text-center  text-(--clr-text-secondary) font-medium">
               {packConfig?.Version.startsWith("v")
@@ -59,7 +61,7 @@ function PackInfo() {
           </div>
           <div className="flex flex-col ">
             <span className="text-left text-(--clr-text-primary) font-bold">
-              Author
+              {getLocalizedString("Package.PackInformation.Author")}
             </span>
             <span className="text-center  text-(--clr-text-secondary) font-medium">
               {packConfig?.Author && packConfig.Author.length > 20
@@ -69,7 +71,7 @@ function PackInfo() {
           </div>
           <div className="flex flex-col ">
             <span className="text-left text-(--clr-text-primary) font-bold">
-              License
+              {getLocalizedString("Package.PackInformation.License")}
             </span>
             <span className="text-center  text-(--clr-text-secondary) font-medium">
               {packConfig?.License && packConfig.License.length > 20

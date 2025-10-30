@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import type { AppConfig } from "../models/AppConfig";
 import { useDebounce } from "../hook/useDebounce";
 import { writeAppConfig } from "../service/appConfigService";
+// import i18n from "../i18n";
+import { Language } from "../enum/Language";
 
 interface AppContextType {
   isLoading: boolean;
@@ -37,14 +39,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // sync window scale
   useEffect(() => {
-    if (appConfig?.WindowRatio) {
-      const scale = appConfig.WindowRatio / 100;
+    if (debouncedConfig?.WindowRatio) {
+      const scale = debouncedConfig.WindowRatio / 100;
       const baseFontSize = 16; // px
       document.documentElement.style.fontSize = `${baseFontSize * scale}px`;
     }
 
-    if (appConfig?.WindowOpacity) {
-      const opacity = Math.max(0, Math.min(1, appConfig.WindowOpacity / 100));
+    if (debouncedConfig?.WindowOpacity) {
+      const opacity = Math.max(
+        0,
+        Math.min(1, debouncedConfig.WindowOpacity / 100)
+      );
       document.body.style.opacity = opacity.toString();
     }
   }, [debouncedConfig]);

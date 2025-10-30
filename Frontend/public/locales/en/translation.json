@@ -1,0 +1,190 @@
+{
+  "Common": {
+    "Pack": "Pack",
+    "Settings": "Settings"
+  },
+  "Package": {
+    "PackInformation": {
+      "Title": "Pack Information",
+      "Name": "Name",
+      "Version": "Version",
+      "Author": "Author",
+      "License": "License"
+    },
+    "PackOperations": {
+      "Title": "Pack Operations",
+      "RebootAsAdmin": "Reboot as admin",
+      "AdminInfo": "Some icons are only applied when the application is run as administrator",
+      "Apply": "Apply",
+      "Edit": "Edit",
+      "Export": "Export",
+      "AddDesktopIcons": "Add desktop icons",
+      "AddIcon": "Add icon",
+      "AddDirectoryIcon": "Add directory icon"
+    },
+    "PackSettings": {
+      "Title": "Pack Settings",
+      "CornerRadius": {
+        "Label": "Corner Radius",
+        "Description": "Changes the corner radius of icons in this pack"
+      },
+      "Opacity": {
+        "Label": "Opacity",
+        "Description": "Changes the opacity of icons in this pack"
+      }
+    },
+    "Icons": {
+      "Title": "Icons"
+    },
+    "EditPackConfig": {
+      "Title": "Pack Information",
+      "Icon": "Icon",
+      "Name": "Name",
+      "Version": "Version",
+      "Author": "Author",
+      "License": "License",
+      "Description": "Description",
+      "Save": "Save",
+      "Cancel": "Cancel"
+    },
+    "CreatePack": {
+      "Title": "Create Icon Pack",
+      "Icon": "Icon",
+      "PackName": "Pack Name",
+      "PackNamePlaceholder": "Default pack",
+      "Version": "Version",
+      "VersionPlaceholder": "e.g., v1.0.0",
+      "Author": "Author",
+      "AuthorPlaceholder": "Your name",
+      "License": "License",
+      "LicensePlaceholder": "Enter license",
+      "Description": "Description",
+      "DescriptionPlaceholder": "Enter description",
+      "Create": "Create",
+      "PackNameRequired": "Pack name is required.",
+      "VersionRequired": "Version is required.",
+      "VersionFormatInvalid": "Version must be in the format 1.0.0."
+    },
+    "DeletePackPopup": {
+      "Title": "Are you sure you want to delete this package?",
+      "Warning": "This action cannot be reversed.",
+      "DeleteIconsLabel": "Also delete generated icons",
+      "Delete": "Delete",
+      "Cancel": "Cancel",
+      "Success": "Package deleted successfully.",
+      "Error": "Failed to delete package."
+    }
+  },
+  "Settings": {
+    "SettingsMenu": {
+      "General": "General",
+      "Application": "Application",
+      "IconPack": "Icon Pack",
+      "System": "System",
+      "Advanced": "Advanced",
+      "Update": "Update"
+    },
+    "GeneralSettings": {
+      "Language": {
+        "Title": "Language",
+        "Description": "Choose your preferred language",
+        "English": "English",
+        "Turkish": "Turkish"
+      },
+      "ColorSchema": {
+        "Title": "Color Schema",
+        "Description": "Choose your preferred color schema",
+        "Default": "Default",
+        "Ash": "Ash",
+        "Mist": "Mist",
+        "Forest": "Forest",
+        "Ember": "Ember"
+      },
+      "Theme": {
+        "Title": "Theme",
+        "Description": "Choose your preferred theme",
+        "DefaultSystem": "System Default",
+        "Light": "Light",
+        "Dark": "Dark"
+      }
+    },
+    "AdvancedSettings": {
+      "EnableLogging": {
+        "Title": "Enable Logging to File",
+        "Description": "Enable saving logs to files. (Restart the application for changes to take effect.)"
+      },
+      "LogLevels": {
+        "Title": "Log Levels",
+        "Description": "Select which log levels should be recorded.",
+        "Trace": "Trace",
+        "Debug": "Debug",
+        "Info": "Info",
+        "Warning": "Warning",
+        "Error": "Error",
+        "Fatal": "Fatal"
+      },
+      "MaxLogCount": {
+        "Title": "Maximum Daily Log Files",
+        "Description": "Set the maximum number of daily log files to keep. (Restart the application for changes to take effect.)"
+      },
+      "ImportExport": {
+        "Title": "Configuration Import / Export",
+        "Description": "Import or export your application configuration.",
+        "Import": "Import",
+        "Export": "Export",
+        "ImportSuccess": "Configuration imported successfully. Please restart the application to apply the changes.",
+        "ImportError": "Failed to import configuration.",
+        "ExportSuccess": "Configuration exported successfully.",
+        "ExportError": "Failed to export configuration."
+      }
+    },
+    "ApplicationSettings": {
+      "Theme": {
+        "Title": "Theme",
+        "Description": "Choose your preferred theme",
+        "DefaultSystem": "System Default",
+        "Light": "Light",
+        "Dark": "Dark"
+      },
+      "ColorSchema": {
+        "Title": "Color Schema",
+        "Description": "Choose your preferred schema",
+        "Default": "Default",
+        "Ash": "Ash",
+        "Mist": "Mist",
+        "Forest": "Forest",
+        "Ember": "Ember"
+      },
+      "WindowScale": {
+        "Title": "Window Scale",
+        "Description": "Adjust the window scaling."
+      },
+      "WindowOpacity": {
+        "Title": "Window Opacity",
+        "Description": "Adjust the window opacity."
+      }
+    },
+    "IconPackSettings": {
+      "MatchLnkByTargetExe": {
+        "Title": "Match Windows Shortcuts (.lnk) by Their Targets",
+        "Description": "If matching by file path fails, match shortcuts by their target paths."
+      },
+      "MatchUrlByTargetUrl": {
+        "Title": "Match URL Files by Their URL",
+        "Description": "If matching by file path fails, match files by their URLs."
+      },
+      "ChangeDescriptionOfMatchedLnkFiles": {
+        "Title": "Change Description of Matched Windows Shortcut (.lnk) Files",
+        "Description": "Change the description of matched shortcut files."
+      },
+      "ForceExplorerRefreshAfterIcoChange": {
+        "Title": "Force Explorer Refresh After Icon Change",
+        "Description": "This option forces Windows Explorer to refresh aggressively after changing an icon. It ensures icons update immediately, but may cause temporary lag or high CPU usage on low-end systems."
+      },
+      "RecursiveScanningDepth": {
+        "Title": "Recursive Scanning Depth",
+        "Description": "The maximum depth of Windows special subdirectories to scan for icon files to match target executables. Depth only matters when 'Match .lnk by target' option is enabled."
+      }
+    }
+  }
+}

@@ -15,6 +15,8 @@ import { createPack, getAllPackConfigs } from "../../service/packService";
 import { flash } from "../../util/cameraFlash";
 import { Toast } from "../../util/toast";
 import { usePackContext } from "../../Providers/PackContext";
+import { useL10NContext } from "../../Providers/L10NContext";
+import { get } from "jquery";
 
 interface PackFormState {
   PackName: string;
@@ -60,6 +62,8 @@ function Createpackpopup() {
   const [packNameError, setPackNameError] = useState<string | null>(null);
   const [versionError, setVersionError] = useState<string | null>(null);
   const { setPackConfigs } = usePackContext();
+
+  const { getLocalizedString } = useL10NContext();
 
   useLayoutEffect(() => {
     if (cardRef.current) {
@@ -115,12 +119,16 @@ function Createpackpopup() {
       let hasError = false;
 
       if (formState.PackName.trim() === "") {
-        setPackNameError("Pack name is required.");
+        setPackNameError(
+          getLocalizedString("Package.CreatePack.PackNameRequired")
+        );
         hasError = true;
       }
 
       if (formState.Version.trim() === "") {
-        setVersionError("Version is required.");
+        setVersionError(
+          getLocalizedString("Package.CreatePack.VersionRequired")
+        );
         hasError = true;
       }
 
@@ -129,7 +137,9 @@ function Createpackpopup() {
         : formState.Version;
 
       if (normalizedVersion.match(/^[0-9]+\.[0-9]+\.[0-9]+$/) === null) {
-        setVersionError("Version must be in the format 1.0.0");
+        setVersionError(
+          getLocalizedString("Package.CreatePack.VersionFormatInvalid")
+        );
         hasError = true;
       }
 
@@ -173,7 +183,7 @@ function Createpackpopup() {
       >
         <div className="flex flex-row justify-between items-center">
           <span className="text-(--clr-text-secondary) font-bold ">
-            Create Icon Pack
+            {getLocalizedString("Package.CreatePack.Title")}
           </span>
           <button
             onMouseUp={() => closePopup()}
@@ -184,7 +194,7 @@ function Createpackpopup() {
         </div>
         <div className="flex flex-col w-fit">
           <span className="text-(--clr-text-secondary) mt-4 text-center">
-            Icon
+            {getLocalizedString("Package.CreatePack.Icon")}
           </span>
           {packCoverBase64 ? (
             <div className="relative select-none w-12 h-12 border-2   border-(--clr-surface-800) bg-(--clr-surface-950) rounded-md flex items-center justify-center text-center">
@@ -211,7 +221,9 @@ function Createpackpopup() {
         </div>
         <div className="mt-5 flex flex-col gap-1">
           <div className="flex flex-row items-center gap-2">
-            <span className="text-(--clr-text-secondary) w-fit">Pack Name</span>
+            <span className="text-(--clr-text-secondary) w-fit">
+              {getLocalizedString("Package.CreatePack.PackName")}
+            </span>
             {packNameError && (
               <span className="flex flex-row items-center gap-1 text-(--clr-warning-10)">
                 <CircleAlert /> {packNameError}
@@ -223,13 +235,17 @@ function Createpackpopup() {
             onChange={(val) => {
               dispatch({ type: "SET_FIELD", field: "PackName", value: val });
             }}
-            placeholder="Default pack"
+            placeholder={getLocalizedString(
+              "Package.CreatePack.PackNamePlaceholder"
+            )}
             className="rounded-sm bg-(--clr-surface-900) "
           />
         </div>
         <div className="mt-5 flex flex-col gap-1">
           <div className="flex flex-row gap-2">
-            <span className="text-(--clr-text-secondary) w-fit">Version</span>
+            <span className="text-(--clr-text-secondary) w-fit">
+              {getLocalizedString("Package.CreatePack.Version")}
+            </span>
             {versionError && (
               <span className="flex flex-row items-center gap-1 text-(--clr-warning-10)">
                 <CircleAlert /> {versionError}
@@ -241,40 +257,50 @@ function Createpackpopup() {
             onChange={(val) => {
               dispatch({ type: "SET_FIELD", field: "Version", value: val });
             }}
-            placeholder="e.g., v1.0.0"
-            className="rounded-sm bg-(--clr-surface-900) "
-          />
-        </div>
-        <div className="mt-5 flex flex-col gap-1">
-          <div className="flex flex-row">
-            <span className="text-(--clr-text-secondary) w-fit">Author</span>
-          </div>
-          <ModernTextInput
-            value={formState.Author}
-            onChange={(val) => {
-              dispatch({ type: "SET_FIELD", field: "Author", value: val });
-            }}
-            placeholder="Your name"
-            className="rounded-sm bg-(--clr-surface-900) "
-          />
-        </div>
-        <div className="mt-5 flex flex-col gap-1">
-          <div className="flex flex-row">
-            <span className="text-(--clr-text-secondary) w-fit">License</span>
-          </div>
-          <ModernTextInput
-            value={formState.License}
-            onChange={(val) => {
-              dispatch({ type: "SET_FIELD", field: "License", value: val });
-            }}
-            placeholder="Enter license"
+            placeholder={getLocalizedString(
+              "Package.CreatePack.VersionPlaceholder"
+            )}
             className="rounded-sm bg-(--clr-surface-900) "
           />
         </div>
         <div className="mt-5 flex flex-col gap-1">
           <div className="flex flex-row">
             <span className="text-(--clr-text-secondary) w-fit">
-              Description
+              {getLocalizedString("Package.CreatePack.Author")}
+            </span>
+          </div>
+          <ModernTextInput
+            value={formState.Author}
+            onChange={(val) => {
+              dispatch({ type: "SET_FIELD", field: "Author", value: val });
+            }}
+            placeholder={getLocalizedString(
+              "Package.CreatePack.AuthorPlaceholder"
+            )}
+            className="rounded-sm bg-(--clr-surface-900) "
+          />
+        </div>
+        <div className="mt-5 flex flex-col gap-1">
+          <div className="flex flex-row">
+            <span className="text-(--clr-text-secondary) w-fit">
+              {getLocalizedString("Package.CreatePack.License")}
+            </span>
+          </div>
+          <ModernTextInput
+            value={formState.License}
+            onChange={(val) => {
+              dispatch({ type: "SET_FIELD", field: "License", value: val });
+            }}
+            placeholder={getLocalizedString(
+              "Package.CreatePack.LicensePlaceholder"
+            )}
+            className="rounded-sm bg-(--clr-surface-900) "
+          />
+        </div>
+        <div className="mt-5 flex flex-col gap-1">
+          <div className="flex flex-row">
+            <span className="text-(--clr-text-secondary) w-fit">
+              {getLocalizedString("Package.CreatePack.Description")}
             </span>
           </div>
           <ModernTextArea
@@ -282,7 +308,9 @@ function Createpackpopup() {
             onChange={(val) => {
               dispatch({ type: "SET_FIELD", field: "Description", value: val });
             }}
-            placeholder="Enter description"
+            placeholder={getLocalizedString(
+              "Package.CreatePack.DescriptionPlaceholder"
+            )}
             className="rounded-sm bg-(--clr-surface-900) "
           />
         </div>

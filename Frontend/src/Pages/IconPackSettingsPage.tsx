@@ -1,9 +1,11 @@
 import { useAppContext } from "../Providers/AppContext";
+import { useL10NContext } from "../Providers/L10NContext";
 import { ModernSlider } from "../ui/ModernSlider";
 import { ModernSwitch } from "../ui/ModernSwitch";
 
 function IconPackSettingsPage() {
   const { appConfig, setAppConfig } = useAppContext();
+  const { getLocalizedString } = useL10NContext();
 
   function handleToggleMatchLnkByTargetExe(checked: boolean) {
     if (appConfig) {
@@ -56,11 +58,14 @@ function IconPackSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Match Windows Shortcuts (.lnk) by Their Targets
+            {getLocalizedString(
+              "Settings.IconPackSettings.MatchLnkByTargetExe.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            If matching by file path fails, match shortcuts by their target
-            paths.
+            {getLocalizedString(
+              "Settings.IconPackSettings.MatchLnkByTargetExe.Description"
+            )}
           </span>
         </div>
         <ModernSwitch
@@ -72,10 +77,14 @@ function IconPackSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Match URL Files by Their URL
+            {getLocalizedString(
+              "Settings.IconPackSettings.MatchUrlByTargetUrl.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            If matching by file path fails, match files by their URLs.
+            {getLocalizedString(
+              "Settings.IconPackSettings.MatchUrlByTargetUrl.Description"
+            )}
           </span>
         </div>
         <ModernSwitch
@@ -88,10 +97,14 @@ function IconPackSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Change Description of Matched Windows Shortcut (.lnk) Files
+            {getLocalizedString(
+              "Settings.IconPackSettings.ChangeDescriptionOfMatchedLnkFiles.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            Change the description of matched shortcut files.
+            {getLocalizedString(
+              "Settings.IconPackSettings.ChangeDescriptionOfMatchedLnkFiles.Description"
+            )}
           </span>
         </div>
         <ModernSwitch
@@ -104,12 +117,14 @@ function IconPackSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Force Explorer Refresh After Icon Change
+            {getLocalizedString(
+              "Settings.IconPackSettings.ForceExplorerRefreshAfterIcoChange.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            This option forces Windows Explorer to refresh aggressively after
-            changing an icon. It ensures icons update immediately, but may cause
-            temporary lag or high CPU usage on low-end systems.
+            {getLocalizedString(
+              "Settings.IconPackSettings.ForceExplorerRefreshAfterIcoChange.Description"
+            )}
           </span>
         </div>
         <ModernSwitch
@@ -123,12 +138,14 @@ function IconPackSettingsPage() {
       <div className="w-full h-fit p-2 flex flex-row justify-between items-center  border-b border-(--clr-surface-600) pb-2 ">
         <div className="flex flex-col  ">
           <span className="text-(--clr-text-primary) font-bold">
-            Recursive Scanning Depth
+            {getLocalizedString(
+              "Settings.IconPackSettings.RecursiveScanningDepth.Title"
+            )}
           </span>
           <span className="text-(--clr-text-secondary)">
-            The maximum depth of windows special subdirectories to scan for icon
-            files to match target executables. Depth only matters when match lnk
-            by target option is enabled.
+            {getLocalizedString(
+              "Settings.IconPackSettings.RecursiveScanningDepth.Description"
+            )}
           </span>
         </div>
         <div className="flex flex-row gap-3 items-center">
