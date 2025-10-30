@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -20,12 +21,14 @@ namespace Icoaura
         public MainWindow()
         {
             InitializeComponent();
+
             InitializeAsync();
+
+
         }
 
 
-
-        private async void InitializeAsync()
+        private async Task InitializeAsync()
         {
 
 
@@ -42,9 +45,15 @@ namespace Icoaura
             webView.CoreWebView2.AddHostObjectToScript("packBridge", new PackBridge());
             webView.CoreWebView2.AddHostObjectToScript("fileBridge", new FileBridge());
             webView.CoreWebView2.AddHostObjectToScript("appConfigBridge", new AppConfigBridge());
+
+
         }
 
-
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            webView.Width = ActualWidth;
+            webView.Height = ActualHeight;
+        }
 
 
     }

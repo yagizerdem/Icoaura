@@ -128,5 +128,6 @@ namespace Icoaura.Bridge
             return ((int)Theme.Light);
         }
 
+
     }
 }

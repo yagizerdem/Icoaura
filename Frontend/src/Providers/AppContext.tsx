@@ -35,6 +35,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [debouncedConfig]);
 
+  // sync window scale
+  useEffect(() => {
+    if (appConfig?.WindowRatio) {
+      const scale = appConfig.WindowRatio / 100;
+      const baseFontSize = 16; // px
+      document.documentElement.style.fontSize = `${baseFontSize * scale}px`;
+    }
+
+    if (appConfig?.WindowOpacity) {
+      const opacity = Math.max(0, Math.min(1, appConfig.WindowOpacity / 100));
+      document.body.style.opacity = opacity.toString();
+    }
+  }, [debouncedConfig]);
+
   return (
     <AppContext.Provider
       value={{

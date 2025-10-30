@@ -15,4 +15,16 @@ async function writeAppConfig(appConfig: AppConfig): Promise<void> {
   await appConfigProxy.WriteAppConfig(serializedConfig);
 }
 
-export { getAppConfig, writeAppConfig };
+async function exportAppConfig(): Promise<ApiResponse<string>> {
+  const serialized: string = await appConfigProxy.ExportAppConfig();
+  const apiResponse: ApiResponse<string> = JSON.parse(serialized);
+  return apiResponse;
+}
+
+async function importAppConfig(path: string): Promise<ApiResponse<AppConfig>> {
+  const serialized: string = await appConfigProxy.ImportAppConfig(path);
+  const apiResponse: ApiResponse<AppConfig> = JSON.parse(serialized);
+  return apiResponse;
+}
+
+export { getAppConfig, writeAppConfig, exportAppConfig, importAppConfig };

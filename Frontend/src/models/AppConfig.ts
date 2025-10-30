@@ -9,6 +9,7 @@ export interface AppConfig {
   PackOpacity: number;
   PackCornerRadius: number;
   WindowOpacity: number;
+  WindowRatio: number;
   ForceExplorerRefreshAfterIcoChange: boolean;
   EnableLogging: boolean;
   MaxLogCount: number;

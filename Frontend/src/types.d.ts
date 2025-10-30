@@ -1,3 +1,5 @@
+import type { ApiResponse } from "./models/ApiResponse";
+
 declare global {
   interface Window {
     chrome: {
@@ -62,6 +64,8 @@ interface FileBridge {
 interface AppConfigBridge {
   GetAppConfig: () => Promise<string>; // ApiResponse<AppConfig>
   WriteAppConfig: (appConfigJson: string) => Promise<string>; // ApiResponse<AppConfig>
+  ExportAppConfig: () => Promise<string>; // ApiResponse<null>
+  ImportAppConfig: (path: string) => Promise<string>; // ApiResponse<AppConfig>
 }
 
 export {};

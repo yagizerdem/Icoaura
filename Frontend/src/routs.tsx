@@ -7,6 +7,8 @@ import { GeneralSettingsPage } from "./Pages/GeneralSettingsPage";
 import { IconPackSettingsPage } from "./Pages/IconPackSettingsPage";
 import { SystemSettingsPage } from "./Pages/SystemSettingsPage";
 import { AdvancedSettingsPage } from "./Pages/AdvancedSettingsPage";
+import { ApplicationSettingsPage } from "./Pages/ApplicationSettingsPage";
+import { UpdateSettingsPage } from "./Pages/UpdateSettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
           {
             path: "/settings/advanced",
             element: <AdvancedSettingsPage />,
+          },
+          {
+            path: "/settings/application",
+            element: <ApplicationSettingsPage />,
+          },
+          {
+            path: "/settings/update",
+            element: <UpdateSettingsPage />,
           },
         ],
       },

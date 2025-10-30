@@ -16,6 +16,7 @@ namespace Icoaura.Model
         // panel
         public float WindowOpacity { get; set; } = 1f;
 
+        public float WindowRatio { get; set; } = 100f; // 50 - 150
 
         public bool ForceExplorerRefreshAfterIcoChange { get; set; } = false;
 
@@ -53,7 +54,8 @@ namespace Icoaura.Model
                 PackCornerRadius = 0f,
                 RecursiveScanningDepth = 2,
 
-                WindowOpacity = 1f,
+                WindowOpacity = 100f,
+                WindowRatio = 100f,
 
                 ForceExplorerRefreshAfterIcoChange = false,
 

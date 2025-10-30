@@ -30,5 +30,19 @@ namespace Icoaura.Bridge
             return serialized;
         }
 
+        public string ExportAppConfig()
+        {
+            ApiResponse<object> response = _appConfigController.ExportAppConfig();
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
+        public string ImportAppConfig(string path)
+        {
+            ApiResponse<AppConfig> response = _appConfigController.ImportAppConfig(path);
+            string serialized = JsonUtil.Serialize(response);
+            return serialized;
+        }
+
     }
 }
