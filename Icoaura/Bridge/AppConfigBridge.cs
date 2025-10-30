@@ -1,4 +1,5 @@
-﻿using Icoaura.Controller;
+﻿using Icoaura.Context;
+using Icoaura.Controller;
 using Icoaura.Model;
 using Icoaura.Util;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ namespace Icoaura.Bridge
     
         public string GetAppConfig()
         {
+            TraceContext.Reset();
             ApiResponse<AppConfig> response = _appConfigController.ReadAppConfig();
             string serialized = JsonUtil.Serialize(response);
             return serialized;
@@ -24,6 +26,7 @@ namespace Icoaura.Bridge
 
         public string WriteAppConfig(string configSerialized)
         {
+            TraceContext.Reset();
             AppConfig config = JsonUtil.Deserialize<AppConfig>(configSerialized) ?? AppConfig.GetDefault();
             ApiResponse<AppConfig> response = _appConfigController.WriteAppConfig(config);
             string serialized = JsonUtil.Serialize(response);
@@ -32,6 +35,7 @@ namespace Icoaura.Bridge
 
         public string ExportAppConfig()
         {
+            TraceContext.Reset();
             ApiResponse<object> response = _appConfigController.ExportAppConfig();
             string serialized = JsonUtil.Serialize(response);
             return serialized;
@@ -39,6 +43,7 @@ namespace Icoaura.Bridge
 
         public string ImportAppConfig(string path)
         {
+            TraceContext.Reset();
             ApiResponse<AppConfig> response = _appConfigController.ImportAppConfig(path);
             string serialized = JsonUtil.Serialize(response);
             return serialized;

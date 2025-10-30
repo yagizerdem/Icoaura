@@ -1,4 +1,5 @@
-﻿using Icoaura.Controller;
+﻿using Icoaura.Context;
+using Icoaura.Controller;
 using Icoaura.Model;
 using Icoaura.Util;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ namespace Icoaura.Bridge
 
         public string GetBase64FromPath(string path)
         {
+            TraceContext.Reset();
             ApiResponse<string> response =  _fileController.GetBase64(path);
             string serializedResponse = JsonUtil.Serialize(response);
             return serializedResponse;
@@ -31,6 +33,7 @@ namespace Icoaura.Bridge
 
         public string SelectFilePath(string allowedExtensionsJsonArray)
         {
+            TraceContext.Reset();
             string[] allowedExtensions = JsonUtil.Deserialize<string[]>(allowedExtensionsJsonArray) ?? [];
             string? filePath = PickFile(allowedExtensions);
             return filePath ?? string.Empty;
@@ -38,6 +41,7 @@ namespace Icoaura.Bridge
 
         public string SelectFileRelativeFilePath(string allowedExtensionJsonArray)
         {
+            TraceContext.Reset();
             string[] allowedExtensions = JsonUtil.Deserialize<string[]>(allowedExtensionJsonArray) ?? [];
             string? filePath = PickFile(allowedExtensions);
             if (filePath == null)
@@ -50,6 +54,7 @@ namespace Icoaura.Bridge
 
         public string SelectRelativeDirectoryPath()
         {
+            TraceContext.Reset();
             string? folderPath = PickFolder();
             string relativePath = PathUtil.ConvertToRelativePath(folderPath ?? string.Empty);
             return relativePath;
@@ -57,6 +62,7 @@ namespace Icoaura.Bridge
 
         public string SelectDirectoryPath()
         {
+            TraceContext.Reset();
             string? folderPath = PickFolder();
             return folderPath ?? string.Empty;
         }
@@ -64,6 +70,7 @@ namespace Icoaura.Bridge
 
         public bool IsFileSystemEntryExist(string relativePath)
         {
+            TraceContext.Reset();
             if (File.Exists(relativePath)) return true;
             string? firstPart = relativePath.Split("\\").FirstOrDefault();
             string remainingPart = relativePath.Substring(firstPart?.Length ?? 0).TrimStart('\\');
@@ -85,6 +92,7 @@ namespace Icoaura.Bridge
 
         public string ExportPack(string packId)
         {
+            TraceContext.Reset();
             ApiResponse<object> response = _importExporController.ExportPack(packId);
             string serializedResponse = JsonUtil.Serialize(response);
             return serializedResponse;
@@ -92,6 +100,7 @@ namespace Icoaura.Bridge
 
         public string ImportPack(string packPath)
         {
+            TraceContext.Reset();
             ApiResponse<object> response = _importExporController.ImportPack(packPath);
             string serializedResponse = JsonUtil.Serialize(response);
             return serializedResponse;
@@ -141,6 +150,7 @@ namespace Icoaura.Bridge
 
         public string GetLnkMetaData(string lnkPath)
         {
+            TraceContext.Reset();
             ApiResponse<LnkMetaData> response = _fileController.GetLnkMetaData(lnkPath);
             string serializedResponse = JsonUtil.Serialize(response);
             return serializedResponse;
@@ -148,6 +158,7 @@ namespace Icoaura.Bridge
 
         public string GetUrlMetaData(string urlPath)
         {
+            TraceContext.Reset();
             ApiResponse<UrlMetaData> response = _fileController.GetUrlMetaData(urlPath);
             string serializedResponse = JsonUtil.Serialize(response);
             return serializedResponse;
@@ -155,6 +166,7 @@ namespace Icoaura.Bridge
 
         public string GetDirMetaData(string dirPath)
         {
+            TraceContext.Reset();
             ApiResponse<DirMetaData> response = _fileController.GetDirMetaData(dirPath);
             string serializedResponse = JsonUtil.Serialize(response);
             return serializedResponse;

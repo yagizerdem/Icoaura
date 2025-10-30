@@ -22,6 +22,8 @@ namespace Icoaura.Controller
         {
             return ExecuteSafe(() =>
             {
+                this._logger.Log("Entering ReadAppConfig()", TraceContext.TraceId, LogLevel.Trace);
+
                 string configPath = Path.Combine(ApplicationPathContext.AppConfigFilePath);
                 var response = _fileController.ReadFileContentAsText(configPath);
                 EnsureSuccess(response);

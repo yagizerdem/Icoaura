@@ -20,6 +20,7 @@ namespace Icoaura.Context
 
         public static string AppIconsFolderPath => System.IO.Path.Combine(AppRootPath, APP_ICONS_FOLDER_NAME);
 
+
         // magic strings
 
         public static string APP_CONFIG_FILE_NAME = "config.json";
@@ -41,6 +42,7 @@ namespace Icoaura.Context
         public static string PACK_ITEMS_FILE_NAME = "items.json";
 
         public static string PACK_COVER_PNG_FILE_NAME = "cover.png";
+
 
     }
 }

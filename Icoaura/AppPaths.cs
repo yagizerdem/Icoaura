@@ -36,6 +36,15 @@ namespace Icoaura
 
         }
 
+        private void InitializeLogsFolder()
+        {
+            if (!Directory.Exists(ApplicationPathContext.AppLogsFolderPath))
+            {
+                Directory.CreateDirectory(ApplicationPathContext.AppLogsFolderPath);
+            }
+
+        }
+
         private void InitializeIconsFolder()
         {
             if (!Directory.Exists(ApplicationPathContext.AppIconsFolderPath))
@@ -76,6 +85,7 @@ namespace Icoaura
             InitializeTempFolder();
             InitializePacksFolder();
             InitializeIconsFolder();
+            InitializeLogsFolder();
             InitializeAppConfig();
         }
 

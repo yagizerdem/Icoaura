@@ -23,8 +23,6 @@ namespace Icoaura
             InitializeComponent();
 
             InitializeAsync();
-
-
         }
 
 
