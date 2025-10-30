@@ -6,6 +6,7 @@ import { SettingsLayout } from "./Layout/SettingsLayout";
 import { GeneralSettingsPage } from "./Pages/GeneralSettingsPage";
 import { IconPackSettingsPage } from "./Pages/IconPackSettingsPage";
 import { SystemSettingsPage } from "./Pages/SystemSettingsPage";
+import { AdvancedSettingsPage } from "./Pages/AdvancedSettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
           {
             path: "/settings/system",
             element: <SystemSettingsPage />,
+          },
+          {
+            path: "/settings/advanced",
+            element: <AdvancedSettingsPage />,
           },
         ],
       },

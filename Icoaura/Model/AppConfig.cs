@@ -1,5 +1,6 @@
 ﻿using Icoaura.Enum;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace Icoaura.Model
 {
