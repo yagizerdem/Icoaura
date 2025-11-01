@@ -15,7 +15,7 @@ function PanelsShowcase() {
       transition: {
         duration: 0.8,
         delay: delay * 0.3,
-        ease: "easeOut",
+        ease: ["easeOut"],
       },
     },
   });
