@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, easeOut } from "framer-motion";
 import packPanel from "./assets/Ekran görüntüsü 2025-10-31 105009.png";
 import editPackPanel from "./assets/Ekran görüntüsü 2025-10-31 105247.png";
 import settingsPanel from "./assets/Ekran görüntüsü 2025-10-31 105052.png";
@@ -15,7 +15,7 @@ function PanelsShowcase() {
       transition: {
         duration: 0.8,
         delay: delay * 0.3,
-        ease: ["easeOut"],
+        ease: easeOut,
       },
     },
   });
