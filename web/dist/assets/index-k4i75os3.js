@@ -81,7 +81,7 @@ Error generating stack: `+l.message+`
                  2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 \r
                  0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 \r
                  0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.001 8.001 0 0 0 16 8\r
-                 c0-4.42-3.58-8-8-8z`})}),ft.jsx("span",{children:"GitHub"})]})})]}),ft.jsx("div",{className:`w-[480px] h-[270px] mt-10 mx-auto rounded-xl overflow-hidden \r
+                 c0-4.42-3.58-8-8-8z`})}),ft.jsx("span",{children:"GitHub"})]})})]}),ft.jsx("div",{className:`max-w-[480px] w-5/6  h-[270px] mt-10 mx-auto rounded-xl overflow-hidden \r
                shadow-[0_0_30px_rgba(255,255,255,0.2)] \r
                animate-[fadeInUp_2s_ease-out]`,children:ft.jsxs("video",{className:"w-full h-full object-cover rounded-lg",autoPlay:!0,loop:!0,controls:!0,muted:!0,playsInline:!0,children:[ft.jsx("source",{src:x3,type:"video/mp4"}),"Your browser does not support the video tag."]})}),ft.jsx("style",{children:`
     @keyframes fadeIn {

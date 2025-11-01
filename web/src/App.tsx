@@ -125,7 +125,7 @@ function App() {
         </div>
 
         <div
-          className="w-[480px] h-[270px] mt-10 mx-auto rounded-xl overflow-hidden 
+          className="max-w-[480px] w-5/6  h-[270px] mt-10 mx-auto rounded-xl overflow-hidden 
                shadow-[0_0_30px_rgba(255,255,255,0.2)] 
                animate-[fadeInUp_2s_ease-out]"
         >
