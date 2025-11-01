@@ -5,7 +5,7 @@ import demo from "./assets/demo.mp4";
 function App() {
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/Icoaura.zip";
+    link.href = `${import.meta.env.BASE_URL}Icoaura.zip`;
     link.download = "IcoauraApp.zip";
     document.body.appendChild(link);
     link.click();
@@ -133,6 +133,7 @@ function App() {
             className="w-full h-full object-cover rounded-lg"
             autoPlay
             loop
+            controls
             muted
             playsInline
           >
